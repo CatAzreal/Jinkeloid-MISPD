@@ -57,6 +57,7 @@ import com.jinkeloid.mispd.ui.Icons;
 import com.jinkeloid.mispd.ui.ItemSlot;
 import com.jinkeloid.mispd.ui.QuickSlotButton;
 import com.jinkeloid.mispd.ui.RenderedTextBlock;
+import com.jinkeloid.mispd.ui.Toolbar;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.input.KeyBindings;
 import com.watabou.input.KeyEvent;
@@ -293,17 +294,21 @@ public class WndBag extends WndTabbed {
 			return super.onSignal(event);
 		}
 	}
-	
+
+	//When exiting WndBag, let tool bar know it's closed
 	@Override
 	public void onBackPressed() {
 		if (listener != null) {
 			listener.onSelect( null );
+		} else {
+			Toolbar.bagOpen = false;
 		}
 		super.onBackPressed();
 	}
 	
 	@Override
 	protected void onClick( Tab tab ) {
+		Toolbar.bagOpen = false;
 		hide();
 		Game.scene().addToFront(new WndBag(((BagTab) tab).bag, listener, mode, title));
 	}
