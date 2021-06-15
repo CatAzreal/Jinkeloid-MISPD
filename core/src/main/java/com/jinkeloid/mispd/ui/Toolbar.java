@@ -50,7 +50,8 @@ public class Toolbar extends Component {
 	private Tool btnSearch;
 	private Tool btnInventory;
 	private QuickslotTool[] btnQuick;
-	
+	public static boolean bagOpen = false;
+
 	private PickedUpItem pickedUp;
 	
 	private boolean lastEnabled = true;
@@ -143,6 +144,7 @@ public class Toolbar extends Component {
 
 			@Override
 			protected void onClick() {
+				bagOpen = true;
 				GameScene.show(new WndBag(Dungeon.hero.belongings.backpack, null, WndBag.Mode.ALL, null));
 			}
 			
@@ -169,6 +171,17 @@ public class Toolbar extends Component {
 			protected void layout() {
 				super.layout();
 				gold.fill(this);
+			}
+
+			//handle the icon change
+			@Override
+			public void update() {
+				super.update();
+				if (bagOpen){
+					btnInventory.base.frame(0, (int)btnInventory.height(), 24, 26);
+				} else {
+					btnInventory.base.frame(0, 0, 24, 26);
+				}
 			}
 		});
 
