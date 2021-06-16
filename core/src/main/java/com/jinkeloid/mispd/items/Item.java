@@ -549,7 +549,7 @@ public class Item implements Bundlable {
 							curUser = user;
 							Item i = Item.this.detach(user.belongings.backpack);
 							if (i != null) i.onThrow(cell);
-							if (curUser.hasTalent(Perk.IMPROVISED_PROJECTILES)
+							if (curUser.hasPerk(Perk.IMPROVISED_PROJECTILES)
 									&& !(Item.this instanceof MissileWeapon)
 									&& curUser.buff(Perk.ImprovisedProjectileCooldown.class) == null){
 								if (enemy != null && enemy.alignment != curUser.alignment){

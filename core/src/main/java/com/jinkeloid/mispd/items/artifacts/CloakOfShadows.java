@@ -69,7 +69,7 @@ public class CloakOfShadows extends Artifact {
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
-		if ((isEquipped( hero ) || hero.hasTalent(Perk.LIGHT_CLOAK))
+		if ((isEquipped( hero ) || hero.hasPerk(Perk.LIGHT_CLOAK))
 				&& !cursed && (charge > 0 || activeBuff != null)) {
 			actions.add(AC_STEALTH);
 		}
@@ -84,7 +84,7 @@ public class CloakOfShadows extends Artifact {
 		if (action.equals( AC_STEALTH )) {
 
 			if (activeBuff == null){
-				if (!isEquipped(hero) && !hero.hasTalent(Perk.LIGHT_CLOAK)) GLog.i( Messages.get(Artifact.class, "need_to_equip") );
+				if (!isEquipped(hero) && !hero.hasPerk(Perk.LIGHT_CLOAK)) GLog.i( Messages.get(Artifact.class, "need_to_equip") );
 				else if (cursed)       GLog.i( Messages.get(this, "cursed") );
 				else if (charge <= 0)  GLog.i( Messages.get(this, "no_charge") );
 				else {
@@ -122,7 +122,7 @@ public class CloakOfShadows extends Artifact {
 	@Override
 	public boolean doUnequip(Hero hero, boolean collect, boolean single) {
 		if (super.doUnequip(hero, collect, single)){
-			if (hero.hasTalent(Perk.LIGHT_CLOAK)){
+			if (hero.hasPerk(Perk.LIGHT_CLOAK)){
 				activate(hero);
 			}
 
@@ -136,7 +136,7 @@ public class CloakOfShadows extends Artifact {
 		if (super.collect(container)){
 			if (container.owner instanceof Hero
 					&& passiveBuff == null
-					&& ((Hero) container.owner).hasTalent(Perk.LIGHT_CLOAK)){
+					&& ((Hero) container.owner).hasPerk(Perk.LIGHT_CLOAK)){
 				activate((Hero) container.owner);
 			}
 			return true;
@@ -292,7 +292,7 @@ public class CloakOfShadows extends Artifact {
 			turnsToCost--;
 
 			//barrier every 2/1 turns, to a max of 3/5
-			if (((Hero)target).hasTalent(Perk.PROTECTIVE_SHADOWS)){
+			if (((Hero)target).hasPerk(Perk.PROTECTIVE_SHADOWS)){
 				Barrier barrier = Buff.affect(target, Barrier.class);
 				if (barrier.shielding() < 1 + 2*((Hero)target).pointsInTalent(Perk.PROTECTIVE_SHADOWS)) {
 					barrierInc += 0.5f * ((Hero) target).pointsInTalent(Perk.PROTECTIVE_SHADOWS);

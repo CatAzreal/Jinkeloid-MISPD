@@ -192,7 +192,7 @@ public abstract class Char extends Actor {
 		int curPos = pos;
 
 		//warp instantly with allies in this case
-		if (Dungeon.hero.hasTalent(Perk.ALLY_WARP)){
+		if (Dungeon.hero.hasPerk(Perk.ALLY_WARP)){
 			PathFinder.buildDistanceMap(c.pos, BArray.or(Dungeon.level.passable, Dungeon.level.avoid, null));
 			if (PathFinder.distance[pos] == Integer.MAX_VALUE){
 				return true;
@@ -302,7 +302,7 @@ public abstract class Char extends Actor {
 			Preparation prep = buff(Preparation.class);
 			if (prep != null){
 				dmg = prep.damageRoll(this);
-				if (this == Dungeon.hero && Dungeon.hero.hasTalent(Perk.BOUNTY_HUNTER)) {
+				if (this == Dungeon.hero && Dungeon.hero.hasPerk(Perk.BOUNTY_HUNTER)) {
 					Buff.affect(Dungeon.hero, Perk.BountyHunterTracker.class, 0.0f);
 				}
 			} else {

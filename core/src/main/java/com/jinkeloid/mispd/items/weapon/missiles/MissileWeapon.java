@@ -260,7 +260,7 @@ abstract public class MissileWeapon extends Weapon {
 		float usages = baseUses * (float)(Math.pow(3, level()));
 
 		//+50%/75% durability
-		if (Dungeon.hero.hasTalent(Perk.DURABLE_PROJECTILES)){
+		if (Dungeon.hero.hasPerk(Perk.DURABLE_PROJECTILES)){
 			usages *= 1.25f + (0.25f*Dungeon.hero.pointsInTalent(Perk.DURABLE_PROJECTILES));
 		}
 		if (holster) {

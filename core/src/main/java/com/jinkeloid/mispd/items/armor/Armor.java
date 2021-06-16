@@ -177,7 +177,7 @@ public class Armor extends EquipableItem {
 				degrade();
 			}
 			if (detaching.getGlyph() != null){
-				if (hero.hasTalent(Perk.RUNIC_TRANSFERENCE)
+				if (hero.hasPerk(Perk.RUNIC_TRANSFERENCE)
 						&& (Arrays.asList(Glyph.common).contains(detaching.getGlyph().getClass())
 							|| Arrays.asList(Glyph.uncommon).contains(detaching.getGlyph().getClass()))){
 					inscribe(null);
@@ -539,7 +539,7 @@ public class Armor extends EquipableItem {
 		//strength req decreases at +1,+3,+6,+10,etc.
 		int req = (8 + Math.round(tier * 2)) - (int)(Math.sqrt(8 * lvl + 1) - 1)/2;
 
-		if (Dungeon.hero.hasTalent(Perk.STRONGMAN)){
+		if (Dungeon.hero.hasPerk(Perk.STRONGMAN)){
 			req -= (Dungeon.hero.pointsInTalent(Perk.STRONGMAN)+1)/2;
 		}
 

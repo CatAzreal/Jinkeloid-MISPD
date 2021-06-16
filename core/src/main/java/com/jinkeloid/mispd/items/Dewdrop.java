@@ -71,7 +71,7 @@ public class Dewdrop extends Item {
 
 		int effect = Math.min( hero.HT - hero.HP, heal );
 		int shield = 0;
-		if (hero.hasTalent(Perk.SHIELDING_DEW)){
+		if (hero.hasPerk(Perk.SHIELDING_DEW)){
 			shield = heal - effect;
 			int maxShield = Math.round(hero.HT *0.2f*hero.pointsInTalent(Perk.SHIELDING_DEW));
 			int curShield = 0;

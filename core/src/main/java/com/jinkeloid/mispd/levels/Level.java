@@ -937,7 +937,7 @@ public abstract class Level implements Bundlable {
 		}
 
 		if ( (map[ch.pos] == Terrain.GRASS || map[ch.pos] == Terrain.EMBERS)
-				&& ch == Dungeon.hero && Dungeon.hero.hasTalent(Perk.REJUVENATING_STEPS)
+				&& ch == Dungeon.hero && Dungeon.hero.hasPerk(Perk.REJUVENATING_STEPS)
 				&& ch.buff(Perk.RejuvenatingStepsCooldown.class) == null){
 
 			if (Dungeon.hero.buff(LockedFloor.class) != null && !Dungeon.hero.buff(LockedFloor.class).regenOn()){
@@ -1140,7 +1140,7 @@ public abstract class Level implements Bundlable {
 						heroMindFov[mob.pos + i] = true;
 					}
 				}
-			} else if (((Hero) c).hasTalent(Perk.HEIGHTENED_SENSES)) {
+			} else if (((Hero) c).hasPerk(Perk.HEIGHTENED_SENSES)) {
 				for (Mob mob : mobs) {
 					int p = mob.pos;
 					if (!fieldOfView[p] && distance(c.pos, p) <= 1+((Hero) c).pointsInTalent(Perk.HEIGHTENED_SENSES)) {

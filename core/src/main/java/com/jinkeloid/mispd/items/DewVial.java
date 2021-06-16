@@ -91,7 +91,7 @@ public class DewVial extends Item {
 				int curShield = 0;
 				if (hero.buff(Barrier.class) != null) curShield = hero.buff(Barrier.class).shielding();
 				int maxShield = Math.round(hero.HT *0.2f*hero.pointsInTalent(Perk.SHIELDING_DEW));
-				if (hero.hasTalent(Perk.SHIELDING_DEW)){
+				if (hero.hasPerk(Perk.SHIELDING_DEW)){
 					float missingShieldPercent = 1f - (curShield / (float)maxShield);
 					missingShieldPercent *= 0.2f*hero.pointsInTalent(Perk.SHIELDING_DEW);
 					if (missingShieldPercent > 0){

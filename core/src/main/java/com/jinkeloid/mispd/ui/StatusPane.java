@@ -25,11 +25,13 @@ import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.MISPDAction;
 import com.jinkeloid.mispd.Statistics;
+import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.effects.Speck;
 import com.jinkeloid.mispd.items.Item;
 import com.jinkeloid.mispd.scenes.GameScene;
 import com.jinkeloid.mispd.scenes.PixelScene;
 import com.jinkeloid.mispd.sprites.HeroSprite;
+import com.jinkeloid.mispd.utils.GLog;
 import com.jinkeloid.mispd.windows.WndGame;
 import com.jinkeloid.mispd.windows.WndHero;
 import com.jinkeloid.mispd.windows.WndJournal;
@@ -57,7 +59,13 @@ public class StatusPane extends Component {
 	private Image rawShielding;
 	private Image shieldedHP;
 	private Image hp;
+	private Image hpIndicator;
+	//tbh I don't like writing a bunch of code just for two pixels on top of HP bar, but will do at this stage
+	private Image hpCover;
 	private BitmapText hpText;
+
+	private Image st;
+	private Image stIndicator;
 
 	private Image exp;
 
@@ -112,15 +120,27 @@ public class StatusPane extends Component {
 		compass = new Compass( Statistics.amuletObtained ? Dungeon.level.entrance : Dungeon.level.exit );
 		add( compass );
 
-		rawShielding = new Image( Assets.Interfaces.SHLD_BAR );
+		rawShielding = new Image( Assets.Interfaces.SHLD_BAR ,0,0,0,0);
 		rawShielding.alpha(0.5f);
 		add(rawShielding);
 
-		shieldedHP = new Image( Assets.Interfaces.SHLD_BAR );
+		shieldedHP = new Image( Assets.Interfaces.SHLD_BAR ,0,0,0,0);
 		add(shieldedHP);
 
-		hp = new Image( Assets.Interfaces.HP_BAR );
+		hp = new Image( Assets.Interfaces.HP_BAR ,0,0,41,4);
 		add( hp );
+
+		hpIndicator = new Image( Assets.Interfaces.HP_BAR ,0,5,6,6);
+		add(hpIndicator);
+
+		hpCover = new Image( Assets.Interfaces.HP_BAR ,7,5,1,2);
+		add(hpCover);
+
+		st = new Image( Assets.Interfaces.ST_BAR ,0,0,41,4);
+		add( st );
+
+		stIndicator = new Image( Assets.Interfaces.ST_BAR ,0,5,6,6);
+		add(stIndicator);
 
 		hpText = new BitmapText(PixelScene.pixelFont);
 		hpText.alpha(0.6f);
@@ -169,8 +189,17 @@ public class StatusPane extends Component {
 		compass.y = avatar.y + avatar.height / 2f - compass.origin.y;
 		PixelScene.align(compass);
 
-		hp.x = shieldedHP.x = rawShielding.x = 30;
-		hp.y = shieldedHP.y = rawShielding.y = 3;
+		hpCover.x = hp.x = shieldedHP.x = rawShielding.x = 31;
+		hpCover.y = hp.y = shieldedHP.y = rawShielding.y = 3;
+
+		hpIndicator.x = hp.x + hp.width - 1;
+		hpIndicator.y = 2;
+
+		//these can be written in a compact way but this way the code is easier to understand
+		st.x = 31;
+		st.y = 8;
+		stIndicator.x = st.x + st.width - 1;
+		stIndicator.y = 7;
 
 		hpText.scale.set(PixelScene.align(0.5f));
 		hpText.x = hp.x + 1;
@@ -186,7 +215,7 @@ public class StatusPane extends Component {
 
 		danger.setPos( width - danger.width(), 20 );
 
-		buffs.setPos( 31, 9 );
+		buffs.setPos( 31, 12 );
 
 		btnJournal.setPos( width - 42, 1 );
 
@@ -222,14 +251,54 @@ public class StatusPane extends Component {
 			avatar.resetColor();
 		}
 
-		hp.scale.x = Math.max( 0, (health-shield)/(float)max);
-		shieldedHP.scale.x = health/(float)max;
-		rawShielding.scale.x = shield/(float)max;
+		if (!Dungeon.hero.hasPerk(Perk.LACK_OF_SENSE)){
+			hp.scale.x = Math.max( 0, health/(float)max);
+			shieldedHP.scale.x = health/(float)max;
+			rawShielding.scale.x = shield/(float)max;
+			hpIndicator.x = hp.x + hp.width*Math.max( 0, health/(float)max) - 1;
+			if (shield <= 0){
+				hpText.text(health + "/" + max);
+			} else {
+				hpText.text(health + "+" + shield +  "/" + max);
+			}
+		}else{
+			hpText.alpha(0.8f);
+			int ratio = (int)(5 * (float)health/max);
+			if (health <= 0) ratio = -1;
+			switch (ratio){
+				case 5: case 4:
+					hpText.text("Healthy");
+					hpText.hardlight(0x0db53a);
+					break;
+				case 3:
+					hpText.text("Lightly_Damaged");
+					hpText.hardlight(0xd7f229);
+					break;
+				case 2:
+					hpText.text("Damaged");
+					hpText.hardlight(0xf4f734);
+					break;
+				case 1:
+					hpText.text("Wounded");
+					hpText.hardlight(0xe39219);
+					break;
+				case 0:
+					hpText.text("Severely_Wounded");
+					hpText.hardlight(0xba0606);
+					break;
+				case -1:
+					hpText.text("Dead");
+					hpText.hardlight(0x4a0101);
+					break;
+				default:
+					hpText.text("Healthy??");
+					hpText.hardlight(0x001296);
+					break;
+			}
 
-		if (shield <= 0){
-			hpText.text(health + "/" + max);
-		} else {
-			hpText.text(health + "+" + shield +  "/" + max);
+			hpText.x = hp.x + hp.width/2 - hpText.width/4 - 2f;
+			hpText.measure();
+			PixelScene.align(hpText);
 		}
 
 		exp.scale.x = (width / exp.width) * Dungeon.hero.exp / Dungeon.hero.maxExp();
@@ -247,7 +316,7 @@ public class StatusPane extends Component {
 			level.text( Integer.toString( lastLvl ) );
 			level.measure();
 			level.x = 27.5f - level.width() / 2f;
-			level.y = 28.0f - level.baseLine() / 2f;
+			level.y = 29.0f - level.baseLine() / 2f;
 			PixelScene.align(level);
 		}
 

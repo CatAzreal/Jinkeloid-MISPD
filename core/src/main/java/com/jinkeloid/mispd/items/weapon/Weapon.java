@@ -349,7 +349,7 @@ abstract public class Weapon extends KindOfWeapon {
 
 		protected float procChanceMultiplier( Char attacker ){
 			float multi = 1f;
-			if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Perk.ENRAGED_CATALYST)){
+			if (attacker instanceof Hero && ((Hero) attacker).hasPerk(Perk.ENRAGED_CATALYST)){
 				Berserk rage = attacker.buff(Berserk.class);
 				if (rage != null) {
 					multi += (rage.rageAmount() / 6f) * ((Hero) attacker).pointsInTalent(Perk.ENRAGED_CATALYST);

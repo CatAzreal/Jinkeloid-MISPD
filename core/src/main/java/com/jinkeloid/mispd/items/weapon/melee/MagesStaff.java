@@ -157,7 +157,7 @@ public class MagesStaff extends MeleeWeapon {
 			Buff.affect(attacker, Barrier.class).setShield(buffedLvl()*2);
 		}
 
-		if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Perk.MYSTICAL_CHARGE)){
+		if (attacker instanceof Hero && ((Hero) attacker).hasPerk(Perk.MYSTICAL_CHARGE)){
 			Hero hero = (Hero) attacker;
 			for (Buff b : hero.buffs()){
 				if (b instanceof Artifact.ArtifactBuff) ((Artifact.ArtifactBuff) b).charge(hero, hero.pointsInTalent(Perk.MYSTICAL_CHARGE)/2f);
@@ -205,7 +205,7 @@ public class MagesStaff extends MeleeWeapon {
 
 		int oldStaffcharges = this.wand.curCharges;
 
-		if (owner == Dungeon.hero && Dungeon.hero.hasTalent(Perk.WAND_PRESERVATION)
+		if (owner == Dungeon.hero && Dungeon.hero.hasPerk(Perk.WAND_PRESERVATION)
 				&& Random.Float() < 0.34f + 0.33f*Dungeon.hero.pointsInTalent(Perk.WAND_PRESERVATION)){
 
 			Perk.WandPreservationCounter counter = Buff.affect(Dungeon.hero, Perk.WandPreservationCounter.class);
@@ -391,7 +391,7 @@ public class MagesStaff extends MeleeWeapon {
 					}
 
 					String bodyText = Messages.get(MagesStaff.class, "imbue_desc", newLevel);
-					int preservesLeft = Dungeon.hero.hasTalent(Perk.WAND_PRESERVATION) ? 3 : 0;
+					int preservesLeft = Dungeon.hero.hasPerk(Perk.WAND_PRESERVATION) ? 3 : 0;
 					if (Dungeon.hero.buff(Perk.WandPreservationCounter.class) != null){
 						preservesLeft -= Dungeon.hero.buff(Perk.WandPreservationCounter.class).count();
 					}

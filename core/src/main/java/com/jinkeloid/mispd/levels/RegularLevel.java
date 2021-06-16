@@ -416,7 +416,7 @@ public abstract class RegularLevel extends Level {
 		}
 
 		//cached rations try to drop in a special room on floors 2/3/4/6/7/8, to a max of 4/6
-		if (Dungeon.hero.hasTalent(Perk.CACHED_RATIONS)){
+		if (Dungeon.hero.hasPerk(Perk.CACHED_RATIONS)){
 			Perk.CachedRationsDropped dropped = Buff.affect(Dungeon.hero, Perk.CachedRationsDropped.class);
 			if (dropped.count() < 2 + 2*Dungeon.hero.pointsInTalent(Perk.CACHED_RATIONS)){
 				int cell;

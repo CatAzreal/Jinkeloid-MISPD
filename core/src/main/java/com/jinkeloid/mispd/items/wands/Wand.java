@@ -180,7 +180,7 @@ public abstract class Wand extends Item {
 
 	//TODO some naming issues here. Consider renaming this method and externalizing char awareness buff
 	protected static void processSoulMark(Char target, int wandLevel, int chargesUsed){
-		if (Dungeon.hero.hasTalent(Perk.ARCANE_VISION)) {
+		if (Dungeon.hero.hasPerk(Perk.ARCANE_VISION)) {
 			int dur = 5 + 5*Dungeon.hero.pointsInTalent(Perk.ARCANE_VISION);
 			Buff.append(Dungeon.hero, TalismanOfForesight.CharAwareness.class, dur).charID = target.id();
 		}
@@ -376,11 +376,11 @@ public abstract class Wand extends Item {
 		if (charger != null
 				&& charger.target == Dungeon.hero
 				&& !Dungeon.hero.belongings.contains(this)) {
-			if (curCharges == 0 && Dungeon.hero.hasTalent(Perk.BACKUP_BARRIER)) {
+			if (curCharges == 0 && Dungeon.hero.hasPerk(Perk.BACKUP_BARRIER)) {
 				//grants 4/6 shielding
 				Buff.affect(Dungeon.hero, Barrier.class).setShield(2 + 2 * Dungeon.hero.pointsInTalent(Perk.BACKUP_BARRIER));
 			}
-			if (Dungeon.hero.hasTalent(Perk.EMPOWERED_STRIKE)){
+			if (Dungeon.hero.hasPerk(Perk.EMPOWERED_STRIKE)){
 				Buff.prolong(Dungeon.hero, Perk.EmpoweredStrikeTracker.class, 5f);
 			}
 		}
@@ -494,7 +494,7 @@ public abstract class Wand extends Item {
 				int cell = shot.collisionPos;
 				
 				if (target == curUser.pos || cell == curUser.pos) {
-					if (target == curUser.pos && curUser.hasTalent(Perk.SHIELD_BATTERY)){
+					if (target == curUser.pos && curUser.hasPerk(Perk.SHIELD_BATTERY)){
 						float shield = curUser.HT * (0.05f*curWand.curCharges);
 						if (curUser.pointsInTalent(Perk.SHIELD_BATTERY) == 2) shield *= 1.5f;
 						Buff.affect(curUser, Barrier.class).setShield(Math.round(shield));

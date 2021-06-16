@@ -290,7 +290,7 @@ public class Hero extends Char {
 		Belongings.preview( info, bundle );
 	}
 
-	public boolean hasTalent( Perk perk ){
+	public boolean hasPerk(Perk perk ){
 		if (this.perks.contains(perk)){
 			return true;
 		}
@@ -298,7 +298,7 @@ public class Hero extends Char {
 	}
 
 	public int pointsInTalent( Perk perk){
-		if(this.hasTalent(perk)){
+		if(this.hasPerk(perk)){
 			return 1;
 		}
 		return 0;
@@ -445,7 +445,7 @@ public class Hero extends Char {
 			return super.defenseVerb();
 		} else {
 			parry.parried = true;
-			if (buff(Combo.class).getComboCount() < 9 || this.hasTalent(Perk.ENHANCED_COMBO)){
+			if (buff(Combo.class).getComboCount() < 9 || this.hasPerk(Perk.ENHANCED_COMBO)){
 				parry.detach();
 			}
 			return Messages.get(Monk.class, "parried");
@@ -674,7 +674,7 @@ public class Hero extends Char {
 			}
 		}
 		
-		if(hasTalent(Perk.BARKSKIN) && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS){
+		if(hasPerk(Perk.BARKSKIN) && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS){
 //			Buff.affect(this, Barkskin.class).set( lvl, pointsInTalent(Perk.BARKSKIN) );
 			Buff.affect(this, Barkskin.class).set( lvl, lvl );
 		}
@@ -1072,7 +1072,7 @@ public class Hero extends Char {
 	public void rest( boolean fullRest ) {
 		spendAndNext( TIME_TO_REST );
 		if (!fullRest) {
-			if (hasTalent(Perk.HOLD_FAST)){
+			if (hasPerk(Perk.HOLD_FAST)){
 				Buff.affect(this, HoldFast.class);
 			}
 			if (sprite != null) {
@@ -1104,7 +1104,7 @@ public class Hero extends Char {
 					@Override
 					protected boolean act() {
 						if (enemy.isAlive()) {
-							int bonusTurns = hasTalent(Perk.SHARED_UPGRADES) ? wep.buffedLvl() : 0;
+							int bonusTurns = hasPerk(Perk.SHARED_UPGRADES) ? wep.buffedLvl() : 0;
 							Buff.prolong(Hero.this, SnipersMark.class, SnipersMark.DURATION + bonusTurns).set(enemy.id(), bonusTurns);
 						}
 						Actor.remove(this);
@@ -1814,7 +1814,7 @@ public class Hero extends Char {
 //		boolean circular = pointsInTalent(Perk.WIDE_SEARCH) == 1;
 		boolean circular = true;
 		int distance = heroClass == HeroClass.ROGUE ? 2 : 1;
-		if (hasTalent(Perk.WIDE_SEARCH)) distance++;
+		if (hasPerk(Perk.WIDE_SEARCH)) distance++;
 		
 		boolean foresight = buff(Foresight.class) != null;
 		

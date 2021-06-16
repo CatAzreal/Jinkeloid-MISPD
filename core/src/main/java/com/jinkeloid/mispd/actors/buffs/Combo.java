@@ -359,7 +359,7 @@ public class Combo extends Buff implements ActionIndicator.Action {
 							ch.sprite.flash();
 
 							if (!ch.isAlive()) {
-								if (hero.hasTalent(Perk.LETHAL_DEFENSE) && hero.buff(BrokenSeal.WarriorShield.class) != null){
+								if (hero.hasPerk(Perk.LETHAL_DEFENSE) && hero.buff(BrokenSeal.WarriorShield.class) != null){
 									BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
 									shield.supercharge(Math.round(shield.maxShield() * hero.pointsInTalent(Perk.LETHAL_DEFENSE)/3f));
 								}
@@ -427,7 +427,7 @@ public class Combo extends Buff implements ActionIndicator.Action {
 		}
 
 		if (!enemy.isAlive() || (!wasAlly && enemy.alignment == target.alignment)) {
-			if (hero.hasTalent(Perk.LETHAL_DEFENSE) && hero.buff(BrokenSeal.WarriorShield.class) != null){
+			if (hero.hasPerk(Perk.LETHAL_DEFENSE) && hero.buff(BrokenSeal.WarriorShield.class) != null){
 				BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
 				shield.supercharge(Math.round(shield.maxShield() * hero.pointsInTalent(Perk.LETHAL_DEFENSE)/3f));
 			}
