@@ -62,7 +62,8 @@ public class WndGameInProgress extends Window {
 		} else {
 			className = info.heroClass.title();
 		}
-		
+
+		//todo: need to store perks here so the window description won't be showing player unwanted info
 		IconTitle title = new IconTitle();
 		title.icon( HeroSprite.avatar(info.heroClass, info.armorTier) );
 		title.label((Messages.get(this, "title", info.level, className)).toUpperCase(Locale.ENGLISH));

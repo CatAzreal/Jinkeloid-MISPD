@@ -341,7 +341,7 @@ public class SpiritBow extends Weapon {
 				
 			} else {
 
-				if (user.hasTalent(Perk.SEER_SHOT)
+				if (user.hasPerk(Perk.SEER_SHOT)
 						&& user.buff(Perk.SeerShotCooldown.class) == null){
 					int shotPos = throwPos(user, dst);
 					if (Actor.findChar(shotPos) == null) {

@@ -26,6 +26,7 @@ import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.Statistics;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.hero.Hero;
+import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.messages.Messages;
 import com.jinkeloid.mispd.scenes.GameScene;
 import com.jinkeloid.mispd.scenes.PixelScene;
@@ -130,8 +131,37 @@ public class WndHero extends WndTabbed {
 			pos = title.bottom() + 2*GAP;
 
 			statSlot( Messages.get(this, "str"), hero.STR() );
-			if (hero.shielding() > 0) statSlot( Messages.get(this, "health"), hero.HP + "+" + hero.shielding() + "/" + hero.HT );
-			else statSlot( Messages.get(this, "health"), (hero.HP) + "/" + hero.HT );
+			if (!hero.hasPerk(Perk.LACK_OF_SENSE)) {
+				if (hero.shielding() > 0)
+					statSlot(Messages.get(this, "health"), hero.HP + "+" + hero.shielding() + "/" + hero.HT);
+				else statSlot(Messages.get(this, "health"), (hero.HP) + "/" + hero.HT);
+			} else {
+				int ratio = (int)(5 * (float)hero.HP/hero.HT);
+				if (hero.HP <= 0) ratio = -1;
+				switch (ratio){
+					case 5: case 4:
+						statSlot(Messages.get(this, "health"), Messages.get(this, "healthy"));
+						break;
+					case 3:
+						statSlot(Messages.get(this, "health"), Messages.get(this, "l_damaged"));
+						break;
+					case 2:
+						statSlot(Messages.get(this, "health"), Messages.get(this, "damaged"));
+						break;
+					case 1:
+						statSlot(Messages.get(this, "health"), Messages.get(this, "wounded"));
+						break;
+					case 0:
+						statSlot(Messages.get(this, "health"), Messages.get(this, "s_wounded"));
+						break;
+					case -1:
+						statSlot(Messages.get(this, "health"), Messages.get(this, "dead"));
+						break;
+					default:
+						statSlot(Messages.get(this, "health"), Messages.get(this, "healthy_err"));
+						break;
+				}
+			}
 			statSlot( Messages.get(this, "exp"), hero.exp + "/" + hero.maxExp() );
 
 			pos += GAP;

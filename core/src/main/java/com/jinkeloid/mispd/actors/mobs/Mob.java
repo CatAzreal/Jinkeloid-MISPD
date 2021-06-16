@@ -676,7 +676,7 @@ public abstract class Mob extends Char {
 			rollToDropLoot();
 
 			if (cause == Dungeon.hero
-					&& Dungeon.hero.hasTalent(Perk.LETHAL_MOMENTUM)
+					&& Dungeon.hero.hasPerk(Perk.LETHAL_MOMENTUM)
 					&& Random.Float() < 0.34f + 0.33f* Dungeon.hero.pointsInTalent(Perk.LETHAL_MOMENTUM)){
 				Buff.affect(Dungeon.hero, Perk.LethalMomentumTracker.class, 1f);
 			}
@@ -840,7 +840,7 @@ public abstract class Mob extends Char {
 
 				float enemyStealth = enemy.stealth();
 
-				if (enemy instanceof Hero && ((Hero) enemy).hasTalent(Perk.SILENT_STEPS)){
+				if (enemy instanceof Hero && ((Hero) enemy).hasPerk(Perk.SILENT_STEPS)){
 					if (Dungeon.level.distance(pos, enemy.pos) >= 4 - ((Hero) enemy).pointsInTalent(Perk.SILENT_STEPS)) {
 						enemyStealth = Float.POSITIVE_INFINITY;
 					}

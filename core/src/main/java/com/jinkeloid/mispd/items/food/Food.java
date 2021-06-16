@@ -89,10 +89,10 @@ public class Food extends Item {
 	}
 
 	protected float eatingTime(){
-		if (Dungeon.hero.hasTalent(Perk.IRON_STOMACH)
-			|| Dungeon.hero.hasTalent(Perk.ENERGIZING_MEAL)
-			|| Dungeon.hero.hasTalent(Perk.MYSTICAL_MEAL)
-			|| Dungeon.hero.hasTalent(Perk.INVIGORATING_MEAL)){
+		if (Dungeon.hero.hasPerk(Perk.IRON_STOMACH)
+			|| Dungeon.hero.hasPerk(Perk.ENERGIZING_MEAL)
+			|| Dungeon.hero.hasPerk(Perk.MYSTICAL_MEAL)
+			|| Dungeon.hero.hasPerk(Perk.INVIGORATING_MEAL)){
 			return TIME_TO_EAT - 2;
 		} else {
 			return TIME_TO_EAT;

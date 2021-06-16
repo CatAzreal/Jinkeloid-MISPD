@@ -186,7 +186,7 @@ public abstract class Scroll extends Item {
 		curUser.busy();
 		((HeroSprite)curUser.sprite).read();
 
-		if (curUser.hasTalent(Perk.EMPOWERING_SCROLLS)){
+		if (curUser.hasPerk(Perk.EMPOWERING_SCROLLS)){
 			Buff.affect(curUser, ScrollEmpower.class, 20f);
 			updateQuickslot();
 		}

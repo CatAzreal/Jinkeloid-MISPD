@@ -475,7 +475,7 @@ public class GameScene extends PixelScene {
 				GLog.h(Messages.get(this, "return"), Dungeon.depth);
 			}
 
-			if (Dungeon.hero.hasTalent(Perk.ROGUES_FORESIGHT)
+			if (Dungeon.hero.hasPerk(Perk.ROGUES_FORESIGHT)
 					&& Dungeon.level instanceof RegularLevel){
 				int reqSecrets = Dungeon.level.feeling == Level.Feeling.SECRETS ? 2 : 1;
 				for (Room r : ((RegularLevel) Dungeon.level).rooms()){

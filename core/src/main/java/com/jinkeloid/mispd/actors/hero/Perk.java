@@ -120,6 +120,9 @@ public enum Perk {
 	AMNESIA(0, 1, perkType.NEGATIVE),
 	//when finding a way to somewhere, you always managed to get to the wrong way, not because you are stupid,
 	//you are just not good at determining direction and remembering places, using scroll of magic mapping would have different outcomes
+	LACK_OF_SENSE(0, 1, perkType.NEGATIVE),
+	//you sense is so low that you can't grasp the exact condition yourself is currently in
+	//health and stamina will only display it's vague value
 
 	//Warrior T1
 	HEARTY_MEAL(0), ARMSMASTERS_INTUITION(1), TEST_SUBJECT(2), IRON_WILL(3),
@@ -274,7 +277,7 @@ public enum Perk {
 	public static class NatureBerriesAvailable extends CounterBuff{};
 
 	public static void onFoodEaten( Hero hero, float foodVal, Item foodSource ){
-		if (hero.hasTalent(HEARTY_MEAL)){
+		if (hero.hasPerk(HEARTY_MEAL)){
 			//3/5 HP healed, when hero is below 25% health
 			if (hero.HP <= hero.HT/4) {
 				hero.HP = Math.min(hero.HP + 1 + 2 * hero.pointsInTalent(HEARTY_MEAL), hero.HT);
@@ -285,27 +288,27 @@ public enum Perk {
 				hero.sprite.emitter().burst(Speck.factory(Speck.HEALING), hero.pointsInTalent(HEARTY_MEAL));
 			}
 		}
-		if (hero.hasTalent(IRON_STOMACH)){
+		if (hero.hasPerk(IRON_STOMACH)){
 			if (hero.cooldown() > 0) {
 				Buff.affect(hero, WarriorFoodImmunity.class, hero.cooldown());
 			}
 		}
-		if (hero.hasTalent(EMPOWERING_MEAL)){
+		if (hero.hasPerk(EMPOWERING_MEAL)){
 			//2/3 bonus wand damage for next 3 zaps
 			Buff.affect( hero, WandEmpower.class).set(1 + hero.pointsInTalent(EMPOWERING_MEAL), 3);
 			ScrollOfRecharging.charge( hero );
 		}
-		if (hero.hasTalent(ENERGIZING_MEAL)){
+		if (hero.hasPerk(ENERGIZING_MEAL)){
 			//5/8 turns of recharging
 			Buff.prolong( hero, Recharging.class, 2 + 3*(hero.pointsInTalent(ENERGIZING_MEAL)) );
 			ScrollOfRecharging.charge( hero );
 		}
-		if (hero.hasTalent(MYSTICAL_MEAL)){
+		if (hero.hasPerk(MYSTICAL_MEAL)){
 			//3/5 turns of recharging
 			Buff.affect( hero, ArtifactRecharge.class).set(1 + 2*(hero.pointsInTalent(MYSTICAL_MEAL))).ignoreHornOfPlenty = foodSource instanceof HornOfPlenty;
 			ScrollOfRecharging.charge( hero );
 		}
-		if (hero.hasTalent(INVIGORATING_MEAL)){
+		if (hero.hasPerk(INVIGORATING_MEAL)){
 			//effectively 1/2 turns of haste
 			Buff.prolong( hero, Haste.class, 0.67f+hero.pointsInTalent(INVIGORATING_MEAL));
 		}
@@ -335,14 +338,14 @@ public enum Perk {
 	}
 
 	public static void onHealingPotionUsed( Hero hero ){
-		if (hero.hasTalent(RESTORED_WILLPOWER)){
+		if (hero.hasPerk(RESTORED_WILLPOWER)){
 			BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
 			if (shield != null){
 				int shieldToGive = Math.round(shield.maxShield() * 0.33f*(1+hero.pointsInTalent(RESTORED_WILLPOWER)));
 				shield.supercharge(shieldToGive);
 			}
 		}
-		if (hero.hasTalent(RESTORED_NATURE)){
+		if (hero.hasPerk(RESTORED_NATURE)){
 			ArrayList<Integer> grassCells = new ArrayList<>();
 			for (int i : PathFinder.NEIGHBOURS8){
 				grassCells.add(hero.pos+i);
@@ -380,7 +383,7 @@ public enum Perk {
 	}
 
 	public static void onUpgradeScrollUsed( Hero hero ){
-		if (hero.hasTalent(ENERGIZING_UPGRADE)){
+		if (hero.hasPerk(ENERGIZING_UPGRADE)){
 			MagesStaff staff = hero.belongings.getItem(MagesStaff.class);
 			if (staff != null){
 				staff.gainCharge(1 + hero.pointsInTalent(ENERGIZING_UPGRADE), true);
@@ -388,7 +391,7 @@ public enum Perk {
 				SpellSprite.show( hero, SpellSprite.CHARGE );
 			}
 		}
-		if (hero.hasTalent(MYSTICAL_UPGRADE)){
+		if (hero.hasPerk(MYSTICAL_UPGRADE)){
 			CloakOfShadows cloak = hero.belongings.getItem(CloakOfShadows.class);
 			if (cloak != null){
 				cloak.overCharge(1 + hero.pointsInTalent(MYSTICAL_UPGRADE));
@@ -399,7 +402,7 @@ public enum Perk {
 	}
 
 	public static void onArtifactUsed( Hero hero ){
-		if (hero.hasTalent(ENHANCED_RINGS)){
+		if (hero.hasPerk(ENHANCED_RINGS)){
 			Buff.prolong(hero, EnhancedRings.class, 3f*hero.pointsInTalent(ENHANCED_RINGS));
 		}
 	}
@@ -408,7 +411,7 @@ public enum Perk {
 		if (hero.pointsInTalent(ARMSMASTERS_INTUITION) == 2 && (item instanceof Weapon || item instanceof Armor)){
 			item.identify();
 		}
-		if (hero.hasTalent(THIEFS_INTUITION) && item instanceof Ring){
+		if (hero.hasPerk(THIEFS_INTUITION) && item instanceof Ring){
 			if (hero.pointsInTalent(THIEFS_INTUITION) == 2){
 				item.identify();
 			} else {
@@ -425,13 +428,13 @@ public enum Perk {
 
 	//note that IDing can happen in alchemy scene, so be careful with VFX here
 	public static void onItemIdentified( Hero hero, Item item ){
-		if (hero.hasTalent(TEST_SUBJECT)){
+		if (hero.hasPerk(TEST_SUBJECT)){
 			//heal for 2/3 HP
 			hero.HP = Math.min(hero.HP + 1 + hero.pointsInTalent(TEST_SUBJECT), hero.HT);
 			Emitter e = hero.sprite.emitter();
 			if (e != null) e.burst(Speck.factory(Speck.HEALING), hero.pointsInTalent(TEST_SUBJECT));
 		}
-		if (hero.hasTalent(TESTED_HYPOTHESIS)){
+		if (hero.hasPerk(TESTED_HYPOTHESIS)){
 			//2/3 turns of wand recharging
 			Buff.affect(hero, Recharging.class, 1f + hero.pointsInTalent(TESTED_HYPOTHESIS));
 			ScrollOfRecharging.charge(hero);
@@ -439,14 +442,14 @@ public enum Perk {
 	}
 
 	public static int onAttackProc( Hero hero, Char enemy, int dmg ){
-		if (hero.hasTalent(Perk.SUCKER_PUNCH)
+		if (hero.hasPerk(Perk.SUCKER_PUNCH)
 				&& enemy instanceof Mob && ((Mob) enemy).surprisedBy(hero)
 				&& enemy.buff(SuckerPunchTracker.class) == null){
 			dmg += Random.IntRange(hero.pointsInTalent(Perk.SUCKER_PUNCH) , 2);
 			Buff.affect(enemy, SuckerPunchTracker.class);
 		}
 
-		if (hero.hasTalent(Perk.FOLLOWUP_STRIKE)) {
+		if (hero.hasPerk(Perk.FOLLOWUP_STRIKE)) {
 			if (hero.belongings.weapon instanceof MissileWeapon) {
 				Buff.affect(enemy, FollowupStrikeTracker.class);
 			} else if (enemy.buff(FollowupStrikeTracker.class) != null){
