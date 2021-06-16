@@ -138,29 +138,31 @@ public class WndHero extends WndTabbed {
 			} else {
 				int ratio = (int)(5 * (float)hero.HP/hero.HT);
 				if (hero.HP <= 0) ratio = -1;
+				String hpStatus;
 				switch (ratio){
 					case 5: case 4:
-						statSlot(Messages.get(this, "health"), Messages.get(this, "healthy"));
+						hpStatus = Messages.get(this, "healthy");
 						break;
 					case 3:
-						statSlot(Messages.get(this, "health"), Messages.get(this, "l_damaged"));
+						hpStatus = Messages.get(this, "l_damaged");
 						break;
 					case 2:
-						statSlot(Messages.get(this, "health"), Messages.get(this, "damaged"));
+						hpStatus = Messages.get(this, "damaged");
 						break;
 					case 1:
-						statSlot(Messages.get(this, "health"), Messages.get(this, "wounded"));
+						hpStatus = Messages.get(this, "wounded");
 						break;
 					case 0:
-						statSlot(Messages.get(this, "health"), Messages.get(this, "s_wounded"));
+						hpStatus = Messages.get(this, "s_wounded");
 						break;
 					case -1:
-						statSlot(Messages.get(this, "health"), Messages.get(this, "dead"));
+						hpStatus = Messages.get(this, "dead");
 						break;
 					default:
-						statSlot(Messages.get(this, "health"), Messages.get(this, "healthy_err"));
+						hpStatus = Messages.get(this, "healthy_err");
 						break;
 				}
+				statSlot(Messages.get(this, "health"), hpStatus);
 			}
 			statSlot( Messages.get(this, "exp"), hero.exp + "/" + hero.maxExp() );
 
