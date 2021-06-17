@@ -21,7 +21,9 @@
 
 package com.jinkeloid.mispd.ui;
 
+import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.Char;
+import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.sprites.CharSprite;
 
 public class TargetHealthIndicator extends HealthBar {
@@ -42,8 +44,16 @@ public class TargetHealthIndicator extends HealthBar {
 		
 		if (target != null && target.isAlive() && target.sprite.visible) {
 			CharSprite sprite = target.sprite;
-			width = sprite.width();
-			x = sprite.x;
+			Perk.onHealthBarTrigger();
+			if (Dungeon.hero.hasPerk(Perk.LACK_OF_SENSE)) {
+				width = sprite.width();
+				x = sprite.x;
+			} else {
+				//Target mob deserve a bigger orb
+				width = 4;
+				height = 4;
+				x = sprite.x + sprite.width()/2f - 2;
+			}
 			y = sprite.y - 3;
 			level( target );
 			visible = true;

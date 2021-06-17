@@ -91,6 +91,8 @@ public enum Perk {
 	//stamina+(not available yet)
 	ARMOR_PROFICIENCY(0, 6, perkType.POSITIVE),
 	//changing armor would cost 1/5 of usual time(armor changing turn cost would be significantly increased), grant bonus depending on armor type
+	BIOLOGIST(0, 4, perkType.POSITIVE),
+	//show detailed info about mob, their health, dmgrange, dr and weakness(if have any)
 
 	//Negative Perks
 	SHORT_SIGHTED(0, 1, perkType.NEGATIVE),
@@ -243,6 +245,11 @@ public enum Perk {
 	public String desc(){
 		return Messages.get(this, name() + ".desc");
 	}
+
+	//Triggers are for event tagging only
+
+	//Determining if a perk has effect on Health bar related action
+	public static void onHealthBarTrigger(){}
 
 	public static void onTalentUpgraded( Hero hero, Perk perk){
 		if (perk == NATURES_BOUNTY){

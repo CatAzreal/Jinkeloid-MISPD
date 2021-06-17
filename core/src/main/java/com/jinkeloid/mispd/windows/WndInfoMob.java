@@ -21,6 +21,8 @@
 
 package com.jinkeloid.mispd.windows;
 
+import com.jinkeloid.mispd.Dungeon;
+import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.actors.mobs.Mob;
 import com.jinkeloid.mispd.messages.Messages;
 import com.jinkeloid.mispd.scenes.PixelScene;
@@ -31,58 +33,101 @@ import com.jinkeloid.mispd.ui.RenderedTextBlock;
 import com.watabou.noosa.ui.Component;
 
 public class WndInfoMob extends WndTitledMessage {
-	
-	public WndInfoMob( Mob mob ) {
 
-		super( new MobTitle( mob ), mob.info() );
-		
-	}
-	
-	private static class MobTitle extends Component {
+    public WndInfoMob(Mob mob) {
 
-		private static final int GAP	= 2;
-		
-		private CharSprite image;
-		private RenderedTextBlock name;
-		private HealthBar health;
-		private BuffIndicator buffs;
-		
-		public MobTitle( Mob mob ) {
-			
-			name = PixelScene.renderTextBlock( Messages.titleCase( mob.name() ), 9 );
-			name.hardlight( TITLE_COLOR );
-			add( name );
-			
-			image = mob.sprite();
-			add( image );
+        super(new MobTitle(mob), mob.info());
 
-			health = new HealthBar();
-			health.level(mob);
-			add( health );
+    }
 
-			buffs = new BuffIndicator( mob );
-			add( buffs );
-		}
-		
-		@Override
-		protected void layout() {
-			
-			image.x = 0;
-			image.y = Math.max( 0, name.height() + health.height() - image.height() );
+    private static class MobTitle extends Component {
 
-			name.setPos(x + image.width + GAP,
-					image.height() > name.height() ? y +(image.height() - name.height()) / 2 : y);
+        private static final int GAP = 2;
 
-			float w = width - image.width() - GAP;
+        private CharSprite image;
+        private RenderedTextBlock name;
+        private RenderedTextBlock healthState;
+        private float mobHealth;
+        private HealthBar health;
+        private BuffIndicator buffs;
 
-			health.setRect(image.width() + GAP, name.bottom() + GAP, w, health.height());
+        public MobTitle(Mob mob) {
 
-			buffs.setPos(
-				name.right() + GAP-1,
-				name.bottom() - BuffIndicator.SIZE-2
-			);
+            name = PixelScene.renderTextBlock(Messages.titleCase(mob.name()), 9);
+            name.hardlight(TITLE_COLOR);
+            add(name);
 
-			height = health.bottom();
-		}
-	}
+            image = mob.sprite();
+            add(image);
+
+            health = new HealthBar();
+            health.level(mob);
+            add(health);
+
+            healthState = PixelScene.renderTextBlock(Messages.titleCase(""), 6);
+            healthState.hardlight(TITLE_COLOR);
+            add(healthState);
+
+            mobHealth = (float) (5 * mob.HP / mob.HT);
+
+            buffs = new BuffIndicator(mob);
+            add(buffs);
+        }
+
+        @Override
+        protected void layout() {
+
+            image.x = 0;
+            image.y = Math.max(0, name.height() + health.height() - image.height());
+
+            name.setPos(x + image.width + GAP,
+                    image.height() > name.height() ? y + (image.height() - name.height()) / 2 : y);
+
+            float w = width - image.width() - GAP;
+
+            Perk.onHealthBarTrigger();
+            health.setRect(image.width() + GAP, name.bottom() + GAP, w, health.height());
+            if (!Dungeon.hero.hasPerk(Perk.LACK_OF_SENSE)) {
+                health.visible = false;
+                switch ((int) mobHealth) {
+                    case 5:
+                    case 4:
+                        healthState.text("Healthy");
+                        healthState.hardlight(0x0db53a);
+                        break;
+                    case 3:
+                        healthState.text("Lightly_Damaged");
+                        healthState.hardlight(0xd7f229);
+                        break;
+                    case 2:
+                        healthState.text("Damaged");
+                        healthState.hardlight(0xf4f734);
+                        break;
+                    case 1:
+                        healthState.text("Wounded");
+                        healthState.hardlight(0xe39219);
+                        break;
+                    case 0:
+                        healthState.text("Severely_Wounded");
+                        healthState.hardlight(0xba0606);
+                        break;
+                    default:
+                        healthState.text("Healthy??");
+                        healthState.hardlight(0x001296);
+                        break;
+                }
+                healthState.setPos(name.right() + GAP * 3, name.bottom() - healthState.height());
+            }
+
+            buffs.setPos(
+                    name.right() + GAP - 1,
+                    name.bottom() - BuffIndicator.SIZE - 2
+            );
+
+            height = health.bottom();
+            if (!Dungeon.hero.hasPerk(Perk.LACK_OF_SENSE)) {
+                height = name.bottom() + GAP * 2;
+            }
+        }
+    }
 }
