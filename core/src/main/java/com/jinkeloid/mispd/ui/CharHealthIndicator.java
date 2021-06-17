@@ -21,7 +21,9 @@
 
 package com.jinkeloid.mispd.ui;
 
+import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.Char;
+import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.scenes.GameScene;
 import com.jinkeloid.mispd.sprites.CharSprite;
 
@@ -48,8 +50,15 @@ public class CharHealthIndicator extends HealthBar {
 		
 		if (target != null && target.isAlive() && target.sprite.visible) {
 			CharSprite sprite = target.sprite;
-			width = sprite.width()*(4/6f);
+			Perk.onHealthBarTrigger();
+			if (Dungeon.hero.hasPerk(Perk.LACK_OF_SENSE)){
+				width = sprite.width()*(4/6f);
 			x = sprite.x + sprite.width()/6f;
+			} else {
+				width = 2;
+				height = 2;
+				x = sprite.x + sprite.width()/2f - 1;
+			}
 			y = sprite.y - 2;
 			level( target );
 			visible = target.HP < target.HT || target.shielding() > 0;
