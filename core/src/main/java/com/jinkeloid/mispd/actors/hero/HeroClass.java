@@ -51,6 +51,7 @@ import com.jinkeloid.mispd.items.weapon.melee.WornShortsword;
 import com.jinkeloid.mispd.items.weapon.missiles.ThrowingKnife;
 import com.jinkeloid.mispd.items.weapon.missiles.ThrowingStone;
 import com.jinkeloid.mispd.messages.Messages;
+import com.jinkeloid.mispd.scenes.CharacterBuilderScene;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.DeviceCompat;
 
@@ -72,7 +73,7 @@ public enum HeroClass {
 	public void initHero( Hero hero ) {
 
 		hero.heroClass = this;
-		Perk.initClassTalents(hero);
+		hero.perks = CharacterBuilderScene.tempPerks;
 
 		initCommon( hero );
 

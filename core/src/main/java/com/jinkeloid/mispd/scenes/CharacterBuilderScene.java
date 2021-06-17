@@ -71,6 +71,8 @@ public class CharacterBuilderScene extends PixelScene {
 
 	//Total character points spent
 	private int charPoint;
+	//Temporary list to store perks selected in this scene
+	public static ArrayList<Perk> tempPerks;
 
 	@Override
 	public void create() {
@@ -78,7 +80,12 @@ public class CharacterBuilderScene extends PixelScene {
 
 		Badges.loadGlobal();
 		Journal.loadGlobal();
-
+		//each time we enter the scene, the perk list need to be cleared
+		if(tempPerks != null) {
+			tempPerks.clear();
+		} else {
+			tempPerks = new ArrayList<Perk>();
+		}
 //		background = new Image(HeroClass.WARRIOR.splashArt()){
 //			@Override
 //			public void update() {
@@ -142,8 +149,10 @@ public class CharacterBuilderScene extends PixelScene {
 					//if the button is checked after being pressed, add the character points to scene, else cancel it
 					if (this.checked()){
 						charPoint += perk.pointCosts();
+						tempPerks.add(perk);
 					} else {
 						charPoint -= perk.pointCosts();
+						tempPerks.remove(perk);
 					}
 					GLog.i("charpoint is" + charPoint);
 				}
@@ -195,8 +204,10 @@ public class CharacterBuilderScene extends PixelScene {
 					//if the button is checked after being pressed, add the character points to scene, else cancel it
 					if (this.checked()){
 						charPoint -= perk.pointCosts();
+						tempPerks.add(perk);
 					} else {
 						charPoint += perk.pointCosts();
+						tempPerks.remove(perk);
 					}
 					GLog.i("charpoint is" + charPoint);
 				}
