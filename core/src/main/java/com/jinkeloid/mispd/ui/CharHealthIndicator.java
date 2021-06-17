@@ -55,11 +55,11 @@ public class CharHealthIndicator extends HealthBar {
 				width = sprite.width()*(4/6f);
 			x = sprite.x + sprite.width()/6f;
 			} else {
-				width = 2;
-				height = 2;
-				x = sprite.x + sprite.width()/2f - 1;
+				width = 4;
+				height = 4;
+				x = sprite.x + sprite.width()/2f - 2;
 			}
-			y = sprite.y - 2;
+			y = sprite.y - 3;
 			level( target );
 			visible = target.HP < target.HT || target.shielding() > 0;
 		} else {
