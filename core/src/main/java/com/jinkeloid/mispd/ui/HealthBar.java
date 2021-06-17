@@ -46,6 +46,10 @@ public class HealthBar extends Component {
     private ColorBlock Shld;
     private ColorBlock Hp;
     private ColorBlock Orb;
+    private ColorBlock border1;
+    private ColorBlock border2;
+    private ColorBlock border3;
+    private ColorBlock border4;
 
     private float health;
     private float shield;
@@ -63,6 +67,16 @@ public class HealthBar extends Component {
 
             Orb = new ColorBlock(1, 1, COLOR_H);
             add(Orb);
+
+            border1 = new ColorBlock(1, 1, COLOR_H);
+            border2 = new ColorBlock(1, 1, COLOR_H);
+            border3 = new ColorBlock(1, 1, COLOR_H);
+            border4 = new ColorBlock(1, 1, COLOR_H);
+
+            add(border1);
+            add(border2);
+            add(border3);
+            add(border4);
 
         height = HEIGHT;
     }
@@ -84,24 +98,65 @@ public class HealthBar extends Component {
             Hp.size(width * (float) Math.ceil(health * pixelWidth) / pixelWidth, height);
         } else {
             Bg.visible = Shld.visible = Hp.visible = false;
-            Orb.x = x;
-            Orb.y = y;
-            Orb.size(width, height);
+            //b o r d e r
+
+            border1.x = x+1;
+            border1.y = y;
+            border2.x = x+3;
+            border2.y = y+1;
+            border3.x = x;
+            border3.y = y+1;
+            border4.x = x+1;
+            border4.y = y+3;
+
+            border1.size(2,1);
+            border2.size(1,2);
+            border3.size(1,2);
+            border4.size(2,1);
+
+            border1.alpha(0.5f);
+            border2.alpha(0.5f);
+            border3.alpha(0.5f);
+            border4.alpha(0.5f);
+
+            Orb.x = x+1;
+            Orb.y = y+1;
+            Orb.size(2, 2);
             switch ((int) (health * 5)) {
                 case 5:
                 case 4:
+                    border1.color(COLOR_H);
+                    border2.color(COLOR_H);
+                    border3.color(COLOR_H);
+                    border4.color(COLOR_H);
                     Orb.color(COLOR_H);
                     break;
                 case 3:
+                    border1.color(COLOR_LD);
+                    border2.color(COLOR_LD);
+                    border3.color(COLOR_LD);
+                    border4.color(COLOR_LD);
                     Orb.color(COLOR_LD);
                     break;
                 case 2:
+                    border1.color(COLOR_D);
+                    border2.color(COLOR_D);
+                    border3.color(COLOR_D);
+                    border4.color(COLOR_D);
                     Orb.color(COLOR_D);
                     break;
                 case 1:
+                    border1.color(COLOR_W);
+                    border2.color(COLOR_W);
+                    border3.color(COLOR_W);
+                    border4.color(COLOR_W);
                     Orb.color(COLOR_W);
                     break;
                 case 0:
+                    border1.color(COLOR_SW);
+                    border2.color(COLOR_SW);
+                    border3.color(COLOR_SW);
+                    border4.color(COLOR_SW);
                     Orb.color(COLOR_SW);
                     break;
                 default:

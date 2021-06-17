@@ -49,7 +49,6 @@ public class TargetHealthIndicator extends HealthBar {
 				width = sprite.width();
 				x = sprite.x;
 			} else {
-				//Target mob deserve a bigger orb
 				width = 4;
 				height = 4;
 				x = sprite.x + sprite.width()/2f - 2;
