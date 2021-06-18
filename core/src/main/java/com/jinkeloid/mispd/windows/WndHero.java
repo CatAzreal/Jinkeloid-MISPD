@@ -32,6 +32,7 @@ import com.jinkeloid.mispd.scenes.GameScene;
 import com.jinkeloid.mispd.scenes.PixelScene;
 import com.jinkeloid.mispd.sprites.HeroSprite;
 import com.jinkeloid.mispd.ui.BuffIndicator;
+import com.jinkeloid.mispd.ui.PerksPane;
 import com.jinkeloid.mispd.ui.RenderedTextBlock;
 import com.jinkeloid.mispd.ui.ScrollPane;
 import com.jinkeloid.mispd.ui.StatusPane;
@@ -55,6 +56,7 @@ public class WndHero extends WndTabbed {
 	private StatsTab stats;
 //	private TalentsTab talents;
 	private BuffsTab buffs;
+	private PerksTab perks;
 
 	public static int lastIdx = 0;
 
@@ -66,6 +68,11 @@ public class WndHero extends WndTabbed {
 		
 		stats = new StatsTab();
 		add( stats );
+
+		perks = new PerksTab();
+		add(perks);
+		perks.setRect(0, 0, WIDTH, HEIGHT);
+		perks.pane.setupList();
 
 //		talents = new TalentsTab();
 //		add(talents);
@@ -83,11 +90,12 @@ public class WndHero extends WndTabbed {
 				stats.visible = stats.active = selected;
 			}
 		} );
-		add( new LabeledTab( Messages.get(this, "talents") ) {
+		add( new LabeledTab( Messages.get(this, "perks") ) {
 			protected void select( boolean value ) {
 				super.select( value );
 				if (selected) lastIdx = 1;
 				if (selected) StatusPane.talentBlink = 0;
+				perks.visible = perks.active = selected;
 //				talents.visible = talents.active = selected;
 			}
 		} );
@@ -205,6 +213,25 @@ public class WndHero extends WndTabbed {
 		protected void createChildren() {
 			super.createChildren();
 			pane = new TalentsPane(true);
+			add(pane);
+		}
+
+		@Override
+		protected void layout() {
+			super.layout();
+			pane.setRect(x, y, width, height);
+		}
+
+	}
+
+	public class PerksTab extends Component {
+
+		PerksPane pane;
+
+		@Override
+		protected void createChildren() {
+			super.createChildren();
+			pane = new PerksPane();
 			add(pane);
 		}
 
