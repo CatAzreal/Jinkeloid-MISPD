@@ -21,6 +21,8 @@
 
 package com.jinkeloid.mispd.scenes;
 
+import com.jinkeloid.mispd.Badges;
+import com.jinkeloid.mispd.Challenges;
 import com.jinkeloid.mispd.MusicImplantSPD;
 import com.jinkeloid.mispd.effects.Flare;
 import com.jinkeloid.mispd.ui.ExitButton;
@@ -28,16 +30,24 @@ import com.jinkeloid.mispd.ui.Icons;
 import com.jinkeloid.mispd.ui.RenderedTextBlock;
 import com.jinkeloid.mispd.ui.ScrollPane;
 import com.jinkeloid.mispd.ui.Window;
+import com.jinkeloid.mispd.utils.GLog;
 import com.watabou.input.PointerEvent;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.ColorBlock;
+import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.PointerArea;
 import com.watabou.noosa.ui.Component;
 import com.watabou.utils.DeviceCompat;
 
+import javax.management.OperationsException;
+
 public class AboutScene extends PixelScene {
+
+	private static final float SCROLL_SPEED	= 30f;
+	public static ScrollPane list;
+	private float shift = -40;
 
 	@Override
 	public void create() {
@@ -49,51 +59,103 @@ public class AboutScene extends PixelScene {
 		int w = Camera.main.width;
 		int h = Camera.main.height;
 
-		ScrollPane list = new ScrollPane( new Component() );
+		list = new ScrollPane( new Component() );
 		add( list );
 
 		Component content = list.content();
 		content.clear();
 
-		//*** Shattered Pixel Dungeon Credits ***
+		//*** MISPD Credits ***
 
-		String shpxLink = "https://ShatteredPixel.com";
-		//tracking codes, so that the website knows where this pageview came from
-		shpxLink += "?utm_source=shatteredpd";
-		shpxLink += "&utm_medium=about_page";
-		shpxLink += "&utm_campaign=ingame_link";
+		CreditsBlock mispd = new CreditsBlock(true, Window.MISPD_COLOR,
+				"Music Implanted SPD",
+				Icons.SHPX.get(),
+				"Developer: _Jinkeloid_\n" +
+						"Based on Shattered Pixel Dungeon's open source\n\n" +
+						"Additional UI: Jinkeloid\n" +
+						"Additional Artwork: xxx\n" +
+						"Sound Effects: xxx\n\n"
+				,
+				null,
+				null);
+		mispd.setRect((w - fullWidth)/2f, 120, 120, 0);
+		content.add(mispd);
+
+		//*** Musics Used ***
+
+		CreditsBlock musicUsed = new CreditsBlock(true, Window.MISPD_COLOR,
+				"Music:\n",
+				null,
+				"Placeholders\nPlaceholders\nPlaceholders\nPlaceholders\nPlaceholders\nPlaceholders\nPlaceholders\n"
+				,
+				null,
+				null);
+		musicUsed.setRect((w - fullWidth)/2f, mispd.bottom()+6, 120, 0);
+		content.add(musicUsed);
+
+		//*** Special Thanks ***
+
+		CreditsBlock specialThanks = new CreditsBlock(true, Window.MISPD_COLOR,
+				"Special Thanks to:\n",
+				null,
+				"Evan Debenham\n\n ConsideredHamster\n\n Omicronrg\n\n" +
+						"Players from Chinese PD community\n who supported me and this mod back from 2016\n\n" +
+						"All the kind souls on PD Discord\n\n" +
+						"...\n" +
+						"_And you._\n"
+				,
+				null,
+				null);
+		specialThanks.setRect((w - fullWidth)/2f, musicUsed.bottom()+6, 120, 0);
+		content.add(specialThanks);
+
+		//*** Shattered Pixel Dungeon Credits ***
 
 		CreditsBlock shpx = new CreditsBlock(true, Window.SHPX_COLOR,
 				"Shattered Pixel Dungeon",
 				Icons.SHPX.get(),
-				"Developed by: _Evan Debenham_\nBased on Pixel Dungeon's open source",
-				"ShatteredPixel.com",
-				shpxLink);
-		shpx.setRect((w - fullWidth)/2f, 6, 120, 0);
+				"Developer: _Evan Debenham_\n" +
+						"Based on Pixel Dungeon's open source\n\n" +
+						"Hero Art & Design: Alexsandar Komitov\n" +
+						"Sound Effects: Charlie\n\n" +
+						"Powered by libGDX\n" +
+						"libGDX Made by: Edu García\n" +
+						"Shattered GDX Help: Kevin MacMartin"
+				,
+				null,
+				null);
+		shpx.setRect((w - fullWidth)/2f, specialThanks.bottom()+6, 120, 0);
 		content.add(shpx);
 
-		CreditsBlock alex = new CreditsBlock(false, Window.SHPX_COLOR,
-				"Hero Art & Design:",
-				Icons.ALEKS.get(),
-				"Aleksandar Komitov",
-				"alekskomitov.com",
-				"https://www.alekskomitov.com");
-		alex.setSize(colWidth/2f, 0);
-		if (landscape()){
-			alex.setPos(shpx.right(), shpx.top() + (shpx.height() - alex.height())/2f);
-		} else {
-			alex.setPos(w/2f - colWidth/2f, shpx.bottom()+5);
-		}
-		content.add(alex);
+		addLine(shpx.top() - 4, content);
 
-		CreditsBlock charlie = new CreditsBlock(false, Window.SHPX_COLOR,
-				"Sound Effects:",
-				Icons.CHARLIE.get(),
-				"Charlie",
-				"s9menine.itch.io",
-				"https://s9menine.itch.io");
-		charlie.setRect(alex.right(), alex.top(), colWidth/2f, 0);
-		content.add(charlie);
+		//*** Freesound Credits ***
+
+		CreditsBlock freesound = new CreditsBlock(true,
+				Window.TITLE_COLOR,
+				"_Freesound.org_ Sound Effects:\n",
+				null,
+						"_SFX ATTACK SWORD 001.wav_ by _JoelAudio_\n" +
+						"_Pack: Slingshots and Longbows_ by _saturdaysoundguy_\n" +
+						"_Cracking/Crunching, A.wav_ by _InspectorJ_\n" +
+						"_Extracting a sword.mp3_ by _Taira Komori_\n" +
+						"_Pack: Uni Sound Library_ by _timmy h123_\n" +
+						"_Pack: Movie Foley: Swords_ by _Black Snow_\n" +
+						"_machine gun shot 2.flac_ by _qubodup_\n" +
+						"_m240h machine gun burst 4.flac_ by _qubodup_\n" +
+						"_Pack: Onomatopoeia_ by _Adam N_\n" +
+						"_Pack: Watermelon_ by _lolamadeus_\n" +
+						"_metal chain_ by _Mediapaja2009_\n" +
+						"_Pack: Sword Clashes Pack_ by _JohnBuhr_\n" +
+						"_Pack: Metal Clangs and Pings_ by _wilhellboy_\n" +
+						"_Pack: Stabbing Stomachs & Crushing Skulls_ by _TheFilmLook_\n" +
+						"_Sheep bleating_ by _zachrau_\n" +
+						"_Lemon,Juicy,Squeeze,Fruit.wav_ by _Filipe Chagas_\n" +
+						"_Lemon,Squeeze,Squishy,Fruit.wav_ by _Filipe Chagas_",
+				null,
+				null);
+		freesound.setRect((Camera.main.width - colWidth)/2f-10, shpx.bottom() + 8, colWidth+20, 0);
+		content.add(freesound);
 
 		//*** Pixel Dungeon Credits ***
 
@@ -101,132 +163,37 @@ public class AboutScene extends PixelScene {
 		CreditsBlock wata = new CreditsBlock(true, WATA_COLOR,
 				"Pixel Dungeon",
 				Icons.WATA.get(),
-				"Developed by: _Watabou_\nInspired by Brian Walker's Brogue",
-				"pixeldungeon.watabou.ru",
-				"http://pixeldungeon.watabou.ru");
+				"Developed by: _Watabou_\nInspired by Brian Walker's Brogue\n" +
+						"Music: Cube Code",
+				null,
+				null);
 		if (landscape()){
-			wata.setRect(shpx.left(), shpx.bottom() + 8, colWidth, 0);
+			wata.setRect(shpx.left(), freesound.bottom() + 8, colWidth, 0);
 		} else {
-			wata.setRect(shpx.left(), alex.bottom() + 8, colWidth, 0);
+			wata.setRect(shpx.left(), freesound.bottom() + 8, colWidth, 0);
 		}
 		content.add(wata);
 
 		addLine(wata.top() - 4, content);
 
-		CreditsBlock cube = new CreditsBlock(false, WATA_COLOR,
-				"Music:",
-				Icons.CUBE_CODE.get(),
-				"Cube Code",
+		//*** Some Words ***
+
+		CreditsBlock thanks = new CreditsBlock(true, Window.TITLE_COLOR,
+				"Thank you for playing!",
+				null,
+				null,
 				null,
 				null);
-		cube.setSize(colWidth/2f, 0);
 		if (landscape()){
-			cube.setPos(wata.right(), wata.top() + (wata.height() - cube.height())/2f);
+			thanks.setRect(shpx.left(), wata.bottom() + 40, colWidth, 0);
 		} else {
-			cube.setPos(alex.left(), wata.bottom()+5);
+			thanks.setRect(shpx.left(), wata.bottom() + 40, colWidth, 0);
 		}
-		content.add(cube);
+		content.add(thanks);
 
-		//*** libGDX Credits ***
+		content.setSize( fullWidth, thanks.bottom() + 10 );
 
-		final int GDX_COLOR = 0xE44D3C;
-		CreditsBlock gdx = new CreditsBlock(true,
-				GDX_COLOR,
-				null,
-				Icons.LIBGDX.get(),
-				"ShatteredPD is powered by _libGDX_!",
-				"libGDX.com",
-				"https://libGDX.com/");
-		if (landscape()){
-			gdx.setRect(wata.left(), wata.bottom() + 8, colWidth, 0);
-		} else {
-			gdx.setRect(wata.left(), cube.bottom() + 8, colWidth, 0);
-		}
-		content.add(gdx);
-
-		addLine(gdx.top() - 4, content);
-
-		//blocks the rays from the LibGDX icon going above the line
-		ColorBlock blocker = new ColorBlock(w, 8, 0xFF000000);
-		blocker.y = gdx.top() - 12;
-		content.addToBack(blocker);
-		content.sendToBack(gdx);
-
-		CreditsBlock arcnor = new CreditsBlock(false, GDX_COLOR,
-				"Pixel Dungeon GDX:",
-				Icons.ARCNOR.get(),
-				"Edu García",
-				"twitter.com/arcnor",
-				"https://twitter.com/arcnor");
-		arcnor.setSize(colWidth/2f, 0);
-		if (landscape()){
-			arcnor.setPos(gdx.right(), gdx.top() + (gdx.height() - arcnor.height())/2f);
-		} else {
-			arcnor.setPos(alex.left(), gdx.bottom()+5);
-		}
-		content.add(arcnor);
-
-		CreditsBlock purigro = new CreditsBlock(false, GDX_COLOR,
-				"Shattered GDX Help:",
-				Icons.PURIGRO.get(),
-				"Kevin MacMartin",
-				"github.com/prurigro",
-				"https://github.com/prurigro/");
-		purigro.setRect(arcnor.right()+2, arcnor.top(), colWidth/2f, 0);
-		content.add(purigro);
-
-		//*** Transifex Credits ***
-
-		CreditsBlock transifex = new CreditsBlock(true,
-				Window.TITLE_COLOR,
-				null,
-				null,
-				"ShatteredPD is community-translated via _Transifex_! Thank you so much to all of Shattered's volunteer translators!",
-				"www.transifex.com/shattered-pixel/",
-				"https://www.transifex.com/shattered-pixel/shattered-pixel-dungeon/");
-		transifex.setRect((Camera.main.width - colWidth)/2f, purigro.bottom() + 8, colWidth, 0);
-		content.add(transifex);
-
-		addLine(transifex.top() - 4, content);
-
-		addLine(transifex.bottom() + 4, content);
-
-		//*** Freesound Credits ***
-
-		CreditsBlock freesound = new CreditsBlock(true,
-				Window.TITLE_COLOR,
-				null,
-				null,
-				"Shattered Pixel Dungeon uses the following sound samples from _freesound.org_:\n\n" +
-
-				"Creative Commons Attribution License:\n" +
-				"_SFX ATTACK SWORD 001.wav_ by _JoelAudio_\n" +
-				"_Pack: Slingshots and Longbows_ by _saturdaysoundguy_\n" +
-				"_Cracking/Crunching, A.wav_ by _InspectorJ_\n" +
-				"_Extracting a sword.mp3_ by _Taira Komori_\n" +
-				"_Pack: Uni Sound Library_ by _timmy h123_\n\n" +
-
-				"Creative Commons Zero License:\n" +
-				"_Pack: Movie Foley: Swords_ by _Black Snow_\n" +
-				"_machine gun shot 2.flac_ by _qubodup_\n" +
-				"_m240h machine gun burst 4.flac_ by _qubodup_\n" +
-				"_Pack: Onomatopoeia_ by _Adam N_\n" +
-				"_Pack: Watermelon_ by _lolamadeus_\n" +
-				"_metal chain_ by _Mediapaja2009_\n" +
-				"_Pack: Sword Clashes Pack_ by _JohnBuhr_\n" +
-				"_Pack: Metal Clangs and Pings_ by _wilhellboy_\n" +
-				"_Pack: Stabbing Stomachs & Crushing Skulls_ by _TheFilmLook_\n" +
-				"_Sheep bleating_ by _zachrau_\n" +
-				"_Lemon,Juicy,Squeeze,Fruit.wav_ by _Filipe Chagas_\n" +
-				"_Lemon,Squeeze,Squishy,Fruit.wav_ by _Filipe Chagas_",
-				"www.freesound.org",
-				"https://www.freesound.org");
-		freesound.setRect(transifex.left()-10, transifex.bottom() + 8, colWidth+20, 0);
-		content.add(freesound);
-
-		content.setSize( fullWidth, freesound.bottom()+10 );
-
-		list.setRect( 0, 0, w, h );
+		list.setRect( 0, 0, w, thanks.bottom() - h/2f );
 		list.scrollTo(0, 0);
 
 		ExitButton btnExit = new ExitButton();
@@ -235,10 +202,29 @@ public class AboutScene extends PixelScene {
 
 		fadeIn();
 	}
-	
+
+	@Override
+	public void update() {
+		super.update();
+		ScrollPane list = AboutScene.list;
+		list.disableThumb();
+		shift += Game.elapsed * SCROLL_SPEED;
+		list.scrollTo(0, Math.min(Math.max(shift, 0), list.height()));
+//		throw new RuntimeException("custom exception");
+	}
+
 	@Override
 	protected void onBackPressed() {
-		MusicImplantSPD.switchScene(TitleScene.class);
+		MusicImplantSPD.switchScene(TitleScene.class, new Game.SceneChangeCallback() {
+			@Override
+			public void beforeCreate() {
+				shift = -40;
+			}
+
+			@Override
+			public void afterCreate() {
+			}
+		});
 	}
 
 	private void addLine( float y, Group content ){

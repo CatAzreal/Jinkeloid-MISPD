@@ -53,6 +53,11 @@ public class ScrollPane extends Component {
 		Camera.add( content.camera );
 	}
 
+	//Seems everyone's happy about the thumb bar just being there?
+	public void disableThumb(){
+		thumb.visible = false;
+	}
+
 	@Override
 	public void destroy() {
 		super.destroy();
