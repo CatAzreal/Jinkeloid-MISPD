@@ -181,7 +181,43 @@ public enum Perk {
 	int icon;
 	int pointCosts;
 	perkType type;
-	Perk[] oppositePerk;
+	List<Perk> oppositePerk;
+
+	//This method is needed to let the menu know which perk is their counterpart,
+	//while preset int array is a better idea it can be difficult to maintain
+	public static void setOppositePerks(){
+		Perk.CATS_EYES.oppositePerk.add(Perk.SHORT_SIGHTED);
+		Perk.SHORT_SIGHTED.oppositePerk.add(Perk.CATS_EYES);
+
+		Perk.INCONSPICUOUS.oppositePerk.add(Perk.CONSPICUOUS);
+		Perk.CONSPICUOUS.oppositePerk.add(Perk.INCONSPICUOUS);
+
+		Perk.QUICK_DRAW.oppositePerk.add(Perk.SLOWPOKE);
+		Perk.SLOWPOKE.oppositePerk.add(Perk.QUICK_DRAW);
+
+		Perk.ON_DIET.oppositePerk.add(Perk.BIG_STOMACH);
+		Perk.BIG_STOMACH.oppositePerk.add(Perk.ON_DIET);
+
+		Perk.DEXTROUS.oppositePerk.add(Perk.CLUMSY);
+		Perk.CLUMSY.oppositePerk.add(Perk.DEXTROUS);
+
+		Perk.ORGANIZED.oppositePerk.add(Perk.DISORGANIZED);
+		Perk.DISORGANIZED.oppositePerk.add(Perk.ORGANIZED);
+
+		Perk.LUCKY.oppositePerk.add(Perk.UNLUCKY);
+		Perk.UNLUCKY.oppositePerk.add(Perk.LUCKY);
+
+		Perk.BIOLOGIST.oppositePerk.add(Perk.ILLITERATE);
+		Perk.ILLITERATE.oppositePerk.add(Perk.BIOLOGIST);
+		//perks don't have counterpart yet are sitting here just in case
+		Perk.QUICK_LEARNER.oppositePerk.clear();
+		Perk.STOUT.oppositePerk.clear();
+		Perk.IRON_LUNG.oppositePerk.clear();
+		Perk.PACIFIST.oppositePerk.clear();
+		Perk.BLIND.oppositePerk.clear();
+		Perk.AMNESIA.oppositePerk.clear();
+		Perk.LACK_OF_SENSE.oppositePerk.clear();
+	}
 
 	// tiers 1/2/3/4 start at levels 2/7/13/21
 	public static int[] tierLevelThresholds = new int[]{0, 2, 7, 13, 21, 31};
@@ -204,9 +240,6 @@ public enum Perk {
 		this.type = type;
 	}
 
-	private void addOppositePerks(Perk[] perks){
-		this.oppositePerk = perks;
-	}
 
 	public static List<Perk> getPerksByType(perkType type){
 		//get all perks
@@ -250,6 +283,9 @@ public enum Perk {
 
 	//Determining if a perk has effect on Health bar related action
 	public static void onHealthBarTrigger(){}
+
+	//View range trigger
+	public static void onViewRangeTrigger(){}
 
 	public static void onTalentUpgraded( Hero hero, Perk perk){
 		if (perk == NATURES_BOUNTY){
