@@ -24,6 +24,7 @@ package com.jinkeloid.mispd.ui;
 import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.scenes.PixelScene;
 import com.watabou.noosa.Image;
+import com.watabou.noosa.PointerArea;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.ui.Button;
 
@@ -39,7 +40,13 @@ public class IconButton extends Button {
 		super();
 		icon( icon );
 	}
-	
+	//a new constructor that doesn't block scrollpane
+	public IconButton(Image icon, boolean block){
+		super();
+		icon( icon );
+		hotArea.blockLevel = PointerArea.NEVER_BLOCK;
+	}
+
 	@Override
 	protected void layout() {
 		super.layout();

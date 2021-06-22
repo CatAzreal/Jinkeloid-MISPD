@@ -69,60 +69,60 @@ import java.util.List;
 public enum Perk {
 
 	//Positive Perks
-	CATS_EYES(0, 2, perkType.POSITIVE),
+	CATS_EYES(0, 2, perkType.POSITIVE, 101, new int[]{201}),
 	//viewrange + 1(if game works like before it won't exceed 8)
-	INCONSPICUOUS(0, 2, perkType.POSITIVE),
+	INCONSPICUOUS(0, 2, perkType.POSITIVE, 102, new int[]{202}),
 	//basically ring of stealth
-	QUICK_DRAW(0, 2, perkType.POSITIVE),
+	QUICK_DRAW(0, 2, perkType.POSITIVE, 103, new int[]{203}),
 	//every turn's first weapon switch is instant
-	ON_DIET(0, 3, perkType.POSITIVE),
+	ON_DIET(0, 3, perkType.POSITIVE, 104, new int[]{204}),
 	//slower hunger build up time
-	DEXTROUS(0, 3, perkType.POSITIVE),
+	DEXTROUS(0, 3, perkType.POSITIVE, 105, new int[]{205}),
 	//every turn's first consumable use is instant
-	ORGANIZED(0, 3, perkType.POSITIVE),
+	ORGANIZED(0, 3, perkType.POSITIVE, 106, new int[]{206}),
 	//+backpacksize
-	LUCKY(0, 4, perkType.POSITIVE),
+	LUCKY(0, 4, perkType.POSITIVE, 107, new int[]{207}),
 	//ring of wealth
-	QUICK_LEARNER(0, 5, perkType.POSITIVE),
+	QUICK_LEARNER(0, 5, perkType.POSITIVE, 108, null),
 	//faster exp gain(will make this one useful)
-	STOUT(0, 5, perkType.POSITIVE),
+	STOUT(0, 5, perkType.POSITIVE, 109, null),
 	//strength+
-	IRON_LUNG(0, 5, perkType.POSITIVE),
+	IRON_LUNG(0, 5, perkType.POSITIVE, 110, null),
 	//stamina+(not available yet)
-	ARMOR_PROFICIENCY(0, 6, perkType.POSITIVE),
+	ARMOR_PROFICIENCY(0, 6, perkType.POSITIVE, 111, new int[]{208}),
 	//changing armor would cost 1/5 of usual time(armor changing turn cost would be significantly increased), grant bonus depending on armor type
-	BIOLOGIST(0, 4, perkType.POSITIVE),
+	BIOLOGIST(0, 4, perkType.POSITIVE, 112, new int[]{209}),
 	//show detailed info about mob, their health, dmgrange, dr and weakness(if have any)
 
 	//Negative Perks
-	SHORT_SIGHTED(0, 1, perkType.NEGATIVE),
+	SHORT_SIGHTED(0, 1, perkType.NEGATIVE, 201, new int[]{101}),
 	//viewrange - 1(to minimum of 2)
-	CONSPICUOUS(0, 1, perkType.NEGATIVE),
+	CONSPICUOUS(0, 1, perkType.NEGATIVE, 202, new int[]{102}),
 	//basically cursed ring of stealth
-	SLOWPOKE(0, 1, perkType.NEGATIVE),
+	SLOWPOKE(0, 1, perkType.NEGATIVE, 203, new int[]{103}),
 	//switching weapon during battle would be a really bad idea
-	BIG_STOMACH(0, 1, perkType.NEGATIVE),
+	BIG_STOMACH(0, 1, perkType.NEGATIVE, 204, new int[]{104}),
 	//faster hunger build up
-	CLUMSY(0, 1, perkType.NEGATIVE),
+	CLUMSY(0, 1, perkType.NEGATIVE, 205, new int[]{105}),
 	//using consumable could fail and skip a whole turn(30% chance)
-	DISORGANIZED(0, 1, perkType.NEGATIVE),
+	DISORGANIZED(0, 1, perkType.NEGATIVE, 206, new int[]{106}),
 	//-backpacksize
-	UNLUCKY(0, 1, perkType.NEGATIVE),
+	UNLUCKY(0, 1, perkType.NEGATIVE, 207, new int[]{107}),
 	//cursed ring of wealth
-	ROOKIE(0, 1, perkType.NEGATIVE),
+	ROOKIE(0, 1, perkType.NEGATIVE, 208, new int[]{111}),
 	//you better choose somewhere safe to take off your armor, and each of them will provide you unique penalties
-	ILLITERATE(0, 1, perkType.NEGATIVE),
+	ILLITERATE(0, 1, perkType.NEGATIVE, 209, new int[]{112}),
 	//no journals, no identifying items, better take notes!
-	PACIFIST(0, 1, perkType.NEGATIVE),
+	PACIFIST(0, 1, perkType.NEGATIVE, 210, null),
 	//killing enemies would increase guilt, as guilt build up the hero's combat efficiency would reduce,
 	//guilt will slowly diminish overtime, and would go down faster if the character is engaging in
 	//combat while having debuffs or severely injured
-	BLIND(0, 1, perkType.NEGATIVE),
+	BLIND(0, 1, perkType.NEGATIVE, 211, null),
 	//You are (almost) blind, only the one tile around you are visible, good thing is you can still (barely) read scrolls and identify things
-	AMNESIA(0, 1, perkType.NEGATIVE),
+	AMNESIA(0, 1, perkType.NEGATIVE, 212, null),
 	//when finding a way to somewhere, you always managed to get to the wrong way, not because you are stupid,
 	//you are just not good at determining direction and remembering places, using scroll of magic mapping would have different outcomes
-	LACK_OF_SENSE(0, 1, perkType.NEGATIVE),
+	LACK_OF_SENSE(0, 1, perkType.NEGATIVE, 213, null),
 	//you sense is so low that you can't grasp the exact condition yourself is currently in
 	//health and stamina will only display it's vague value
 
@@ -181,63 +181,40 @@ public enum Perk {
 	int icon;
 	int pointCosts;
 	perkType type;
-	List<Perk> oppositePerk;
+	//positive perks have ids from 100-199; while negative perks have ids from 200-299
+	int id;
+	int[] oppositePerks;
 
 	//This method is needed to let the menu know which perk is their counterpart,
 	//while preset int array is a better idea it can be difficult to maintain
-	public static void setOppositePerks(){
-		Perk.CATS_EYES.oppositePerk.add(Perk.SHORT_SIGHTED);
-		Perk.SHORT_SIGHTED.oppositePerk.add(Perk.CATS_EYES);
-
-		Perk.INCONSPICUOUS.oppositePerk.add(Perk.CONSPICUOUS);
-		Perk.CONSPICUOUS.oppositePerk.add(Perk.INCONSPICUOUS);
-
-		Perk.QUICK_DRAW.oppositePerk.add(Perk.SLOWPOKE);
-		Perk.SLOWPOKE.oppositePerk.add(Perk.QUICK_DRAW);
-
-		Perk.ON_DIET.oppositePerk.add(Perk.BIG_STOMACH);
-		Perk.BIG_STOMACH.oppositePerk.add(Perk.ON_DIET);
-
-		Perk.DEXTROUS.oppositePerk.add(Perk.CLUMSY);
-		Perk.CLUMSY.oppositePerk.add(Perk.DEXTROUS);
-
-		Perk.ORGANIZED.oppositePerk.add(Perk.DISORGANIZED);
-		Perk.DISORGANIZED.oppositePerk.add(Perk.ORGANIZED);
-
-		Perk.LUCKY.oppositePerk.add(Perk.UNLUCKY);
-		Perk.UNLUCKY.oppositePerk.add(Perk.LUCKY);
-
-		Perk.BIOLOGIST.oppositePerk.add(Perk.ILLITERATE);
-		Perk.ILLITERATE.oppositePerk.add(Perk.BIOLOGIST);
-		//perks don't have counterpart yet are sitting here just in case
-		Perk.QUICK_LEARNER.oppositePerk.clear();
-		Perk.STOUT.oppositePerk.clear();
-		Perk.IRON_LUNG.oppositePerk.clear();
-		Perk.PACIFIST.oppositePerk.clear();
-		Perk.BLIND.oppositePerk.clear();
-		Perk.AMNESIA.oppositePerk.clear();
-		Perk.LACK_OF_SENSE.oppositePerk.clear();
-	}
 
 	// tiers 1/2/3/4 start at levels 2/7/13/21
 	public static int[] tierLevelThresholds = new int[]{0, 2, 7, 13, 21, 31};
 	// Character points needed to advance to the next difficulty level
 	public static int[] difficultyThresholds = new int[]{30, 15, 8, 0, -8, -15, -30};
 
-	Perk(int icon ){
-		this(icon, 2, perkType.NOT_APPLICABLE);
+	Perk(int icon){
+		this.icon = icon;
+		this.pointCosts = 1;
+		this.type = perkType.NOT_APPLICABLE;
+		this.id = 0;
+		this.oppositePerks = null;
 	}
 
 	Perk(int icon, int pointCosts){
 		this.icon = icon;
 		this.pointCosts = pointCosts;
 		this.type = perkType.NOT_APPLICABLE;
+		this.id = 0;
+		this.oppositePerks = null;
 	}
 
-	Perk(int icon, int pointCosts, perkType type){
+	Perk(int icon, int pointCosts, perkType type, int id, int[] oppositePerks){
 		this.icon = icon;
 		this.pointCosts = pointCosts;
 		this.type = type;
+		this.id = id;
+		this.oppositePerks = oppositePerks;
 	}
 
 
@@ -270,6 +247,12 @@ public enum Perk {
 	public int pointCosts(){
 		return pointCosts;
 	}
+
+	public int id(){
+		return id;
+	}
+
+	public int[] oppositePerks() { return oppositePerks; }
 
 	public String title(){
 		return Messages.get(this, name() + ".title");

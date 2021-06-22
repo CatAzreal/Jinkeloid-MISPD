@@ -22,6 +22,7 @@
 package com.jinkeloid.mispd.scenes;
 
 import com.jinkeloid.mispd.Badges;
+import com.jinkeloid.mispd.Challenges;
 import com.jinkeloid.mispd.Chrome;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.GamesInProgress;
@@ -30,6 +31,8 @@ import com.jinkeloid.mispd.MISPDSettings;
 import com.jinkeloid.mispd.MusicImplantSPD;
 import com.jinkeloid.mispd.actors.hero.HeroClass;
 import com.jinkeloid.mispd.actors.hero.Perk;
+import com.jinkeloid.mispd.items.rings.RingOfForce;
+import com.jinkeloid.mispd.items.weapon.melee.Glaive;
 import com.jinkeloid.mispd.journal.Journal;
 import com.jinkeloid.mispd.messages.Messages;
 import com.jinkeloid.mispd.ui.ActionIndicator;
@@ -37,20 +40,30 @@ import com.jinkeloid.mispd.ui.CheckBox;
 import com.jinkeloid.mispd.ui.ExitButton;
 import com.jinkeloid.mispd.ui.IconButton;
 import com.jinkeloid.mispd.ui.Icons;
+import com.jinkeloid.mispd.ui.LinkedCheckBox;
 import com.jinkeloid.mispd.ui.RenderedTextBlock;
 import com.jinkeloid.mispd.ui.ScrollPane;
 import com.jinkeloid.mispd.ui.StyledButton;
 import com.jinkeloid.mispd.ui.Window;
 import com.jinkeloid.mispd.utils.GLog;
+import com.jinkeloid.mispd.windows.WndInfoPerk;
+import com.jinkeloid.mispd.windows.WndMessage;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
+import com.watabou.noosa.PointerArea;
 import com.watabou.noosa.ui.Component;
 import com.watabou.utils.GameMath;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class CharacterBuilderScene extends PixelScene {
 	//formally Hero Select Scene
@@ -65,14 +78,14 @@ public class CharacterBuilderScene extends PixelScene {
 	//fading UI elements
 	private ArrayList<StyledButton> heroBtns = new ArrayList<>();
 	private StyledButton startBtn;
-	private IconButton infoButton;
-	private IconButton challengeButton;
 	private IconButton btnExit;
 
 	//Total character points spent
 	private int charPoint;
 	//Temporary list to store perks selected in this scene
 	public static ArrayList<Perk> tempPerks;
+	//Link map for dynamic perk buttons
+	public Map<Integer, LinkedCheckBox> buttonLinkRef = new HashMap<Integer, LinkedCheckBox>();
 
 	@Override
 	public void create() {
@@ -133,11 +146,13 @@ public class CharacterBuilderScene extends PixelScene {
 		float pos = 0;
 
 		for (Perk perk: posPerkList) {
-			CheckBox cb = new CheckBox( "_+" + perk.pointCosts() + "_ " +
-					Messages.titleCase(perk.title()), 7){
+			LinkedCheckBox cb = new LinkedCheckBox( "_+" + perk.pointCosts() + "_ " +
+					Messages.titleCase(perk.title()), 7, perk.id(), perk.oppositePerks()){
 				@Override
 				protected void layout() {
 					super.layout();
+					//The hotarea shouldn't overlap with the info button
+					hotArea.width = width - 14;
 					float margin = (height - text.height()) / 2;
 					text.setPos( x + margin/2, y + margin);
 					PixelScene.align(text);
@@ -146,25 +161,44 @@ public class CharacterBuilderScene extends PixelScene {
 				@Override
 				protected void onClick() {
 					super.onClick();
+					if (this.disabled()){return;}
 					//if the button is checked after being pressed, add the character points to scene, else cancel it
 					if (this.checked()){
+						if (perk.oppositePerks() != null){
+							for (int perkid : perk.oppositePerks()) {
+								GLog.i("button is deactivated" + perkid);
+								buttonLinkRef.get(perkid).disabled(true);
+							}
+						}
 						charPoint += perk.pointCosts();
 						tempPerks.add(perk);
 					} else {
+						if (perk.oppositePerks() != null){
+							for (int perkid : perk.oppositePerks()) {
+								GLog.i("button is activated" + perkid);
+								buttonLinkRef.get(perkid).disabled(false);
+							}
+						}
 						charPoint -= perk.pointCosts();
 						tempPerks.remove(perk);
 					}
 					GLog.i("charpoint is" + charPoint);
 				}
-
+			};
+			IconButton info = new IconButton(Icons.get(Icons.INFO), true){
 				@Override
-				protected boolean onLongClick() {
-
-					return super.onLongClick();
+				protected void onClick() {
+					super.onClick();
+					MusicImplantSPD.scene().add(
+							new WndInfoPerk(perk)
+					);
 				}
 			};
+			buttonLinkRef.put(perk.id(), cb);
 			cb.setRect(0, pos, w/2-10, 16);
 			posContent.add(cb);
+			info.setRect(cb.right()-14, pos+3, 12, 12);
+			posContent.add(info);
 			pos = cb.bottom();
 			pos += 2;
 		}
@@ -188,11 +222,12 @@ public class CharacterBuilderScene extends PixelScene {
 		pos = 0;
 
 		for (Perk perk: negPerkList) {
-			CheckBox cb = new CheckBox( "_-" + perk.pointCosts() + "_ " +
-					Messages.titleCase(perk.title()), 7){
+			LinkedCheckBox cb = new LinkedCheckBox( "_-" + perk.pointCosts() + "_ " +
+					Messages.titleCase(perk.title()), 7, perk.id(), perk.oppositePerks()){
 				@Override
 				protected void layout() {
 					super.layout();
+					hotArea.width = width - 14;
 					float margin = (height - text.height()) / 2;
 					text.setPos( x + margin/2, y + margin);
 					PixelScene.align(text);
@@ -201,25 +236,48 @@ public class CharacterBuilderScene extends PixelScene {
 				@Override
 				protected void onClick() {
 					super.onClick();
+					if (this.disabled()){
+						MusicImplantSPD.scene().add(
+								new WndMessage("This perk cannot be picked because it conflict with another chosen perk! Unselect that perk first.")
+						);
+						return;}
 					//if the button is checked after being pressed, add the character points to scene, else cancel it
 					if (this.checked()){
+						if (perk.oppositePerks() != null){
+							for (int perkid : perk.oppositePerks()) {
+								GLog.i("button is deactivated" + perkid);
+								buttonLinkRef.get(perkid).disabled(true);
+							}
+						}
 						charPoint -= perk.pointCosts();
 						tempPerks.add(perk);
 					} else {
+						if (perk.oppositePerks() != null){
+							for (int perkid : perk.oppositePerks()) {
+								GLog.i("button is activated" + perkid);
+								buttonLinkRef.get(perkid).disabled(false);
+							}
+						}
 						charPoint += perk.pointCosts();
 						tempPerks.remove(perk);
 					}
 					GLog.i("charpoint is" + charPoint);
 				}
-
+			};
+			IconButton info = new IconButton(Icons.get(Icons.INFO), true){
 				@Override
-				protected boolean onLongClick() {
-
-					return super.onLongClick();
+				protected void onClick() {
+					super.onClick();
+					MusicImplantSPD.scene().add(
+							new WndInfoPerk(perk)
+					);
 				}
 			};
+			buttonLinkRef.put(perk.id(), cb);
 			cb.setRect(0, pos, w/2-10, 16);
 			negContent.add(cb);
+			info.setRect(cb.right()-14, pos+3, 12, 12);
+			negContent.add(info);
 			pos = cb.bottom();
 			pos += 2;
 		}
