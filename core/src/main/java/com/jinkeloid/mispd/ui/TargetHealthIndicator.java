@@ -45,7 +45,7 @@ public class TargetHealthIndicator extends HealthBar {
 		if (target != null && target.isAlive() && target.sprite.visible) {
 			CharSprite sprite = target.sprite;
 			Perk.onHealthBarTrigger();
-			if (Dungeon.hero.hasPerk(Perk.LACK_OF_SENSE)) {
+			if (!Dungeon.hero.hasPerk(Perk.LACK_OF_SENSE)) {
 				width = sprite.width();
 				x = sprite.x;
 			} else {
