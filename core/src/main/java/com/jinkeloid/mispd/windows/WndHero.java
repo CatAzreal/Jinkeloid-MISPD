@@ -139,6 +139,7 @@ public class WndHero extends WndTabbed {
 			pos = title.bottom() + 2*GAP;
 
 			statSlot( Messages.get(this, "str"), hero.STR() );
+			Perk.onHeroStatusTrigger();
 			if (!hero.hasPerk(Perk.LACK_OF_SENSE)) {
 				if (hero.shielding() > 0)
 					statSlot(Messages.get(this, "health"), hero.HP + "+" + hero.shielding() + "/" + hero.HT);

@@ -81,27 +81,32 @@ public class NewDM300 extends Mob {
 
 		HP = HT = 300;
 		EXP = 30;
+		attackSkill = 20;
 		defenseSkill = 15;
+		minDamage = 15;
+		maxDamage = 25;
+		minDR = 0;
+		maxDR = 10;
 
 		properties.add(Property.BOSS);
 		properties.add(Property.INORGANIC);
 		properties.add(Property.LARGE);
 	}
 
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 15, 25 );
-	}
+//	@Override
+//	public int damageRoll() {
+//		return Random.NormalIntRange( 15, 25 );
+//	}
 
-	@Override
-	public int attackSkill( Char target ) {
-		return 20;
-	}
-
-	@Override
-	public int drRoll() {
-		return Random.NormalIntRange(0, 10);
-	}
+//	@Override
+//	public int attackSkill( Char target ) {
+//		return 20;
+//	}
+//
+//	@Override
+//	public int drRoll() {
+//		return Random.NormalIntRange(0, 10);
+//	}
 
 	public int pylonsActivated = 0;
 	public boolean supercharged = false;

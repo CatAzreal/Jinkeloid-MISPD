@@ -56,7 +56,12 @@ public abstract class YogFist extends Mob {
 
 	{
 		HP = HT = 300;
+		attackSkill = 36;
 		defenseSkill = 20;
+		minDamage = 18;
+		maxDamage = 36;
+		minDR = 0;
+		maxDR = 15;
 
 		viewDistance = Light.DISTANCE;
 
@@ -135,20 +140,20 @@ public abstract class YogFist extends Mob {
 		next();
 	}
 
-	@Override
-	public int attackSkill( Char target ) {
-		return 36;
-	}
-
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 18, 36 );
-	}
-
-	@Override
-	public int drRoll() {
-		return Random.NormalIntRange(0, 15);
-	}
+//	@Override
+//	public int attackSkill( Char target ) {
+//		return 36;
+//	}
+//
+//	@Override
+//	public int damageRoll() {
+//		return Random.NormalIntRange( 18, 36 );
+//	}
+//
+//	@Override
+//	public int drRoll() {
+//		return Random.NormalIntRange(0, 15);
+//	}
 
 	@Override
 	public String description() {
@@ -397,14 +402,17 @@ public abstract class YogFist extends Mob {
 		{
 			spriteClass = FistSprite.Rusted.class;
 
+			minDamage = 22;
+			maxDamage = 44;
+
 			properties.add(Property.LARGE);
 			properties.add(Property.INORGANIC);
 		}
 
-		@Override
-		public int damageRoll() {
-			return Random.NormalIntRange( 22, 44 );
-		}
+//		@Override
+//		public int damageRoll() {
+//			return Random.NormalIntRange( 22, 44 );
+//		}
 
 		@Override
 		public void damage(int dmg, Object src) {

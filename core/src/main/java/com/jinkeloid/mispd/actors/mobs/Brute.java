@@ -41,8 +41,13 @@ public class Brute extends Mob {
 		spriteClass = BruteSprite.class;
 		
 		HP = HT = 40;
+		attackSkill = 20;
 		defenseSkill = 15;
-		
+		minDamage = 5;
+		maxDamage = 25;
+		minDR = 0;
+		maxDR = 8;
+
 		EXP = 8;
 		maxLvl = 16;
 		
@@ -54,20 +59,20 @@ public class Brute extends Mob {
 	
 	@Override
 	public int damageRoll() {
-		return buff(BruteRage.class) != null ?
-			Random.NormalIntRange( 15, 40 ) :
-			Random.NormalIntRange( 5, 25 );
+		minDamage = buff(BruteRage.class) != null ? 30 : 5;
+		maxDamage = buff(BruteRage.class) != null ? 40 : 25;
+		return Random.NormalIntRange( minDamage, maxDamage );
 	}
 	
-	@Override
-	public int attackSkill( Char target ) {
-		return 20;
-	}
-	
-	@Override
-	public int drRoll() {
-		return Random.NormalIntRange(0, 8);
-	}
+//	@Override
+//	public int attackSkill( Char target ) {
+//		return attackSkill;
+//	}
+//
+//	@Override
+//	public int drRoll() {
+//		return Random.NormalIntRange(minDR, maxDR);
+//	}
 
 	@Override
 	public void die(Object cause) {

@@ -55,7 +55,12 @@ public class OldTengu extends Mob {
 		
 		HP = HT = 120;
 		EXP = 20;
+		attackSkill = 20;
 		defenseSkill = 20;
+		minDamage = 6;
+		maxDamage = 20;
+		minDR = 0;
+		maxDR = 5;
 
 		HUNTING = new Hunting();
 
@@ -71,20 +76,20 @@ public class OldTengu extends Mob {
 		super.onAdd();
 	}
 
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 6, 20 );
-	}
-	
-	@Override
-	public int attackSkill( Char target ) {
-		return 20;
-	}
-	
-	@Override
-	public int drRoll() {
-		return Random.NormalIntRange(0, 5);
-	}
+//	@Override
+//	public int damageRoll() {
+//		return Random.NormalIntRange( 6, 20 );
+//	}
+//
+//	@Override
+//	public int attackSkill( Char target ) {
+//		return 20;
+//	}
+//
+//	@Override
+//	public int drRoll() {
+//		return Random.NormalIntRange(0, 5);
+//	}
 
 	@Override
 	public void damage(int dmg, Object src) {

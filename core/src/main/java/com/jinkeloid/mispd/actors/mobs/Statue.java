@@ -36,7 +36,7 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 public class Statue extends Mob {
-	
+
 	{
 		spriteClass = StatueSprite.class;
 
@@ -45,7 +45,7 @@ public class Statue extends Mob {
 		
 		properties.add(Property.INORGANIC);
 	}
-	
+
 	protected Weapon weapon;
 	
 	public Statue() {
@@ -54,11 +54,16 @@ public class Statue extends Mob {
 		do {
 			weapon = (MeleeWeapon) Generator.random(Generator.Category.WEAPON);
 		} while (weapon.cursed);
-		
+
 		weapon.enchant( Enchantment.random() );
 		
 		HP = HT = 15 + Dungeon.depth * 5;
+		attackSkill = (int)((9 + Dungeon.depth) * weapon.accuracyFactor(this));
 		defenseSkill = 4 + Dungeon.depth;
+		minDamage = weapon.min(weapon.level());
+		maxDamage = weapon.max(weapon.level());
+		minDR = 0;
+		maxDR = Dungeon.depth + weapon.defenseFactor(this);
 	}
 	
 	private static final String WEAPON	= "weapon";
@@ -73,6 +78,9 @@ public class Statue extends Mob {
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle( bundle );
 		weapon = (Weapon)bundle.get( WEAPON );
+		minDamage = weapon.min(weapon.level());
+		maxDamage = weapon.max(weapon.level());
+		maxDR = Dungeon.depth + weapon.defenseFactor(this);
 	}
 	
 	@Override
@@ -83,15 +91,15 @@ public class Statue extends Mob {
 		return super.act();
 	}
 	
-	@Override
-	public int damageRoll() {
-		return weapon.damageRoll(this);
-	}
+//	@Override
+//	public int damageRoll() {
+//		return weapon.damageRoll(this);
+//	}
 	
-	@Override
-	public int attackSkill( Char target ) {
-		return (int)((9 + Dungeon.depth) * weapon.accuracyFactor(this));
-	}
+//	@Override
+//	public int attackSkill( Char target ) {
+//		return (int)((9 + Dungeon.depth) * weapon.accuracyFactor(this));
+//	}
 	
 	@Override
 	protected float attackDelay() {

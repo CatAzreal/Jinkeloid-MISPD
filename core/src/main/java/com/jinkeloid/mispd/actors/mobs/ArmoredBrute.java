@@ -40,11 +40,13 @@ public class ArmoredBrute extends Brute {
 		//see rollToDropLoot
 		loot = Generator.Category.ARMOR;
 		lootChance = 1f;
+		minDR = 6;
+		maxDR = 10;
 	}
 	
 	@Override
 	public int drRoll() {
-		return Random.NormalIntRange(6, 10);
+		return Random.NormalIntRange(minDR, maxDR);
 	}
 	
 	@Override

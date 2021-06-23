@@ -40,7 +40,12 @@ public class Monk extends Mob {
 		spriteClass = MonkSprite.class;
 		
 		HP = HT = 70;
+		attackSkill = 30;
 		defenseSkill = 30;
+		minDamage = 12;
+		maxDamage = 25;
+		minDR = 0;
+		maxDR = 2;
 		
 		EXP = 11;
 		maxLvl = 21;
@@ -51,25 +56,25 @@ public class Monk extends Mob {
 		properties.add(Property.UNDEAD);
 	}
 	
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 12, 25 );
-	}
+//	@Override
+//	public int damageRoll() {
+//		return Random.NormalIntRange( 12, 25 );
+//	}
 	
-	@Override
-	public int attackSkill( Char target ) {
-		return 30;
-	}
-	
+//	@Override
+//	public int attackSkill( Char target ) {
+//		return 30;
+//	}
+
 	@Override
 	protected float attackDelay() {
 		return super.attackDelay()*0.5f;
 	}
-	
-	@Override
-	public int drRoll() {
-		return Random.NormalIntRange(0, 2);
-	}
+
+//	@Override
+//	public int drRoll() {
+//		return Random.NormalIntRange(0, 2);
+//	}
 	
 	@Override
 	public void rollToDropLoot() {

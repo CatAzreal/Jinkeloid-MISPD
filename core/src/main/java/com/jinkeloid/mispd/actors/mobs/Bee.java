@@ -43,6 +43,10 @@ public class Bee extends Mob {
 		viewDistance = 4;
 
 		EXP = 0;
+		minDamage = HT / 10;
+		maxDamage = HT / 4;
+		minDR = 0;
+		maxDR = 0;
 		
 		flying = true;
 		state = WANDERING;
@@ -85,7 +89,7 @@ public class Bee extends Mob {
 		this.level = level;
 		
 		HT = (2 + level) * 4;
-		defenseSkill = 9 + level;
+		attackSkill = defenseSkill = 9 + level;
 	}
 
 	public void setPotInfo(int potPos, Char potHolder){
@@ -106,13 +110,13 @@ public class Bee extends Mob {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		return defenseSkill;
+		return attackSkill;
 	}
 	
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( HT / 10, HT / 4 );
-	}
+//	@Override
+//	public int damageRoll() {
+//		return Random.NormalIntRange( HT / 10, HT / 4 );
+//	}
 	
 	@Override
 	public int attackProc( Char enemy, int damage ) {
@@ -177,7 +181,7 @@ public class Bee extends Mob {
 				return enemy;
 			}
 
-			
+
 		}
 	}
 

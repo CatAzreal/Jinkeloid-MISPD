@@ -83,7 +83,12 @@ public class NewTengu extends Mob {
 		
 		HP = HT = 200;
 		EXP = 20;
+		attackSkill = 20;
 		defenseSkill = 15;
+		minDamage = 6;
+		maxDamage = 12;
+		minDR = 0;
+		maxDR = 5;
 		
 		HUNTING = new Hunting();
 		
@@ -104,24 +109,24 @@ public class NewTengu extends Mob {
 		super.onAdd();
 	}
 	
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 6, 12 );
-	}
+//	@Override
+//	public int damageRoll() {
+//		return Random.NormalIntRange( 6, 12 );
+//	}
 	
 	@Override
 	public int attackSkill( Char target ) {
 		if (Dungeon.level.adjacent(pos, target.pos)){
-			return 10;
+			return attackSkill/2;
 		} else {
-			return 20;
+			return attackSkill;
 		}
 	}
 	
-	@Override
-	public int drRoll() {
-		return Random.NormalIntRange(0, 5);
-	}
+//	@Override
+//	public int drRoll() {
+//		return Random.NormalIntRange(minDR, maxDR);
+//	}
 
 	boolean loading = false;
 

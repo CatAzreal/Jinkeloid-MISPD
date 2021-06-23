@@ -47,7 +47,12 @@ public class Eye extends Mob {
 		spriteClass = EyeSprite.class;
 		
 		HP = HT = 100;
+		attackSkill = 30;
 		defenseSkill = 20;
+		minDamage = 20;
+		maxDamage = 30;
+		minDR = 0;
+		maxDR = 10;
 		viewDistance = Light.DISTANCE;
 		
 		EXP = 13;
@@ -63,20 +68,20 @@ public class Eye extends Mob {
 		properties.add(Property.DEMONIC);
 	}
 
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange(20, 30);
-	}
-
-	@Override
-	public int attackSkill( Char target ) {
-		return 30;
-	}
-	
-	@Override
-	public int drRoll() {
-		return Random.NormalIntRange(0, 10);
-	}
+//	@Override
+//	public int damageRoll() {
+//		return Random.NormalIntRange(20, 30);
+//	}
+//
+//	@Override
+//	public int attackSkill( Char target ) {
+//		return 30;
+//	}
+//
+//	@Override
+//	public int drRoll() {
+//		return Random.NormalIntRange(0, 10);
+//	}
 	
 	private Ballistica beam;
 	private int beamTarget = -1;

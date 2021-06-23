@@ -29,7 +29,8 @@ public class Senior extends Monk {
 
 	{
 		spriteClass = SeniorSprite.class;
-
+		minDamage = 16;
+		maxDamage = 25;
 		loot = new Pasty();
 		lootChance = 1f;
 	}
@@ -42,9 +43,9 @@ public class Senior extends Monk {
 		super.move( step );
 	}
 	
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 16, 25 );
-	}
+//	@Override
+//	public int damageRoll() {
+//		return Random.NormalIntRange( 16, 25 );
+//	}
 	
 }

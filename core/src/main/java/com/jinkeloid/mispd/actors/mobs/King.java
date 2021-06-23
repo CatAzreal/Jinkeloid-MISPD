@@ -63,7 +63,12 @@ public class King extends Mob {
 		
 		HP = HT = 300;
 		EXP = 40;
+		attackSkill = 32;
 		defenseSkill = 25;
+		minDamage = 25;
+		maxDamage = 40;
+		minDR = 0;
+		maxDR = 14;
 		
 		Undead.count = 0;
 
@@ -88,20 +93,20 @@ public class King extends Mob {
 		BossHealthBar.assignBoss(this);
 	}
 	
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 25, 40 );
-	}
-	
-	@Override
-	public int attackSkill( Char target ) {
-		return 32;
-	}
-	
-	@Override
-	public int drRoll() {
-		return Random.NormalIntRange(0, 14);
-	}
+//	@Override
+//	public int damageRoll() {
+//		return Random.NormalIntRange( 25, 40 );
+//	}
+//
+//	@Override
+//	public int attackSkill( Char target ) {
+//		return 32;
+//	}
+//
+//	@Override
+//	public int drRoll() {
+//		return Random.NormalIntRange(0, 14);
+//	}
 	
 	@Override
 	protected boolean getCloser( int target ) {
@@ -258,7 +263,12 @@ public class King extends Mob {
 			spriteClass = UndeadSprite.class;
 			
 			HP = HT = 28;
+			attackSkill = 16;
 			defenseSkill = 15;
+			minDamage = 15;
+			maxDamage = 25;
+			minDR = 0;
+			maxDR = 5;
 			
 			maxLvl = -2;
 			EXP = 0;
@@ -281,15 +291,15 @@ public class King extends Mob {
 			super.onRemove();
 		}
 		
-		@Override
-		public int damageRoll() {
-			return Random.NormalIntRange( 15, 25 );
-		}
-		
-		@Override
-		public int attackSkill( Char target ) {
-			return 16;
-		}
+//		@Override
+//		public int damageRoll() {
+//			return Random.NormalIntRange( 15, 25 );
+//		}
+//
+//		@Override
+//		public int attackSkill( Char target ) {
+//			return 16;
+//		}
 		
 		@Override
 		public int attackProc( Char enemy, int damage ) {
@@ -318,10 +328,10 @@ public class King extends Mob {
 			}
 		}
 		
-		@Override
-		public int drRoll() {
-			return Random.NormalIntRange(0, 5);
-		}
+//		@Override
+//		public int drRoll() {
+//			return Random.NormalIntRange(0, 5);
+//		}
 
 		{
 			immunities.add( Grim.class );

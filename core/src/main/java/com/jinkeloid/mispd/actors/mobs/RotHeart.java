@@ -43,6 +43,8 @@ public class RotHeart extends Mob {
 
 		HP = HT = 80;
 		defenseSkill = 0;
+		minDR = 0;
+		maxDR = 5;
 
 		EXP = 4;
 
@@ -111,10 +113,10 @@ public class RotHeart extends Mob {
 		return 0;
 	}
 
-	@Override
-	public int drRoll() {
-		return Random.NormalIntRange(0, 5);
-	}
+//	@Override
+//	public int drRoll() {
+//		return Random.NormalIntRange(0, 5);
+//	}
 	
 	{
 		immunities.add( Paralysis.class );

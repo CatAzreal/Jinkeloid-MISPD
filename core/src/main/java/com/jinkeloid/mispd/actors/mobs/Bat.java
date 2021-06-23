@@ -35,8 +35,13 @@ public class Bat extends Mob {
 		spriteClass = BatSprite.class;
 		
 		HP = HT = 30;
+		attackSkill = 16;
 		defenseSkill = 15;
 		baseSpeed = 2f;
+		minDamage = 5;
+		maxDamage = 18;
+		minDR = 0;
+		maxDR = 4;
 		
 		EXP = 7;
 		maxLvl = 15;
@@ -47,20 +52,20 @@ public class Bat extends Mob {
 		lootChance = 0.1667f; //by default, see rollToDropLoot()
 	}
 	
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 5, 18 );
-	}
-	
-	@Override
-	public int attackSkill( Char target ) {
-		return 16;
-	}
-	
-	@Override
-	public int drRoll() {
-		return Random.NormalIntRange(0, 4);
-	}
+//	@Override
+//	public int damageRoll() {
+//		return Random.NormalIntRange( minDamage, maxDamage );
+//	}
+//
+//	@Override
+//	public int attackSkill( Char target ) {
+//		return attackSkill;
+//	}
+//
+//	@Override
+//	public int drRoll() {
+//		return Random.NormalIntRange(minDR, maxDR);
+//	}
 	
 	@Override
 	public int attackProc( Char enemy, int damage ) {

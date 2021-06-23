@@ -59,27 +59,32 @@ public class OldDM300 extends Mob {
 		
 		HP = HT = 200;
 		EXP = 30;
+		attackSkill = 28;
 		defenseSkill = 18;
+		minDamage = 20;
+		maxDamage = 25;
+		minDR = 0;
+		maxDR = 10;
 		
 
 		properties.add(Property.BOSS);
 		properties.add(Property.INORGANIC);
 	}
 	
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 20, 25 );
-	}
-	
-	@Override
-	public int attackSkill( Char target ) {
-		return 28;
-	}
-	
-	@Override
-	public int drRoll() {
-		return Random.NormalIntRange(0, 10);
-	}
+//	@Override
+//	public int damageRoll() {
+//		return Random.NormalIntRange( 20, 25 );
+//	}
+//
+//	@Override
+//	public int attackSkill( Char target ) {
+//		return 28;
+//	}
+//
+//	@Override
+//	public int drRoll() {
+//		return Random.NormalIntRange(0, 10);
+//	}
 	
 	@Override
 	public boolean act() {

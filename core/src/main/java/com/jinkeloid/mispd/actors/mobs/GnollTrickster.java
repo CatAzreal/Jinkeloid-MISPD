@@ -44,6 +44,7 @@ public class GnollTrickster extends Gnoll {
 		spriteClass = GnollTricksterSprite.class;
 
 		HP = HT = 20;
+		attackSkill = 16;
 		defenseSkill = 5;
 
 		EXP = 5;
@@ -58,11 +59,6 @@ public class GnollTrickster extends Gnoll {
 	}
 
 	private int combo = 0;
-
-	@Override
-	public int attackSkill( Char target ) {
-		return 16;
-	}
 
 	@Override
 	protected boolean canAttack( Char enemy ) {

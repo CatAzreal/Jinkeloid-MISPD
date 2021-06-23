@@ -47,7 +47,12 @@ public class RipperDemon extends Mob {
 		spriteClass = RipperSprite.class;
 
 		HP = HT = 60;
+		attackSkill = 30;
 		defenseSkill = 22;
+		minDamage = 15;
+		maxDamage = 25;
+		minDR = 0;
+		maxDR = 4;
 		viewDistance = Light.DISTANCE;
 
 		EXP = 9; //for corrupting
@@ -66,25 +71,25 @@ public class RipperDemon extends Mob {
 		return 0;
 	}
 
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 15, 25 );
-	}
-
-	@Override
-	public int attackSkill( Char target ) {
-		return 30;
-	}
+//	@Override
+//	public int damageRoll() {
+//		return Random.NormalIntRange( 15, 25 );
+//	}
+//
+//	@Override
+//	public int attackSkill( Char target ) {
+//		return 30;
+//	}
 
 	@Override
 	protected float attackDelay() {
 		return super.attackDelay()*0.5f;
 	}
-
-	@Override
-	public int drRoll() {
-		return Random.NormalIntRange(0, 4);
-	}
+//
+//	@Override
+//	public int drRoll() {
+//		return Random.NormalIntRange(0, 4);
+//	}
 
 	private static final String LAST_ENEMY_POS = "last_enemy_pos";
 	private static final String LEAP_POS = "leap_pos";
