@@ -251,6 +251,7 @@ public class StatusPane extends Component {
 			avatar.resetColor();
 		}
 
+		Perk.onHeroStatusTrigger();
 		if (!Dungeon.hero.hasPerk(Perk.LACK_OF_SENSE)){
 			hp.scale.x = Math.max( 0, health/(float)max);
 			shieldedHP.scale.x = health/(float)max;

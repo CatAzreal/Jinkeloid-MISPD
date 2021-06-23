@@ -264,11 +264,20 @@ public enum Perk {
 
 	//Triggers are for event tagging only
 
+	//Determining if a perk has effect on hero's status
+	public static void onHeroStatusTrigger(){}
+
 	//Determining if a perk has effect on Health bar related action
 	public static void onHealthBarTrigger(){}
 
-	//View range trigger
+	//View range
 	public static void onViewRangeTrigger(){}
+
+	//Stealth
+	public static void onStealthTrigger(){}
+
+	//mobInfo
+	public static void onMobInfoTrigger(){}
 
 	public static void onTalentUpgraded( Hero hero, Perk perk){
 		if (perk == NATURES_BOUNTY){

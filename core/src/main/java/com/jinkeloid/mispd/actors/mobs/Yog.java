@@ -215,7 +215,12 @@ public class Yog extends Mob {
 			spriteClass = FistSprite.Rotting.class;
 			
 			HP = HT = 300;
+			attackSkill = 36;
 			defenseSkill = 25;
+			minDamage = 20;
+			maxDamage = 50;
+			minDR = 0;
+			maxDR = 15;
 			
 			EXP = 0;
 			
@@ -226,20 +231,20 @@ public class Yog extends Mob {
 			properties.add(Property.ACIDIC);
 		}
 		
-		@Override
-		public int attackSkill( Char target ) {
-			return 36;
-		}
-		
-		@Override
-		public int damageRoll() {
-			return Random.NormalIntRange( 20, 50 );
-		}
-		
-		@Override
-		public int drRoll() {
-			return Random.NormalIntRange(0, 15);
-		}
+//		@Override
+//		public int attackSkill( Char target ) {
+//			return 36;
+//		}
+//
+//		@Override
+//		public int damageRoll() {
+//			return Random.NormalIntRange( 20, 50 );
+//		}
+//
+//		@Override
+//		public int drRoll() {
+//			return Random.NormalIntRange(0, 15);
+//		}
 		
 		@Override
 		public int attackProc( Char enemy, int damage ) {
@@ -287,7 +292,12 @@ public class Yog extends Mob {
 			spriteClass = FistSprite.Burning.class;
 			
 			HP = HT = 200;
+			attackSkill = 36;
 			defenseSkill = 25;
+			minDamage = 26;
+			maxDamage = 32;
+			minDR = 0;
+			maxDR = 15;
 			
 			EXP = 0;
 			
@@ -298,20 +308,20 @@ public class Yog extends Mob {
 			properties.add(Property.FIERY);
 		}
 		
-		@Override
-		public int attackSkill( Char target ) {
-			return 36;
-		}
-		
-		@Override
-		public int damageRoll() {
-			return Random.NormalIntRange( 26, 32 );
-		}
-		
-		@Override
-		public int drRoll() {
-			return Random.NormalIntRange(0, 15);
-		}
+//		@Override
+//		public int attackSkill( Char target ) {
+//			return 36;
+//		}
+//
+//		@Override
+//		public int damageRoll() {
+//			return Random.NormalIntRange( 26, 32 );
+//		}
+//
+//		@Override
+//		public int drRoll() {
+//			return Random.NormalIntRange(0, 15);
+//		}
 		
 		@Override
 		protected boolean canAttack( Char enemy ) {
@@ -394,7 +404,12 @@ public class Yog extends Mob {
 			spriteClass = LarvaSprite.class;
 			
 			HP = HT = 25;
+			attackSkill = 30;
 			defenseSkill = 20;
+			minDamage = 22;
+			maxDamage = 30;
+			minDR = 0;
+			maxDR = 8;
 			
 			EXP = 0;
 			maxLvl = -2;
@@ -404,20 +419,20 @@ public class Yog extends Mob {
 			properties.add(Property.DEMONIC);
 		}
 		
-		@Override
-		public int attackSkill( Char target ) {
-			return 30;
-		}
-		
-		@Override
-		public int damageRoll() {
-			return Random.NormalIntRange( 22, 30 );
-		}
-		
-		@Override
-		public int drRoll() {
-			return Random.NormalIntRange(0, 8);
-		}
+//		@Override
+//		public int attackSkill( Char target ) {
+//			return 30;
+//		}
+//
+//		@Override
+//		public int damageRoll() {
+//			return Random.NormalIntRange( 22, 30 );
+//		}
+//
+//		@Override
+//		public int drRoll() {
+//			return Random.NormalIntRange(0, 8);
+//		}
 
 	}
 }

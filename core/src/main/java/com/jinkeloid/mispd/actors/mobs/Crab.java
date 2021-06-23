@@ -32,9 +32,14 @@ public class Crab extends Mob {
 		spriteClass = CrabSprite.class;
 		
 		HP = HT = 15;
+		attackSkill = 12;
 		defenseSkill = 5;
 		baseSpeed = 2f;
-		
+		minDamage = 1;
+		maxDamage = 7;
+		minDR = 0;
+		maxDR = 4;
+
 		EXP = 4;
 		maxLvl = 9;
 		
@@ -42,18 +47,18 @@ public class Crab extends Mob {
 		lootChance = 0.167f;
 	}
 	
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 1, 7 );
-	}
-	
-	@Override
-	public int attackSkill( Char target ) {
-		return 12;
-	}
-	
-	@Override
-	public int drRoll() {
-		return Random.NormalIntRange(0, 4);
-	}
+//	@Override
+//	public int damageRoll() {
+//		return Random.NormalIntRange( minDamage, maxDamage );
+//	}
+//
+//	@Override
+//	public int attackSkill( Char target ) {
+//		return attackSkill;
+//	}
+//
+//	@Override
+//	public int drRoll() {
+//		return Random.NormalIntRange(minDR, maxDR);
+//	}
 }

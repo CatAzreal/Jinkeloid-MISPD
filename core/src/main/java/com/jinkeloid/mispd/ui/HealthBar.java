@@ -84,7 +84,7 @@ public class HealthBar extends Component {
     @Override
     protected void layout() {
         Perk.onHealthBarTrigger();
-        if (!Dungeon.hero.hasPerk(Perk.LACK_OF_SENSE)) {
+        if (Dungeon.hero.hasPerk(Perk.BIOLOGIST)) {
             Orb.visible = false;
             Bg.x = Shld.x = Hp.x = x;
             Bg.y = Shld.y = Hp.y = y;

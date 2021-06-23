@@ -193,14 +193,14 @@ public class Mimic extends Mob {
 		if (alignment == Alignment.NEUTRAL){
 			return Random.NormalIntRange( 2 + 2*level, 2 + 2*level);
 		} else {
-			return Random.NormalIntRange( 1 + level, 2 + 2*level);
+			return Random.NormalIntRange( minDamage, maxDamage);
 		}
 	}
 
-	@Override
-	public int drRoll() {
-		return Random.NormalIntRange(0, 1 + level/2);
-	}
+//	@Override
+//	public int drRoll() {
+//		return Random.NormalIntRange(0, 1 + level/2);
+//	}
 
 	@Override
 	public void beckon( int cell ) {
@@ -212,7 +212,7 @@ public class Mimic extends Mob {
 		if (target != null && alignment == Alignment.NEUTRAL && target.invisible <= 0){
 			return INFINITE_ACCURACY;
 		} else {
-			return 6 + level;
+			return attackSkill;
 		}
 	}
 
@@ -223,7 +223,12 @@ public class Mimic extends Mob {
 	
 	public void adjustStats( int level ) {
 		HP = HT = (1 + level) * 6;
+		attackSkill = 6 + level;
 		defenseSkill = 2 + level/2;
+		minDamage = 1 + level;
+		maxDamage = 2 + 2*level;
+		minDR = 0;
+		maxDR = 1 + level/2;
 		
 		enemySeen = true;
 	}

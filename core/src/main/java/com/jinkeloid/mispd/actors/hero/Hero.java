@@ -128,6 +128,7 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
+import com.watabou.utils.DeviceCompat;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
@@ -191,6 +192,12 @@ public class Hero extends Char {
 
 		HP = HT = 20;
 		STR = STARTING_STR;
+		if (DeviceCompat.isDebug()) {
+			HT = HP += 900;
+			STR = 18;
+			attackSkill = 50;
+//			defenseSkill = 50;
+		}
 		
 		belongings = new Belongings( this );
 		
@@ -201,6 +208,9 @@ public class Hero extends Char {
 		int curHT = HT;
 		
 		HT = 20 + 5*(lvl-1) + HTBoost;
+		if (DeviceCompat.isDebug()) {
+			HT = 800 + 100 * lvl;
+		}
 		float multiplier = RingOfMight.HTMultiplier(this);
 		HT = Math.round(multiplier * HT);
 		
@@ -1487,12 +1497,12 @@ public class Hero extends Char {
 				GLog.p( Messages.get(this, "new_level") );
 				sprite.showStatus( CharSprite.POSITIVE, Messages.get(Hero.class, "level_up") );
 				Sample.INSTANCE.play( Assets.Sounds.LEVELUP );
-				if (lvl < Perk.tierLevelThresholds[Perk.MAX_TALENT_TIERS+1]){
-					GLog.newLine();
-					GLog.p( Messages.get(this, "new_talent") );
-					StatusPane.talentBlink = 10f;
-					WndHero.lastIdx = 1;
-				}
+//				if (lvl < Perk.tierLevelThresholds[Perk.MAX_TALENT_TIERS+1]){
+//					GLog.newLine();
+//					GLog.p( Messages.get(this, "new_talent") );
+//					StatusPane.talentBlink = 10f;
+//					WndHero.lastIdx = 1;
+//				}
 			}
 			
 			Item.updateQuickslot();
@@ -1546,10 +1556,14 @@ public class Hero extends Char {
 	@Override
 	public float stealth() {
 		float stealth = super.stealth();
-		
+
 		if (belongings.armor != null){
 			stealth = belongings.armor.stealthFactor(this, stealth);
 		}
+		Perk.onStealthTrigger();
+		//every point in stealth means 2 tiles away from enemy when they are wandering, 1 tile away when they are sleeping
+		stealth = this.hasPerk(Perk.INCONSPICUOUS) ? stealth + 1.5f : stealth;
+		stealth = this.hasPerk(Perk.CONSPICUOUS) ? stealth - 2f : stealth;
 		
 		return stealth;
 	}

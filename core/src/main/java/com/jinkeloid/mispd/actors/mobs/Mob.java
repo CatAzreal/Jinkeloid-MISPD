@@ -98,11 +98,18 @@ public abstract class Mob extends Char {
 	public Class<? extends CharSprite> spriteClass;
 	
 	protected int target = -1;
-	
-	protected int defenseSkill = 0;
+
+	public int attackSkill = 0;
+	public int defenseSkill = 0;
 	
 	public int EXP = 1;
 	public int maxLvl = Hero.MAX_LEVEL;
+
+	//Had to label these stats out for mob info display
+	public int minDamage = 1;
+	public int maxDamage = 1;
+	public int minDR = 0;
+	public int maxDR = 0;
 	
 	protected Char enemy;
 	protected boolean enemySeen;
@@ -114,6 +121,10 @@ public abstract class Mob extends Char {
 	private static final String SEEN	= "seen";
 	private static final String TARGET	= "target";
 	private static final String MAX_LVL	= "max_lvl";
+
+	private String infoHealth;
+	private String infoDamage;
+	private String infoDR;
 	
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -323,7 +334,23 @@ public abstract class Mob extends Char {
 		} else
 			return enemy;
 	}
-	
+
+	//Since most mob have same calculation method for damage dealing and damage resisting
+	@Override
+	public int attackSkill( Char target ) {
+		return attackSkill;
+	}
+
+	@Override
+	public int damageRoll() {
+		return Random.NormalIntRange( minDamage, minDamage );
+	}
+
+	@Override
+	public int drRoll() {
+		return Random.NormalIntRange(minDR, maxDR);
+	}
+
 	@Override
 	public void add( Buff buff ) {
 		super.add( buff );
@@ -798,6 +825,14 @@ public abstract class Mob extends Char {
 
 		for (Buff b : buffs(ChampionEnemy.class)){
 			desc += "\n\n_" + Messages.titleCase(b.toString()) + "_\n" + b.desc();
+		}
+		Perk.onMobInfoTrigger();
+		if (Dungeon.hero.hasPerk(Perk.BIOLOGIST)){
+			infoHealth = HP + "/" + HT;
+			infoDamage = (minDamage <= 1 && maxDamage <= 1) ? "0?" : minDamage + "~" + maxDamage;
+			infoDR = (minDR <= 1 && maxDR <= 1) ? "0?" : minDR + "~" + maxDR;
+			desc += "\n\n" + "DMG: _" + infoDamage +  "_\nDEF: _" + infoDR +
+						   "_\nACC: _" + attackSkill + "_\nEVA: _" + defenseSkill + "_";
 		}
 
 		return desc;

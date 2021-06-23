@@ -499,7 +499,12 @@ public class YogDzewa extends Mob {
 			spriteClass = LarvaSprite.class;
 
 			HP = HT = 20;
+			attackSkill = 30;
 			defenseSkill = 12;
+			minDamage = 15;
+			maxDamage = 25;
+			minDR = 0;
+			maxDR = 4;
 			viewDistance = Light.DISTANCE;
 
 			EXP = 5;
@@ -508,20 +513,20 @@ public class YogDzewa extends Mob {
 			properties.add(Property.DEMONIC);
 		}
 
-		@Override
-		public int attackSkill( Char target ) {
-			return 30;
-		}
-
-		@Override
-		public int damageRoll() {
-			return Random.NormalIntRange( 15, 25 );
-		}
-
-		@Override
-		public int drRoll() {
-			return Random.NormalIntRange(0, 4);
-		}
+//		@Override
+//		public int attackSkill( Char target ) {
+//			return 30;
+//		}
+//
+//		@Override
+//		public int damageRoll() {
+//			return Random.NormalIntRange( 15, 25 );
+//		}
+//
+//		@Override
+//		public int drRoll() {
+//			return Random.NormalIntRange(0, 4);
+//		}
 
 	}
 

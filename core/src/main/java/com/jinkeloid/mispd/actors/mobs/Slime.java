@@ -36,7 +36,10 @@ public class Slime extends Mob {
 		spriteClass = SlimeSprite.class;
 		
 		HP = HT = 20;
+		attackSkill = 12;
 		defenseSkill = 5;
+		minDamage = 2;
+		maxDamage = 5;
 		
 		EXP = 4;
 		maxLvl = 9;
@@ -44,15 +47,15 @@ public class Slime extends Mob {
 		lootChance = 0.2f; //by default, see rollToDropLoot()
 	}
 	
-	@Override
-	public int damageRoll() {
-		return Random.NormalIntRange( 2, 5 );
-	}
-	
-	@Override
-	public int attackSkill( Char target ) {
-		return 12;
-	}
+//	@Override
+//	public int damageRoll() {
+//		return Random.NormalIntRange( 2, 5 );
+//	}
+//
+//	@Override
+//	public int attackSkill( Char target ) {
+//		return 12;
+//	}
 	
 	@Override
 	public void damage(int dmg, Object src) {

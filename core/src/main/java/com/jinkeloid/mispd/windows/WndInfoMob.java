@@ -46,10 +46,11 @@ public class WndInfoMob extends WndTitledMessage {
 
         private CharSprite image;
         private RenderedTextBlock name;
-        private RenderedTextBlock healthState;
+        private RenderedTextBlock state;
         private float mobHealth;
         private HealthBar health;
         private BuffIndicator buffs;
+        private String infoHealth;
 
         public MobTitle(Mob mob) {
 
@@ -64,11 +65,12 @@ public class WndInfoMob extends WndTitledMessage {
             health.level(mob);
             add(health);
 
-            healthState = PixelScene.renderTextBlock(Messages.titleCase(""), 6);
-            healthState.hardlight(TITLE_COLOR);
-            add(healthState);
+            state = PixelScene.renderTextBlock(Messages.titleCase(""), 6);
+            state.hardlight(TITLE_COLOR);
+            add(state);
 
             mobHealth = (float) (5 * mob.HP / mob.HT);
+            infoHealth = mob.HP + "/" + mob.HT;
 
             buffs = new BuffIndicator(mob);
             add(buffs);
@@ -87,36 +89,40 @@ public class WndInfoMob extends WndTitledMessage {
 
             Perk.onHealthBarTrigger();
             health.setRect(image.width() + GAP, name.bottom() + GAP, w, health.height());
-            if (!Dungeon.hero.hasPerk(Perk.LACK_OF_SENSE)) {
+            if (!Dungeon.hero.hasPerk(Perk.BIOLOGIST)) {
                 health.visible = false;
                 switch ((int) mobHealth) {
                     case 5:
                     case 4:
-                        healthState.text("Healthy");
-                        healthState.hardlight(0x0db53a);
+                        state.text("Healthy");
+                        state.hardlight(0x0db53a);
                         break;
                     case 3:
-                        healthState.text("Lightly_Damaged");
-                        healthState.hardlight(0xd7f229);
+                        state.text("Lightly_Damaged");
+                        state.hardlight(0xd7f229);
                         break;
                     case 2:
-                        healthState.text("Damaged");
-                        healthState.hardlight(0xf4f734);
+                        state.text("Damaged");
+                        state.hardlight(0xf4f734);
                         break;
                     case 1:
-                        healthState.text("Wounded");
-                        healthState.hardlight(0xe39219);
+                        state.text("Wounded");
+                        state.hardlight(0xe39219);
                         break;
                     case 0:
-                        healthState.text("Severely_Wounded");
-                        healthState.hardlight(0xba0606);
+                        state.text("Severely_Wounded");
+                        state.hardlight(0xba0606);
                         break;
                     default:
-                        healthState.text("Healthy??");
-                        healthState.hardlight(0x001296);
+                        state.text("Healthy??");
+                        state.hardlight(0x001296);
                         break;
                 }
-                healthState.setPos(name.right() + GAP * 3, name.bottom() - healthState.height());
+                state.setPos(name.right() + GAP * 3, name.bottom() - state.height());
+            } else {
+                state.text("Health:"+infoHealth);
+                state.hardlight(0x0db53a);
+                state.setPos(name.right() + GAP * 3, name.bottom() - state.height());
             }
 
             buffs.setPos(
@@ -125,7 +131,7 @@ public class WndInfoMob extends WndTitledMessage {
             );
 
             height = health.bottom();
-            if (!Dungeon.hero.hasPerk(Perk.LACK_OF_SENSE)) {
+            if (!Dungeon.hero.hasPerk(Perk.BIOLOGIST)) {
                 height = name.bottom() + GAP * 2;
             }
         }

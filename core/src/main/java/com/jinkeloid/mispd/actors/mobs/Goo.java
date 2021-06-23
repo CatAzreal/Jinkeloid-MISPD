@@ -48,7 +48,8 @@ public class Goo extends Mob {
 	{
 		HP = HT = 100;
 		EXP = 10;
-		defenseSkill = 8;
+		minDR = 0;
+		maxDR = 2;
 		spriteClass = GooSprite.class;
 
 		properties.add(Property.BOSS);
@@ -60,27 +61,28 @@ public class Goo extends Mob {
 
 	@Override
 	public int damageRoll() {
-		int min = 1;
-		int max = (HP*2 <= HT) ? 12 : 8;
+		minDamage = 1;
+		maxDamage = (HP*2 <= HT) ? 12 : 8;
 		if (pumpedUp > 0) {
 			pumpedUp = 0;
-			return Random.NormalIntRange( min*3, max*3 );
+			return Random.NormalIntRange( minDamage*3, maxDamage*3 );
 		} else {
-			return Random.NormalIntRange( min, max );
+			return Random.NormalIntRange( minDamage, maxDamage );
 		}
 	}
 
 	@Override
 	public int attackSkill( Char target ) {
-		int attack = 10;
-		if (HP*2 <= HT) attack = 15;
-		if (pumpedUp > 0) attack *= 2;
-		return attack;
+		int attackSkill = 10;
+		if (HP*2 <= HT) attackSkill = 15;
+		if (pumpedUp > 0) attackSkill *= 2;
+		return attackSkill;
 	}
 
 	@Override
 	public int defenseSkill(Char enemy) {
-		return (int)(super.defenseSkill(enemy) * ((HP*2 <= HT)? 1.5 : 1));
+		defenseSkill = (int)(super.defenseSkill(enemy) * ((HP*2 <= HT)? 1.5 : 1));
+		return defenseSkill;
 	}
 
 	@Override

@@ -386,10 +386,12 @@ public class Dungeon {
 		Light light = hero.buff( Light.class );
 
 		Perk.onViewRangeTrigger();
-		if (hero.hasPerk(Perk.CATS_EYES)){
 
-		}
 		hero.viewDistance = light == null ? level.viewDistance : Math.max( Light.DISTANCE, level.viewDistance );
+		hero.viewDistance = hero.hasPerk(Perk.CATS_EYES) ? Math.max(8, hero.viewDistance + 1) : hero.viewDistance;
+		hero.viewDistance = hero.hasPerk(Perk.SHORT_SIGHTED) ? hero.viewDistance - 1 : hero.viewDistance;
+		hero.viewDistance = hero.hasPerk(Perk.BLIND) ? (light == null ? 1 : 3 ): hero.viewDistance;
+
 		
 		hero.curAction = hero.lastAction = null;
 		
