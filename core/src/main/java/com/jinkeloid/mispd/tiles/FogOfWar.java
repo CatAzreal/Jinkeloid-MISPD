@@ -24,6 +24,7 @@ package com.jinkeloid.mispd.tiles;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.MISPDSettings;
+import com.jinkeloid.mispd.actors.hero.Perk;
 import com.watabou.gltextures.SmartTexture;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.glwrap.Texture;
@@ -60,8 +61,8 @@ public class FogOfWar extends Image {
 			}};
 
 	private static final int VISIBLE    =   0;
-	private static final int VISITED    =   1;
-	private static final int MAPPED     =   2;
+	private static int VISITED    =   1;
+	private static int MAPPED     =   2;
 	private static final int INVISIBLE  =   3;
 
 	private int mapWidth;
@@ -90,6 +91,14 @@ public class FogOfWar extends Image {
 	public FogOfWar( int mapWidth, int mapHeight ) {
 		
 		super();
+
+		Perk.onFOWTrigger();
+		if (Dungeon.hero.hasPerk(Perk.AMNESIA)){
+			VISITED = MAPPED = 3;
+		} else {
+			VISITED = 1;
+			MAPPED = 2;
+		}
 
 		this.mapWidth = mapWidth;
 		this.mapHeight = mapHeight;

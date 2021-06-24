@@ -273,6 +273,9 @@ public enum Perk {
 	//View range
 	public static void onViewRangeTrigger(){}
 
+	//Fog of War
+	public static void onFOWTrigger(){}
+
 	//Stealth
 	public static void onStealthTrigger(){}
 
