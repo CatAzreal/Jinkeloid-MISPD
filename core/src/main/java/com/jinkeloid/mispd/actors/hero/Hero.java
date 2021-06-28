@@ -49,7 +49,8 @@ import com.jinkeloid.mispd.actors.buffs.Invisibility;
 import com.jinkeloid.mispd.actors.buffs.MindVision;
 import com.jinkeloid.mispd.actors.buffs.Momentum;
 import com.jinkeloid.mispd.actors.buffs.Paralysis;
-import com.jinkeloid.mispd.actors.buffs.Regeneration;
+import com.jinkeloid.mispd.actors.buffs.HealthRegen;
+import com.jinkeloid.mispd.actors.buffs.RegenPerTurn;
 import com.jinkeloid.mispd.actors.buffs.SnipersMark;
 import com.jinkeloid.mispd.actors.buffs.Vertigo;
 import com.jinkeloid.mispd.actors.mobs.Mob;
@@ -117,9 +118,7 @@ import com.jinkeloid.mispd.sprites.HeroSprite;
 import com.jinkeloid.mispd.ui.AttackIndicator;
 import com.jinkeloid.mispd.ui.BuffIndicator;
 import com.jinkeloid.mispd.ui.QuickSlotButton;
-import com.jinkeloid.mispd.ui.StatusPane;
 import com.jinkeloid.mispd.utils.GLog;
-import com.jinkeloid.mispd.windows.WndHero;
 import com.jinkeloid.mispd.windows.WndMessage;
 import com.jinkeloid.mispd.windows.WndResurrect;
 import com.jinkeloid.mispd.windows.WndTradeItem;
@@ -178,6 +177,12 @@ public class Hero extends Char {
 	
 	public int lvl = 1;
 	public int exp = 0;
+	//new stats
+	public int SP;
+	public int ST;
+
+	public float Horror;
+	public int GuiltMax;
 	
 	public int HTBoost = 0;
 	
@@ -191,6 +196,8 @@ public class Hero extends Char {
 		super();
 
 		HP = HT = 20;
+		GuiltMax = 100;
+		Horror = 0;
 		STR = STARTING_STR;
 		if (DeviceCompat.isDebug()) {
 			HT = HP += 900;
@@ -373,7 +380,8 @@ public class Hero extends Char {
 	}
 
 	public void live() {
-		Buff.affect( this, Regeneration.class );
+		Buff.affect( this, HealthRegen.class );
+		Buff.affect( this, RegenPerTurn.class);
 		Buff.affect( this, Hunger.class );
 	}
 	

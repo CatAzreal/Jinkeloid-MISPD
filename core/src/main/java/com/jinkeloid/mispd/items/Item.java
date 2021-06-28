@@ -65,6 +65,8 @@ public class Item implements Bundlable {
 	
 	public static final String AC_DROP		= "DROP";
 	public static final String AC_THROW		= "THROW";
+
+	public static boolean instantAct;
 	
 	public String defaultAction;
 	public boolean usesTargeting;
@@ -128,6 +130,21 @@ public class Item implements Bundlable {
 	public void reset(){}
 
 	public void doThrow( Hero hero ) {
+		Perk.onItemThrow();
+		if (hero.hasPerk(Perk.CLUMSY)){
+			double chance = Math.random();
+			if (chance<0.3f){
+				hero.busy();
+				GLog.w(Messages.get( Item.class, "clumsythrow", Item.this.name()));
+				//10% chance of dropping all of them
+				if (chance<0.1f){
+				GLog.w(Messages.get( Item.class, "clumsycrit"));
+					doDrop(hero);
+				}
+				hero.spendAndNext(1f);
+				return;
+			}
+		}
 		GameScene.selectCell(thrower);
 	}
 	
@@ -144,7 +161,6 @@ public class Item implements Bundlable {
 			}
 			
 		} else if (action.equals( AC_THROW )) {
-			
 			if (hero.belongings.backpack.contains(this) || isEquipped(hero)) {
 				doThrow(hero);
 			}
@@ -535,8 +551,14 @@ public class Item implements Bundlable {
 
 		Char enemy = Actor.findChar( cell );
 		QuickSlotButton.target(enemy);
-		
-		final float delay = castDelay(user, dst);
+		float delay = castDelay(user, dst);
+		Perk.onItemThrow();
+		if (instantAct){
+			GLog.i(Messages.get( Item.class, "instantthrow", Item.this.name()));
+			delay = 0;
+			instantAct = false;
+		}
+		float finalDelay = delay;
 
 		if (enemy != null) {
 			((MissileSprite) user.sprite.parent.recycle(MissileSprite.class)).
@@ -562,7 +584,7 @@ public class Item implements Bundlable {
 								user.buff(Perk.LethalMomentumTracker.class).detach();
 								user.next();
 							} else {
-								user.spendAndNext(delay);
+								user.spendAndNext(finalDelay);
 							}
 						}
 					});
@@ -577,7 +599,7 @@ public class Item implements Bundlable {
 							curUser = user;
 							Item i = Item.this.detach(user.belongings.backpack);
 							if (i != null) i.onThrow(cell);
-							user.spendAndNext(delay);
+							user.spendAndNext(finalDelay);
 						}
 					});
 		}
