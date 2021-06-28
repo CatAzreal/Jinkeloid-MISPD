@@ -26,7 +26,7 @@ import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.items.artifacts.ChaliceOfBlood;
 import com.jinkeloid.mispd.items.rings.RingOfEnergy;
 
-public class Regeneration extends Buff {
+public class HealthRegen extends Buff {
 	
 	{
 		//unlike other buffs, this one acts after the hero and takes priority against other effects

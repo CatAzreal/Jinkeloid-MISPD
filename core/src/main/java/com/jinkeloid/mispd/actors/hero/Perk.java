@@ -77,7 +77,7 @@ public enum Perk {
 	//every turn's first weapon switch is instant
 	ON_DIET(0, 3, perkType.POSITIVE, 104, new int[]{204}),
 	//slower hunger build up time
-	DEXTROUS(0, 3, perkType.POSITIVE, 105, new int[]{205}),
+	DEXTEROUS(0, 3, perkType.POSITIVE, 105, new int[]{205}),
 	//every turn's first consumable use is instant
 	ORGANIZED(0, 3, perkType.POSITIVE, 106, new int[]{206}),
 	//+backpacksize
@@ -281,6 +281,9 @@ public enum Perk {
 
 	//mobInfo
 	public static void onMobInfoTrigger(){}
+
+	//throwing things
+	public static void onItemThrow(){}
 
 	public static void onTalentUpgraded( Hero hero, Perk perk){
 		if (perk == NATURES_BOUNTY){

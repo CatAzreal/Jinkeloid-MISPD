@@ -103,6 +103,7 @@ public abstract class Mob extends Char {
 	public int defenseSkill = 0;
 	
 	public int EXP = 1;
+	public int HORRORGAIN = 5;
 	public int maxLvl = Hero.MAX_LEVEL;
 
 	//Had to label these stats out for mob info display
@@ -122,7 +123,6 @@ public abstract class Mob extends Char {
 	private static final String TARGET	= "target";
 	private static final String MAX_LVL	= "max_lvl";
 
-	private String infoHealth;
 	private String infoDamage;
 	private String infoDR;
 	
@@ -686,6 +686,9 @@ public abstract class Mob extends Char {
 					Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "exp", exp));
 				}
 				Dungeon.hero.earnExp(exp, getClass());
+				if (Dungeon.hero.hasPerk(Perk.PACIFIST)){
+					Dungeon.hero.Horror += this.HORRORGAIN;
+				}
 			}
 		}
 	}
@@ -828,7 +831,6 @@ public abstract class Mob extends Char {
 		}
 		Perk.onMobInfoTrigger();
 		if (Dungeon.hero.hasPerk(Perk.BIOLOGIST)){
-			infoHealth = HP + "/" + HT;
 			infoDamage = (minDamage <= 1 && maxDamage <= 1) ? "0?" : minDamage + "~" + maxDamage;
 			infoDR = (minDR <= 1 && maxDR <= 1) ? "0?" : minDR + "~" + maxDR;
 			desc += "\n\n" + "DMG: _" + infoDamage +  "_\nDEF: _" + infoDR +
