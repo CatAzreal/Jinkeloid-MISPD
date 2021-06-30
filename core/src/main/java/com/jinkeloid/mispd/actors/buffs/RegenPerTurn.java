@@ -22,12 +22,12 @@ public class RegenPerTurn extends Buff {
             if (((Hero)target).Horror > 0) {
                 //horror value decay starts from 0.02 to 0.2 per turn, depending on player's current horror level
                 double horrorDecay = 0.02f * Math.pow(10, horrorRatio);
-                if (healthRatio < 0.5f){
-                    horrorDecay *= 1.5f;
-                }
-                if (healthRatio < 0.2f){
-                    horrorDecay *= 3f;
-                }
+//                if (healthRatio < 0.5f){
+//                    horrorDecay *= 1.5f;
+//                }
+//                if (healthRatio < 0.2f){
+//                    horrorDecay *= 3f;
+//                }
                 ((Hero)target).Horror -= horrorDecay;
                 if (((Hero)target).Horror < 0 ){
                     ((Hero)target).Horror = 0;

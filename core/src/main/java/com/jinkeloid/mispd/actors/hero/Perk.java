@@ -93,6 +93,12 @@ public enum Perk {
 	//changing armor would cost 1/5 of usual time(armor changing turn cost would be significantly increased), grant bonus depending on armor type
 	BIOLOGIST(0, 4, perkType.POSITIVE, 112, new int[]{209}),
 	//show detailed info about mob, their health, dmgrange, dr and weakness(if have any)
+	ADRENALINE(0, 4, perkType.POSITIVE, 113, new int[]{210}),
+	//the horror of enemy can stimulate you, strengthening reflex, resulting less penalty on accuracy and bonus to attackspeed and movement speed
+	BRAVE(0, 4, perkType.POSITIVE, 114, new int[]{210}),
+	//faster horror decay on low health, more damage output on low health
+	CONFIDENT(0, 4, perkType.POSITIVE, 115, new int[]{210}),
+	//faster horror decay on near full health, more accuracy near tull health
 
 	//Negative Perks
 	SHORT_SIGHTED(0, 1, perkType.NEGATIVE, 201, new int[]{101}),
@@ -113,10 +119,8 @@ public enum Perk {
 	//you better choose somewhere safe to take off your armor, and each of them will provide you unique penalties
 	ILLITERATE(0, 1, perkType.NEGATIVE, 209, new int[]{112}),
 	//no journals, no identifying items, better take notes!
-	PACIFIST(0, 1, perkType.NEGATIVE, 210, null),
-	//killing enemies would increase guilt, as guilt build up the hero's combat efficiency would reduce,
-	//guilt will slowly diminish overtime, and would go down faster if the character is engaging in
-	//combat while having debuffs or severely injured
+	PACIFIST(0, 1, perkType.NEGATIVE, 210, new int[]{113}),
+	//You can never get used to the horror of combat, horror not only reduce your accuracy but also affect your combat efficiency
 	BLIND(0, 1, perkType.NEGATIVE, 211, null),
 	//You are (almost) blind, only the one tile around you are visible, good thing is you can still (barely) read scrolls and identify things
 	AMNESIA(0, 1, perkType.NEGATIVE, 212, null),
