@@ -82,6 +82,7 @@ public class Assets {
 		public static final String TOOLBAR	= "interfaces/toolbar.png";
 		public static final String SHADOW   = "interfaces/shadow.png";
 		public static final String BOSSHP   = "interfaces/boss_hp.png";
+		public static final String HORROR   = "interfaces/horror.png";
 
 		public static final String SURFACE	= "interfaces/surface.png";
 

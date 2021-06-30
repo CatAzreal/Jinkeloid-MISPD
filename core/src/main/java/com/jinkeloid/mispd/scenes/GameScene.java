@@ -80,6 +80,7 @@ import com.jinkeloid.mispd.ui.Banner;
 import com.jinkeloid.mispd.ui.BusyIndicator;
 import com.jinkeloid.mispd.ui.CharHealthIndicator;
 import com.jinkeloid.mispd.ui.GameLog;
+import com.jinkeloid.mispd.ui.HorrorGauge;
 import com.jinkeloid.mispd.ui.LootIndicator;
 import com.jinkeloid.mispd.ui.QuickSlotButton;
 import com.jinkeloid.mispd.ui.ResumeIndicator;
@@ -135,6 +136,7 @@ public class GameScene extends PixelScene {
 	private HeroSprite hero;
 
 	private StatusPane pane;
+	private HorrorGauge gauge;
 	
 	private GameLog log;
 	
@@ -317,6 +319,11 @@ public class GameScene extends PixelScene {
 		pane.camera = uiCamera;
 		pane.setSize( uiCamera.width, 0 );
 		add( pane );
+
+		gauge = new HorrorGauge();
+		gauge.camera = uiCamera;
+		gauge.setRect(0, uiCamera.height, gauge.width(), gauge.height());
+		add(gauge);
 		
 		toolbar = new Toolbar();
 		toolbar.camera = uiCamera;
