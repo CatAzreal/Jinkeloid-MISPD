@@ -97,6 +97,9 @@ public class HorrorGauge extends Component {
                 horrorBar.color(COLOR_ANCIENT);
                 horrorVal -= 3;
                 break;
+            default:
+                horrorVal = 0;
+                break;
         }
         horrorBar.scale.y = 15 * horrorVal;
     }
