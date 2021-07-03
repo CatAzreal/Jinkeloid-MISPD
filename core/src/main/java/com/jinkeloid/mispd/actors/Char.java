@@ -315,7 +315,7 @@ public abstract class Char extends Actor {
 			if ( enemy.buff( Vulnerable.class ) != null){
 				effectiveDamage *= 1.33f;
 			}
-			
+
 			effectiveDamage = attackProc( enemy, effectiveDamage );
 			
 			if (visibleFight) {
@@ -328,6 +328,16 @@ public abstract class Char extends Actor {
 			// This matters as defence procs can sometimes inflict self-damage, such as armor glyphs.
 			if (!enemy.isAlive()){
 				return true;
+			}
+
+			if (enemy instanceof Hero){
+//				((Hero) enemy).Horror
+				Hero h = (Hero)this;
+				if (h.belongings.weapon instanceof MissileWeapon
+						&& h.subClass == HeroSubClass.SNIPER
+						&& !Dungeon.level.adjacent(h.pos, enemy.pos)){
+					dr = 0;
+				}
 			}
 
 			enemy.damage( effectiveDamage, this );
