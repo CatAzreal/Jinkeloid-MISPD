@@ -36,6 +36,7 @@ import com.jinkeloid.mispd.actors.buffs.Charm;
 import com.jinkeloid.mispd.actors.buffs.Corruption;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
 import com.jinkeloid.mispd.actors.buffs.Preparation;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.buffs.Sleep;
 import com.jinkeloid.mispd.actors.buffs.SoulMark;
 import com.jinkeloid.mispd.actors.buffs.Terror;
@@ -627,7 +628,7 @@ public abstract class Mob extends Char {
 				restoration = Math.round(restoration * 0.15f*Dungeon.hero.pointsInTalent(Perk.SOUL_SIPHON));
 			}
 			if (restoration > 0) {
-				Buff.affect(Dungeon.hero, Hunger.class).affectHunger(restoration*Dungeon.hero.pointsInTalent(Perk.SOUL_EATER)/3f);
+				Buff.affect(Dungeon.hero, Satiation.class).affectSatiation(restoration*Dungeon.hero.pointsInTalent(Perk.SOUL_EATER)/3f);
 				Dungeon.hero.HP = (int) Math.ceil(Math.min(Dungeon.hero.HT, Dungeon.hero.HP + (restoration * 0.4f)));
 				Dungeon.hero.sprite.emitter().burst(Speck.factory(Speck.HEALING), 1);
 			}

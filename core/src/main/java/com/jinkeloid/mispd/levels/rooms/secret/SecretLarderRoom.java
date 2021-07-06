@@ -23,6 +23,7 @@ package com.jinkeloid.mispd.levels.rooms.secret;
 
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.items.food.ChargrilledMeat;
 import com.jinkeloid.mispd.items.food.Food;
 import com.jinkeloid.mispd.items.food.Pasty;
@@ -56,16 +57,16 @@ public class SecretLarderRoom extends SecretRoom {
 		
 		level.plant(new BlandfruitBush.Seed(), level.pointToCell(c));
 		
-		int extraFood = (int)(Hunger.STARVING - Hunger.HUNGRY) * (1 + Dungeon.depth / 5);
+		int extraFood = (int)(Satiation.STABLE - Satiation.PECKISH) * (1 + Dungeon.depth / 5);
 		
 		while (extraFood > 0){
 			Food food;
-			if (extraFood >= Hunger.STARVING){
+			if (extraFood >= Satiation.STABLE){
 				food = new Pasty();
-				extraFood -= Hunger.STARVING;
+				extraFood -= Satiation.STABLE;
 			} else {
 				food = new ChargrilledMeat();
-				extraFood -= (Hunger.STARVING - Hunger.HUNGRY);
+				extraFood -= (Satiation.STABLE - Satiation.PECKISH);
 			}
 			int foodPos;
 			do {

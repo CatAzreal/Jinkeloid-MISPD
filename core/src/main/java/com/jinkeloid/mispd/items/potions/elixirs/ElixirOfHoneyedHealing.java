@@ -27,6 +27,7 @@ import com.jinkeloid.mispd.actors.Actor;
 import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.actors.mobs.Bee;
@@ -46,8 +47,8 @@ public class ElixirOfHoneyedHealing extends Elixir {
 		PotionOfHealing.cure(hero);
 		PotionOfHealing.heal(hero);
 		Perk.onHealingPotionUsed( hero );
-		Buff.affect(hero, Hunger.class).satisfy(Hunger.HUNGRY/2f);
-		Perk.onFoodEaten(hero, Hunger.HUNGRY/2f, this);
+		Buff.affect(hero, Satiation.class).satisfy(Satiation.PECKISH/2f);
+		Perk.onFoodEaten(hero, Satiation.PECKISH/2f, this);
 	}
 	
 	@Override

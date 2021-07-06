@@ -25,6 +25,7 @@ import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.CounterBuff;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.items.Generator;
@@ -34,7 +35,7 @@ public class Berry extends Food {
 
 	{
 		image = ItemSpriteSheet.BERRY;
-		energy = Hunger.HUNGRY/3f; //100 food value
+		energy = Satiation.PECKISH/3f; //100 food value
 	}
 
 	@Override

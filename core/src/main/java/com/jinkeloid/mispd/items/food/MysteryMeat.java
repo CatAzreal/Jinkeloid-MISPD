@@ -26,6 +26,7 @@ import com.jinkeloid.mispd.actors.buffs.Burning;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
 import com.jinkeloid.mispd.actors.buffs.Poison;
 import com.jinkeloid.mispd.actors.buffs.Roots;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.buffs.Slow;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.items.Item;
@@ -38,7 +39,7 @@ public class MysteryMeat extends Food {
 
 	{
 		image = ItemSpriteSheet.MEAT;
-		energy = Hunger.HUNGRY/2f;
+		energy = Satiation.PECKISH/2f;
 	}
 	
 	@Override

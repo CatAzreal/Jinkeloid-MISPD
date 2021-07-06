@@ -97,6 +97,13 @@ public class BuffIndicator extends Component {
 	public static final int PINCUSHION  = 49;
 	public static final int UPGRADE     = 50;
 	public static final int MOMENTUM    = 51;
+	public static final int FULL    	= 52;
+	public static final int SATIATED    = 53;
+	public static final int SATISFIED   = 54;
+	public static final int STABLE    	= 55;
+	public static final int PECKISH   	= 56;
+	public static final int HUNGRY    	= 57;
+	public static final int STARVING    = 58;
 
 	public static final int SIZE	= 7;
 	

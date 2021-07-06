@@ -27,6 +27,7 @@ import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
 import com.jinkeloid.mispd.actors.buffs.LockedFloor;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.actors.mobs.Mob;
@@ -259,9 +260,9 @@ public class TimekeepersHourglass extends Artifact {
 				((Hero) target).spendAndNext(5*usedCharge);
 
 				//shouldn't punish the player for going into stasis frequently
-				Hunger hunger = Buff.affect(target, Hunger.class);
-				if (hunger != null && !hunger.isStarving())
-					hunger.satisfy(5*usedCharge);
+				Satiation satiation = Buff.affect(target, Satiation.class);
+				if (!Satiation.isStarving())
+					satiation.satisfy(5*usedCharge);
 
 				charge -= usedCharge;
 

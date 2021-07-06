@@ -25,6 +25,7 @@ import com.jinkeloid.mispd.actors.buffs.Barkskin;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
 import com.jinkeloid.mispd.actors.buffs.Invisibility;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.effects.Speck;
 import com.jinkeloid.mispd.items.potions.PotionOfHealing;
@@ -37,7 +38,7 @@ public class FrozenCarpaccio extends Food {
 
 	{
 		image = ItemSpriteSheet.CARPACCIO;
-		energy = Hunger.HUNGRY/2f;
+		energy = Satiation.PECKISH/2f;
 	}
 	
 	@Override

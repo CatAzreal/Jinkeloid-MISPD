@@ -28,6 +28,7 @@ import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.Statistics;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.effects.SpellSprite;
@@ -45,7 +46,7 @@ public class Food extends Item {
 	
 	public static final String AC_EAT	= "EAT";
 	
-	public float energy = Hunger.HUNGRY;
+	public float energy = Satiation.PECKISH;
 	
 	{
 		stackable = true;
@@ -101,9 +102,9 @@ public class Food extends Item {
 	
 	protected void satisfy( Hero hero ){
 		if (Dungeon.isChallenged(Challenges.NO_FOOD)){
-			Buff.affect(hero, Hunger.class).satisfy(energy/3f);
+			Buff.affect(hero, Satiation.class).satisfy(energy/3f);
 		} else {
-			Buff.affect(hero, Hunger.class).satisfy(energy);
+			Buff.affect(hero, Satiation.class).satisfy(energy);
 		}
 	}
 	

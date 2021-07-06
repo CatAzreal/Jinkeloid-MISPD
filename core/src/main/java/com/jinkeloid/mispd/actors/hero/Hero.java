@@ -51,6 +51,7 @@ import com.jinkeloid.mispd.actors.buffs.Momentum;
 import com.jinkeloid.mispd.actors.buffs.Paralysis;
 import com.jinkeloid.mispd.actors.buffs.HealthRegen;
 import com.jinkeloid.mispd.actors.buffs.RegenPerTurn;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.buffs.SnipersMark;
 import com.jinkeloid.mispd.actors.buffs.Vertigo;
 import com.jinkeloid.mispd.actors.mobs.Mob;
@@ -235,7 +236,7 @@ public class Hero extends Char {
 		int STR = this.STR;
 
 		STR += RingOfMight.strengthBonus( this );
-		
+		STR += Satiation.satiationSTRBonus();
 		AdrenalineSurge buff = buff(AdrenalineSurge.class);
 		if (buff != null){
 			STR += buff.boost();
@@ -382,7 +383,8 @@ public class Hero extends Char {
 	public void live() {
 		Buff.affect( this, HealthRegen.class );
 		Buff.affect( this, RegenPerTurn.class);
-		Buff.affect( this, Hunger.class );
+		Buff.affect( this, Satiation.class );
+		Satiation.resetSatiation();
 	}
 	
 	public int tier() {
@@ -1167,7 +1169,7 @@ public class Hero extends Char {
 		if (buff(TimekeepersHourglass.timeStasis.class) != null)
 			return;
 
-		if (!(src instanceof Hunger || src instanceof Viscosity.DeferedDamage) && damageInterrupt) {
+		if (!(src instanceof Satiation || src instanceof Viscosity.DeferedDamage) && damageInterrupt) {
 			interrupt();
 			resting = false;
 		}
@@ -1528,7 +1530,7 @@ public class Hero extends Char {
 	}
 	
 	public boolean isStarving() {
-		return Buff.affect(this, Hunger.class).isStarving();
+		return Satiation.isStarving();
 	}
 	
 	@Override
@@ -1939,9 +1941,9 @@ public class Hero extends Char {
 			if (!Dungeon.level.locked) {
 				if (cursed) {
 					GLog.n(Messages.get(this, "search_distracted"));
-					Buff.affect(this, Hunger.class).affectHunger(TIME_TO_SEARCH - (2 * HUNGER_FOR_SEARCH));
+					Buff.affect(this, Satiation.class).affectSatiation(TIME_TO_SEARCH - (2 * HUNGER_FOR_SEARCH));
 				} else {
-					Buff.affect(this, Hunger.class).affectHunger(TIME_TO_SEARCH - HUNGER_FOR_SEARCH);
+					Buff.affect(this, Satiation.class).affectSatiation(TIME_TO_SEARCH - HUNGER_FOR_SEARCH);
 				}
 			}
 			spendAndNext(TIME_TO_SEARCH);
