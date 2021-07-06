@@ -22,13 +22,14 @@
 package com.jinkeloid.mispd.items.food;
 
 import com.jinkeloid.mispd.actors.buffs.Hunger;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.sprites.ItemSpriteSheet;
 
 public class SmallRation extends Food {
 
 	{
 		image = ItemSpriteSheet.OVERPRICED;
-		energy = Hunger.HUNGRY/2f;
+		energy = Satiation.PECKISH/2f;
 	}
 	
 	@Override

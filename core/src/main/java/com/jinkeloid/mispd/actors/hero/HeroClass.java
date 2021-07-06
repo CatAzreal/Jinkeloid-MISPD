@@ -33,6 +33,8 @@ import com.jinkeloid.mispd.items.bags.PotionBandolier;
 import com.jinkeloid.mispd.items.bags.ScrollHolder;
 import com.jinkeloid.mispd.items.bags.VelvetPouch;
 import com.jinkeloid.mispd.items.food.Food;
+import com.jinkeloid.mispd.items.food.Pasty;
+import com.jinkeloid.mispd.items.food.SmallRation;
 import com.jinkeloid.mispd.items.potions.PotionOfHealing;
 import com.jinkeloid.mispd.items.potions.PotionOfInvisibility;
 import com.jinkeloid.mispd.items.potions.PotionOfLiquidFlame;
@@ -105,6 +107,15 @@ public enum HeroClass {
 		if (!Challenges.isItemBlocked(i)) i.collect();
 
 		new ScrollOfIdentify().identify();
+		if (DeviceCompat.isDebug()) {
+			Pasty pasty = new Pasty();
+			pasty.quantity(10).collect();
+			Food ration = new Food();
+			ration.quantity(10).collect();
+			SmallRation smallRation = new SmallRation();
+			smallRation.quantity(10).collect();
+//			defenseSkill = 50;
+		}
 
 	}
 

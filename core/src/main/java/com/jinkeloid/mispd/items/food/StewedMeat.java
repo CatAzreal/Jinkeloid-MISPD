@@ -22,6 +22,7 @@
 package com.jinkeloid.mispd.items.food;
 
 import com.jinkeloid.mispd.actors.buffs.Hunger;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.items.Recipe;
 import com.jinkeloid.mispd.sprites.ItemSpriteSheet;
 
@@ -29,7 +30,7 @@ public class StewedMeat extends Food {
 	
 	{
 		image = ItemSpriteSheet.STEWED;
-		energy = Hunger.HUNGRY/2f;
+		energy = Satiation.PECKISH/2f;
 	}
 	
 	@Override

@@ -50,6 +50,7 @@ import com.jinkeloid.mispd.actors.buffs.Ooze;
 import com.jinkeloid.mispd.actors.buffs.Paralysis;
 import com.jinkeloid.mispd.actors.buffs.Poison;
 import com.jinkeloid.mispd.actors.buffs.Preparation;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.buffs.ShieldBuff;
 import com.jinkeloid.mispd.actors.buffs.Slow;
 import com.jinkeloid.mispd.actors.buffs.SnipersMark;
@@ -331,8 +332,9 @@ public abstract class Char extends Actor {
 			}
 
 			if (enemy instanceof Hero){
-//				((Hero) enemy).Horror
-				Hero h = (Hero)this;
+				Hero h = (Hero)enemy;
+
+
 				if (h.belongings.weapon instanceof MissileWeapon
 						&& h.subClass == HeroSubClass.SNIPER
 						&& !Dungeon.level.adjacent(h.pos, enemy.pos)){
@@ -557,7 +559,7 @@ public abstract class Char extends Actor {
 
 		int shielded = dmg;
 		//FIXME: when I add proper damage properties, should add an IGNORES_SHIELDS property to use here.
-		if (!(src instanceof Hunger)){
+		if (!(src instanceof Hunger || src instanceof Satiation)){
 			for (ShieldBuff s : buffs(ShieldBuff.class)){
 				dmg = s.absorbDamage(dmg);
 				if (dmg == 0) break;

@@ -24,6 +24,7 @@ package com.jinkeloid.mispd.items.food;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
 import com.jinkeloid.mispd.actors.buffs.Recharging;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.effects.Speck;
 import com.jinkeloid.mispd.items.scrolls.ScrollOfRecharging;
@@ -73,7 +74,7 @@ public class Pasty extends Food {
 	{
 		reset();
 
-		energy = Hunger.STARVING;
+		energy = Satiation.SATISFIED;
 
 		bones = true;
 	}

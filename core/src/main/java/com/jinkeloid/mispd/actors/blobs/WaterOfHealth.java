@@ -24,6 +24,7 @@ package com.jinkeloid.mispd.actors.blobs;
 import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.effects.BlobEmitter;
 import com.jinkeloid.mispd.effects.CellEmitter;
@@ -54,7 +55,7 @@ public class WaterOfHealth extends WellWater {
 
 		PotionOfHealing.cure( hero );
 		hero.belongings.uncurseEquipped();
-		hero.buff( Hunger.class ).satisfy( Hunger.STARVING );
+		hero.buff( Satiation.class ).satisfy( Satiation.SATISFIED );
 		
 		CellEmitter.get( hero.pos ).start( ShaftParticle.FACTORY, 0.2f, 3 );
 

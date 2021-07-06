@@ -24,6 +24,7 @@ package com.jinkeloid.mispd.items.armor.curses;
 import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.effects.Speck;
 import com.jinkeloid.mispd.items.armor.Armor;
@@ -43,15 +44,15 @@ public class Metabolism extends Glyph {
 		if (Random.Int( 6 ) == 0 && defender instanceof Hero) {
 
 			//assumes using up 10% of starving, and healing of 1 hp per 10 turns;
-			int healing = Math.min((int)Hunger.STARVING/100, defender.HT - defender.HP);
+			int healing = Math.min((int)Satiation.STABLE/100, defender.HT - defender.HP);
 
 			if (healing > 0) {
 				
-				Hunger hunger = Buff.affect(defender, Hunger.class);
+				Satiation satiation = Buff.affect(defender, Satiation.class);
 				
-				if (!hunger.isStarving()) {
+				if (!Satiation.isStarving()) {
 					
-					hunger.affectHunger( healing * -10 );
+					satiation.affectSatiation( healing * -10 );
 					
 					defender.HP += healing;
 					defender.sprite.emitter().burst( Speck.factory( Speck.HEALING ), 1 );

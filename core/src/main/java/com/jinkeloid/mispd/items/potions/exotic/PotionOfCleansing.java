@@ -28,6 +28,7 @@ import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Corruption;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
@@ -67,8 +68,8 @@ public class PotionOfCleansing extends ExoticPotion {
 			if (b.type == Buff.buffType.NEGATIVE && !(b instanceof Corruption)){
 				b.detach();
 			}
-			if (b instanceof Hunger){
-				((Hunger) b).satisfy(Hunger.STARVING);
+			if (b instanceof Satiation){
+				((Satiation) b).satisfy(Satiation.STABLE);
 			}
 		}
 	}

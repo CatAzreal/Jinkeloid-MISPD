@@ -24,6 +24,7 @@ package com.jinkeloid.mispd.items.food;
 import com.jinkeloid.mispd.Challenges;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.items.Item;
 import com.jinkeloid.mispd.items.Recipe;
@@ -62,7 +63,7 @@ public class Blandfruit extends Food {
 		image = ItemSpriteSheet.BLANDFRUIT;
 
 		//only applies when blandfruit is cooked
-		energy = Hunger.STARVING;
+		energy = Satiation.STABLE;
 
 		bones = true;
 	}
@@ -286,7 +287,7 @@ public class Blandfruit extends Food {
 			stackable = true;
 			image = ItemSpriteSheet.BLAND_CHUNKS;
 
-			energy = Hunger.STARVING;
+			energy = Satiation.STABLE;
 
 			bones = true;
 		}

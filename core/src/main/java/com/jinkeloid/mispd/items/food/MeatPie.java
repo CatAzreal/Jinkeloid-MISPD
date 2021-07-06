@@ -23,6 +23,7 @@ package com.jinkeloid.mispd.items.food;
 
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.buffs.WellFed;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.items.Item;
@@ -34,7 +35,7 @@ public class MeatPie extends Food {
 	
 	{
 		image = ItemSpriteSheet.MEAT_PIE;
-		energy = Hunger.STARVING*2f;
+		energy = Satiation.SATISFIED;
 	}
 	
 	@Override

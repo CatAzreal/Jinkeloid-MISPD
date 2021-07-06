@@ -28,6 +28,7 @@ import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.Statistics;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Hunger;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.effects.SpellSprite;
@@ -88,15 +89,15 @@ public class HornOfPlenty extends Artifact {
 			else if (charge == 0)  GLog.i( Messages.get(this, "no_food") );
 			else {
 				//consume as much food as it takes to be full, to a minimum of 1
-				int satietyPerCharge = (int) (Hunger.STARVING/10f);
+				int satietyPerCharge = (int) (Satiation.STABLE /10f);
 				if (Dungeon.isChallenged(Challenges.NO_FOOD)){
 					satietyPerCharge /= 3;
 				}
 
-				Hunger hunger = Buff.affect(Dungeon.hero, Hunger.class);
-				int chargesToUse = Math.max( 1, hunger.hunger() / satietyPerCharge);
+				Satiation satiation = Buff.affect(Dungeon.hero, Satiation.class);
+				int chargesToUse = Math.max( 1, satiation.satiation() / satietyPerCharge);
 				if (chargesToUse > charge) chargesToUse = charge;
-				hunger.satisfy(satietyPerCharge * chargesToUse);
+				satiation.satisfy(satietyPerCharge * chargesToUse);
 
 				Statistics.foodEaten++;
 
@@ -197,11 +198,11 @@ public class HornOfPlenty extends Artifact {
 		if (level() >= 10) return;
 		
 		storedFoodEnergy += food.energy;
-		if (storedFoodEnergy >= Hunger.HUNGRY){
-			int upgrades = storedFoodEnergy / (int)Hunger.HUNGRY;
+		if (storedFoodEnergy >= Satiation.PECKISH){
+			int upgrades = storedFoodEnergy / (int)Satiation.PECKISH;
 			upgrades = Math.min(upgrades, 10 - level());
 			upgrade(upgrades);
-			storedFoodEnergy -= upgrades * Hunger.HUNGRY;
+			storedFoodEnergy -= upgrades * Satiation.PECKISH;
 			if (level() == 10){
 				storedFoodEnergy = 0;
 				GLog.p( Messages.get(this, "maxlevel") );
@@ -241,14 +242,14 @@ public class HornOfPlenty extends Artifact {
 				//generates 0.25x max hunger value every hero level, +0.125x max value per horn level
 				//to a max of 1.5x max hunger value per hero level
 				//This means that a standard ration will be recovered in ~5.333 hero levels
-				float chargeGain = Hunger.STARVING * levelPortion * (0.25f + (0.125f*level()));
+				float chargeGain = Satiation.STABLE * levelPortion * (0.25f + (0.125f*level()));
 				chargeGain *= RingOfEnergy.artifactChargeMultiplier(target);
 				partialCharge += chargeGain;
 
 				//charge is in increments of 1/10 max hunger value.
-				while (partialCharge >= Hunger.STARVING/10) {
+				while (partialCharge >= Satiation.STABLE/10) {
 					charge++;
-					partialCharge -= Hunger.STARVING/10;
+					partialCharge -= Satiation.STABLE/10;
 
 					if (charge >= 15)       image = ItemSpriteSheet.ARTIFACT_HORN4;
 					else if (charge >= 10)  image = ItemSpriteSheet.ARTIFACT_HORN3;
