@@ -21,16 +21,14 @@
 
 package com.jinkeloid.mispd.scenes;
 
-import com.jinkeloid.mispd.Badges;
-import com.jinkeloid.mispd.Challenges;
 import com.jinkeloid.mispd.MusicImplantSPD;
 import com.jinkeloid.mispd.effects.Flare;
+import com.jinkeloid.mispd.messages.Messages;
 import com.jinkeloid.mispd.ui.ExitButton;
 import com.jinkeloid.mispd.ui.Icons;
 import com.jinkeloid.mispd.ui.RenderedTextBlock;
 import com.jinkeloid.mispd.ui.ScrollPane;
 import com.jinkeloid.mispd.ui.Window;
-import com.jinkeloid.mispd.utils.GLog;
 import com.watabou.input.PointerEvent;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.ColorBlock;
@@ -41,9 +39,7 @@ import com.watabou.noosa.PointerArea;
 import com.watabou.noosa.ui.Component;
 import com.watabou.utils.DeviceCompat;
 
-import javax.management.OperationsException;
-
-public class AboutScene extends PixelScene {
+public class CreditScene extends PixelScene {
 
 	private static final float SCROLL_SPEED	= 30f;
 	public static ScrollPane list;
@@ -68,13 +64,9 @@ public class AboutScene extends PixelScene {
 		//*** MISPD Credits ***
 
 		CreditsBlock mispd = new CreditsBlock(true, Window.MISPD_COLOR,
-				"Music Implanted SPD",
-				Icons.SHPX.get(),
-				"Developer: _Jinkeloid_\n" +
-						"Based on Shattered Pixel Dungeon's open source\n\n" +
-						"Additional UI: Jinkeloid\n" +
-						"Additional Artwork: xxx\n" +
-						"Sound Effects: xxx\n\n"
+				Messages.get(this, "mispd_title"),
+				Icons.JINKELOID.get(),
+				Messages.get(this, "mispd_desc")
 				,
 				null,
 				null);
@@ -98,7 +90,7 @@ public class AboutScene extends PixelScene {
 		CreditsBlock specialThanks = new CreditsBlock(true, Window.MISPD_COLOR,
 				"Special Thanks to:\n",
 				null,
-				"Evan Debenham\n\n ConsideredHamster\n\n Omicronrg\n\n" +
+				"Evan Debenham\n\n ConsideredHamster\n\n _69_Omicronrg_69_\n\n" +
 						"Players from Chinese PD community\n who supported me and this mod back from 2016\n\n" +
 						"All the kind souls on PD Discord\n\n" +
 						"...\n" +
@@ -113,7 +105,7 @@ public class AboutScene extends PixelScene {
 
 		CreditsBlock shpx = new CreditsBlock(true, Window.SHPX_COLOR,
 				"Shattered Pixel Dungeon",
-				Icons.CHANGES.get(),
+				Icons.SHPX.get(),
 				"Developer: _Evan Debenham_\n" +
 						"Based on Pixel Dungeon's open source\n\n" +
 						"Hero Art & Design: Alexsandar Komitov\n" +
@@ -206,7 +198,7 @@ public class AboutScene extends PixelScene {
 	@Override
 	public void update() {
 		super.update();
-		ScrollPane list = AboutScene.list;
+		ScrollPane list = CreditScene.list;
 		list.disableThumb();
 		shift += Game.elapsed * SCROLL_SPEED;
 		list.scrollTo(0, Math.min(Math.max(shift, 0), list.height()));

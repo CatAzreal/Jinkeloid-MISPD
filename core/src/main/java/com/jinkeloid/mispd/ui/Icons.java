@@ -67,24 +67,19 @@ public enum Icons {
 	
 	//main menu icons
 	ENTER,
-	GOLD,
 	RANKINGS,
 	BADGES,
 	NEWS,
-	CHANGES,
 	SHPX,
+	GOLD,
 	
 	//misc icons
 	LIBGDX,
 	WATA,
 	WARNING,
 
-	//32x32 icons for credits
-	ALEKS,
-	CHARLIE,
-	CUBE_CODE,
-	PURIGRO,
-	ARCNOR;
+	//icons for credits
+	JINKELOID;
 
 	public Image get() {
 		return get( this );
@@ -200,14 +195,11 @@ public enum Icons {
 		case NEWS:
 			icon.frame( icon.texture.uvRect( 51, 64, 67, 79 ) );
 			break;
-		case CHANGES:
+		case SHPX:
 			icon.frame( icon.texture.uvRect( 68, 64, 83, 79 ) );
 			break;
-		case SHPX:
-			icon.frame( icon.texture.uvRect( 85, 64, 101, 80 ) );
-			break;
 		case GOLD:
-			icon.frame( icon.texture.uvRect( 102, 64, 119, 80 ) );
+			icon.frame( icon.texture.uvRect( 85, 64, 101, 80 ) );
 			break;
 		
 		case LIBGDX:
@@ -221,27 +213,10 @@ public enum Icons {
 			break;
 
 		//32*32 icons are scaled down to match game's size
-		case ALEKS:
-			icon.frame( icon.texture.uvRect( 0, 96, 32, 128 ) );
+		case JINKELOID:
+			icon.frame( icon.texture.uvRect( 0, 94, 33, 142 ) );
 			icon.scale.set(PixelScene.align(0.49f));
 			break;
-		case CHARLIE:
-			icon.frame( icon.texture.uvRect( 32, 96, 64, 128 ) );
-			icon.scale.set(PixelScene.align(0.49f));
-			break;
-		case ARCNOR:
-			icon.frame( icon.texture.uvRect( 64, 96, 96, 128 ) );
-			icon.scale.set(PixelScene.align(0.49f));
-			break;
-		case PURIGRO:
-			icon.frame( icon.texture.uvRect( 96, 96, 128, 128 ) );
-			icon.scale.set(PixelScene.align(0.49f));
-			break;
-		case CUBE_CODE:
-			icon.frame( icon.texture.uvRect( 101, 32, 128, 62 ) );
-			icon.scale.set(PixelScene.align(0.49f));
-			break;
-
 		}
 		return icon;
 	}

@@ -300,15 +300,12 @@ public class WndBag extends WndTabbed {
 	public void onBackPressed() {
 		if (listener != null) {
 			listener.onSelect( null );
-		} else {
-			Toolbar.bagOpen = false;
 		}
 		super.onBackPressed();
 	}
 	
 	@Override
 	protected void onClick( Tab tab ) {
-		Toolbar.bagOpen = false;
 		hide();
 		Game.scene().addToFront(new WndBag(((BagTab) tab).bag, listener, mode, title));
 	}
@@ -316,6 +313,7 @@ public class WndBag extends WndTabbed {
 	@Override
 	public void hide() {
 		super.hide();
+		Toolbar.bagOpen = false;
 		if (INSTANCE == this){
 			INSTANCE = null;
 		}

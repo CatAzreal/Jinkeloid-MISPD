@@ -123,7 +123,7 @@ public class WelcomeScene extends PixelScene {
 			add(okay);
 
 			changes.setRect(okay.right()+2, buttonY, (title.width()/2)-2, 20);
-			changes.icon(Icons.get(Icons.CHANGES));
+			changes.icon(Icons.get(Icons.NEWS));
 			add(changes);
 		} else {
 			okay.text(Messages.get(TitleScene.class, "enter"));
