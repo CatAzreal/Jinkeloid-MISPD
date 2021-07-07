@@ -540,7 +540,9 @@ public class Hero extends Char {
 		} else {
 			((HeroSprite)sprite).sprint( 1f );
 		}
-		
+
+		speed *= Satiation.satiationSPDBonus();
+
 		return speed;
 		
 	}

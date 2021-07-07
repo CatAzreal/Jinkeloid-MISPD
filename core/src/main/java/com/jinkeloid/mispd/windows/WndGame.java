@@ -69,7 +69,7 @@ public class WndGame extends Window {
 				}
 			} );
 			curBtn.textColor(Window.SHPX_COLOR);
-			curBtn.icon(Icons.get(Icons.CHANGES));
+			curBtn.icon(Icons.get(Icons.NEWS));
 		}
 
 		// Challenges window

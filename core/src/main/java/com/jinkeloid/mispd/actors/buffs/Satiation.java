@@ -124,6 +124,16 @@ public class Satiation extends Buff implements Hero.Doom {
         }else {return -2;}
     }
 
+    public static float satiationSPDBonus() {
+        if (isStarving()){
+            return 0.8f;
+        }
+        if (isFull()){
+            return 0.9f;
+        }
+        return 1;
+    }
+
     @Override
     public int icon() {
         if (isFull()){

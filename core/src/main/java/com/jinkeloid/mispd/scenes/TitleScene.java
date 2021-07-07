@@ -165,7 +165,7 @@ public class TitleScene extends PixelScene {
 		StyledButton btnAbout = new StyledButton(GREY_TR, Messages.get(this, "about")){
 			@Override
 			protected void onClick() {
-				MusicImplantSPD.switchScene( AboutScene.class );
+				MusicImplantSPD.switchScene( CreditScene.class );
 			}
 		};
 		btnAbout.icon(Icons.get(Icons.NEWS));
