@@ -3,8 +3,10 @@ package com.jinkeloid.mispd.ui;
 import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.hero.Perk;
+import com.jinkeloid.mispd.scenes.GameScene;
 import com.jinkeloid.mispd.scenes.PixelScene;
 import com.jinkeloid.mispd.utils.GLog;
+import com.jinkeloid.mispd.windows.WndInfoPerk;
 import com.watabou.gltextures.SmartTexture;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.noosa.Image;
@@ -104,38 +106,11 @@ import java.util.ArrayList;
         protected boolean onClick ( float x, float y ) {
             if (inside( x, y )) {
                 //TODO: show perk window
-//                GameScene.show(new WndInfoBuff(buff));
+                GameScene.show(new WndInfoPerk(perk));
                 return true;
             } else {
                 return false;
             }
         }
     }
-
-//    RenderedTextBlock blockText;
-//
-//    public PerksPane(Component content) {
-//        super(content);
-//    }
-//
-//    public PerksPane() {
-//        super(new Component());
-//    }
-//
-//    @Override
-//    protected void layout() {
-//        super.layout();
-//
-//        float top = 0;
-//
-//        for (Perk perk : Dungeon.hero.perks) {
-//            blockText = PixelScene.renderTextBlock( perk.title(), 6 );
-//            content.add(blockText);
-//        }
-//
-//        float bottom = Math.max(height, top + 20);
-//
-//
-//        content.setSize(width, bottom);
-//    }
 }
