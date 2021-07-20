@@ -98,7 +98,7 @@ public enum Perk {
 	BRAVE(0, 4, perkType.POSITIVE, 114, new int[]{210}),
 	//faster horror decay on low health, more damage output on low health
 	CONFIDENT(0, 4, perkType.POSITIVE, 115, new int[]{210}),
-	//faster horror decay on near full health, more accuracy near tull health
+	//faster horror decay on near full health, more accuracy near full health
 
 	//Negative Perks
 	SHORT_SIGHTED(0, 1, perkType.NEGATIVE, 201, new int[]{101}),
@@ -120,7 +120,7 @@ public enum Perk {
 	ILLITERATE(0, 1, perkType.NEGATIVE, 209, new int[]{112}),
 	//no journals, no identifying items, better take notes!
 	PACIFIST(0, 1, perkType.NEGATIVE, 210, new int[]{113}),
-	//You can never get used to the horror of combat, horror not only reduce your accuracy but also affect your combat efficiency
+	//You can never get used to the horror of combat, killing enemies only reduce
 	BLIND(0, 1, perkType.NEGATIVE, 211, null),
 	//You are (almost) blind, only the one tile around you are visible, good thing is you can still (barely) read scrolls and identify things
 	AMNESIA(0, 1, perkType.NEGATIVE, 212, null),

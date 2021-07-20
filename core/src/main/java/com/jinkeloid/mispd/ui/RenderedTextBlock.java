@@ -22,6 +22,7 @@
 package com.jinkeloid.mispd.ui;
 
 import com.jinkeloid.mispd.scenes.PixelScene;
+import com.jinkeloid.mispd.utils.GLog;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.RenderedText;
 import com.watabou.noosa.ui.Component;
@@ -101,10 +102,18 @@ public class RenderedTextBlock extends Component {
 		clear();
 		words = new ArrayList<>();
 		boolean highlighting = false;
+		boolean positiveLight = false;
+		boolean negativeLight = false;
+		boolean warningLight = false;
 		for (String str : tokens){
-			
 			if (str.equals("_") && highlightingEnabled){
 				highlighting = !highlighting;
+			} else if (str.equals("{")){
+				positiveLight = !positiveLight;
+			} else if (str.equals("}")){
+				negativeLight = !negativeLight;
+			} else if (str.equals("|")){
+				warningLight = !warningLight;
 			} else if (str.equals("\n")){
 				words.add(NEWLINE);
 			} else if (str.equals(" ")){
@@ -113,6 +122,9 @@ public class RenderedTextBlock extends Component {
 				RenderedText word = new RenderedText(str, size);
 				
 				if (highlighting) word.hardlight(hightlightColor);
+				else if (positiveLight) word.hardlight(Window.POSITIVE_COLOR);
+				else if (negativeLight) word.hardlight(Window.NEGATIVE_COLOR);
+				else if (warningLight) word.hardlight(Window.WARNING_COLOR);
 				else if (color != -1) word.hardlight(color);
 				word.scale.set(zoom);
 				
