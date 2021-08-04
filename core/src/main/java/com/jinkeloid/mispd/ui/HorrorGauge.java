@@ -2,7 +2,9 @@ package com.jinkeloid.mispd.ui;
 
 import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Dungeon;
+import com.jinkeloid.mispd.scenes.GameScene;
 import com.jinkeloid.mispd.utils.GLog;
+import com.jinkeloid.mispd.windows.WndHorror;
 import com.watabou.noosa.ColorBlock;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.ui.Button;
@@ -35,8 +37,7 @@ public class HorrorGauge extends Component {
         add( new Button(){
             @Override
             protected void onClick () {
-                GLog.i("horror window placeholder");
-//                GameScene.show( new WndHero() );
+                GameScene.show( new WndHorror() );
             }
         }.setRect( 0, 40, 17, 41 ));
 

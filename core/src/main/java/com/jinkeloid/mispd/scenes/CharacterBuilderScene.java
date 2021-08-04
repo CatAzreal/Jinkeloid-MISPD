@@ -22,7 +22,6 @@
 package com.jinkeloid.mispd.scenes;
 
 import com.jinkeloid.mispd.Badges;
-import com.jinkeloid.mispd.Challenges;
 import com.jinkeloid.mispd.Chrome;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.GamesInProgress;
@@ -31,12 +30,9 @@ import com.jinkeloid.mispd.MISPDSettings;
 import com.jinkeloid.mispd.MusicImplantSPD;
 import com.jinkeloid.mispd.actors.hero.HeroClass;
 import com.jinkeloid.mispd.actors.hero.Perk;
-import com.jinkeloid.mispd.items.rings.RingOfForce;
-import com.jinkeloid.mispd.items.weapon.melee.Glaive;
 import com.jinkeloid.mispd.journal.Journal;
 import com.jinkeloid.mispd.messages.Messages;
 import com.jinkeloid.mispd.ui.ActionIndicator;
-import com.jinkeloid.mispd.ui.CheckBox;
 import com.jinkeloid.mispd.ui.ExitButton;
 import com.jinkeloid.mispd.ui.IconButton;
 import com.jinkeloid.mispd.ui.Icons;
@@ -48,22 +44,16 @@ import com.jinkeloid.mispd.ui.Window;
 import com.jinkeloid.mispd.utils.GLog;
 import com.jinkeloid.mispd.windows.WndInfoPerk;
 import com.jinkeloid.mispd.windows.WndMessage;
-import com.watabou.gltextures.TextureCache;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
-import com.watabou.noosa.PointerArea;
 import com.watabou.noosa.ui.Component;
 import com.watabou.utils.GameMath;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class CharacterBuilderScene extends PixelScene {
 	//formally Hero Select Scene
@@ -147,7 +137,7 @@ public class CharacterBuilderScene extends PixelScene {
 
 		for (Perk perk: posPerkList) {
 			LinkedCheckBox cb = new LinkedCheckBox( "_+" + perk.pointCosts() + "_ " +
-					Messages.titleCase(perk.title()), 7, perk.id(), perk.oppositePerks()){
+					Messages.titleCase(perk.title()), 7, perk.id(), perk.conflictPerks()){
 				@Override
 				protected void layout() {
 					super.layout();
@@ -161,22 +151,39 @@ public class CharacterBuilderScene extends PixelScene {
 				@Override
 				protected void onClick() {
 					super.onClick();
-					if (this.disabled()){return;}
+					if (this.disabled()){
+						StringBuilder conPerk = new StringBuilder();
+						if (perk.conflictPerks() != null){
+							for (int perkid : perk.conflictPerks()) {
+								conPerk.append(Perk.getPerkNameByID(perkid)).append(", ");
+							}
+						}
+							MusicImplantSPD.scene().add(
+							new WndMessage(Messages.get(CharacterBuilderScene.class, "conflictperk", conPerk.toString()))
+						);
+						return;
+					}
 					//if the button is checked after being pressed, add the character points to scene, else cancel it
 					if (this.checked()){
-						if (perk.oppositePerks() != null){
-							for (int perkid : perk.oppositePerks()) {
-								GLog.i("button is deactivated" + perkid);
+						if (perk.conflictPerks() != null){
+							for (int perkid : perk.conflictPerks()) {
 								buttonLinkRef.get(perkid).disabled(true);
 							}
 						}
 						charPoint += perk.pointCosts();
 						tempPerks.add(perk);
 					} else {
-						if (perk.oppositePerks() != null){
-							for (int perkid : perk.oppositePerks()) {
-								GLog.i("button is activated" + perkid);
+						if (perk.conflictPerks() != null){
+							for (int perkid : perk.conflictPerks()) {
 								buttonLinkRef.get(perkid).disabled(false);
+								//check for every pairing perk, if any is selected, keep locking the conflicting perk
+								if (perk.pairingPerks() != null) {
+									for (int pairid : perk.pairingPerks()) {
+										if (buttonLinkRef.get(pairid).checked()) {
+											buttonLinkRef.get(perkid).disabled(true);
+										}
+									}
+								}
 							}
 						}
 						charPoint -= perk.pointCosts();
@@ -223,7 +230,7 @@ public class CharacterBuilderScene extends PixelScene {
 
 		for (Perk perk: negPerkList) {
 			LinkedCheckBox cb = new LinkedCheckBox( "_-" + perk.pointCosts() + "_ " +
-					Messages.titleCase(perk.title()), 7, perk.id(), perk.oppositePerks()){
+					Messages.titleCase(perk.title()), 7, perk.id(), perk.conflictPerks()){
 				@Override
 				protected void layout() {
 					super.layout();
@@ -237,14 +244,21 @@ public class CharacterBuilderScene extends PixelScene {
 				protected void onClick() {
 					super.onClick();
 					if (this.disabled()){
+						StringBuilder conPerk = new StringBuilder();
+					if (perk.conflictPerks() != null){
+						for (int perkid : perk.conflictPerks()) {
+								conPerk.append(Perk.getPerkNameByID(perkid)).append(", ");
+							}
+						}
 						MusicImplantSPD.scene().add(
-								new WndMessage("This perk cannot be picked because it conflict with another chosen perk! Unselect that perk first.")
+								new WndMessage(Messages.get(CharacterBuilderScene.class, "conflictperk", conPerk.toString()))
 						);
-						return;}
+					return;
+					}
 					//if the button is checked after being pressed, add the character points to scene, else cancel it
 					if (this.checked()){
-						if (perk.oppositePerks() != null){
-							for (int perkid : perk.oppositePerks()) {
+						if (perk.conflictPerks() != null){
+							for (int perkid : perk.conflictPerks()) {
 								GLog.i("button is deactivated" + perkid);
 								buttonLinkRef.get(perkid).disabled(true);
 							}
@@ -252,10 +266,17 @@ public class CharacterBuilderScene extends PixelScene {
 						charPoint -= perk.pointCosts();
 						tempPerks.add(perk);
 					} else {
-						if (perk.oppositePerks() != null){
-							for (int perkid : perk.oppositePerks()) {
+						if (perk.conflictPerks() != null){
+							for (int perkid : perk.conflictPerks()) {
 								GLog.i("button is activated" + perkid);
 								buttonLinkRef.get(perkid).disabled(false);
+								if (perk.pairingPerks() != null){
+									for (int pairid : perk.pairingPerks()){
+										if (buttonLinkRef.get(pairid).checked()){
+											buttonLinkRef.get(perkid).disabled(true);
+										}
+									}
+								}
 							}
 						}
 						charPoint += perk.pointCosts();

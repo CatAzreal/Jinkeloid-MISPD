@@ -104,7 +104,7 @@ public abstract class Mob extends Char {
 	public int defenseSkill = 0;
 	
 	public int EXP = 1;
-	public int HORRORGAIN = 3;
+	public int HORRORGAIN = 20;
 	public int maxLvl = Hero.MAX_LEVEL;
 
 	//Had to label these stats out for mob info display
@@ -689,7 +689,7 @@ public abstract class Mob extends Char {
 				Dungeon.hero.earnExp(exp, getClass());
 
 				// Hero with pacifist perk would get horror by killing foes
-				if (Dungeon.hero.hasPerk(Perk.PACIFIST)){
+				if (!Dungeon.hero.hasPerk(Perk.PACIFIST)){
 					if (Dungeon.hero.Horror + this.HORRORGAIN >= 100){
 						Dungeon.hero.Horror = 100;
 					} else {
