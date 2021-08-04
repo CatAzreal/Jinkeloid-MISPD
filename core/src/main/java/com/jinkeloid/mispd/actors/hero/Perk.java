@@ -93,11 +93,11 @@ public enum Perk {
 	//changing armor would cost 1/5 of usual time(armor changing turn cost would be significantly increased), grant bonus depending on armor type
 	BIOLOGIST(0, 4, perkType.POSITIVE, 112, new int[]{209}),
 	//show detailed info about mob, their health, dmgrange, dr and weakness(if have any)
-	ADRENALINE(0, 4, perkType.POSITIVE, 113, new int[]{210}),
+	ADRENALINE(0, 4, perkType.POSITIVE, 113, null),
 	//the horror of enemy can stimulate you, strengthening reflex, resulting less penalty on accuracy and bonus to attackspeed and movement speed
-	BRAVE(0, 4, perkType.POSITIVE, 114, new int[]{210}),
+	BRAVE(0, 4, perkType.POSITIVE, 114, new int[]{210}, new int[]{115}),
 	//faster horror decay on low health, more damage output on low health
-	CONFIDENT(0, 4, perkType.POSITIVE, 115, new int[]{210}),
+	CONFIDENT(0, 4, perkType.POSITIVE, 115, new int[]{210}, new int[]{114}),
 	//faster horror decay on near full health, more accuracy near full health
 
 	//Negative Perks
@@ -119,7 +119,7 @@ public enum Perk {
 	//you better choose somewhere safe to take off your armor, and each of them will provide you unique penalties
 	ILLITERATE(0, 1, perkType.NEGATIVE, 209, new int[]{112}),
 	//no journals, no identifying items, better take notes!
-	PACIFIST(0, 1, perkType.NEGATIVE, 210, new int[]{113}),
+	PACIFIST(0, 1, perkType.NEGATIVE, 210, new int[]{114,115}),
 	//You can never get used to the horror of combat, killing enemies only reduce
 	BLIND(0, 1, perkType.NEGATIVE, 211, null),
 	//You are (almost) blind, only the one tile around you are visible, good thing is you can still (barely) read scrolls and identify things
@@ -185,9 +185,12 @@ public enum Perk {
 	int icon;
 	int pointCosts;
 	perkType type;
-	//positive perks have ids from 100-199; while negative perks have ids from 200-299
+	//positive perks have ids from 100-199; while negative perks have ids from 200-299, which are more than enough
 	int id;
-	int[] oppositePerks;
+	//Store the conflicting perk, which will be disabled when current perk is selected
+	int[] conflictPerks;
+	//Store the pairing Perk, without both this perk and its pairing perks unselected the conflicting perk will remain locked
+	int[] pairingPerks;
 
 	//This method is needed to let the menu know which perk is their counterpart,
 	//while preset int array is a better idea it can be difficult to maintain
@@ -202,7 +205,8 @@ public enum Perk {
 		this.pointCosts = 1;
 		this.type = perkType.NOT_APPLICABLE;
 		this.id = 0;
-		this.oppositePerks = null;
+		this.conflictPerks = null;
+		this.pairingPerks = null;
 	}
 
 	Perk(int icon, int pointCosts){
@@ -210,15 +214,26 @@ public enum Perk {
 		this.pointCosts = pointCosts;
 		this.type = perkType.NOT_APPLICABLE;
 		this.id = 0;
-		this.oppositePerks = null;
+		this.conflictPerks = null;
+		this.pairingPerks = null;
 	}
 
-	Perk(int icon, int pointCosts, perkType type, int id, int[] oppositePerks){
+	Perk(int icon, int pointCosts, perkType type, int id, int[] conflictPerks){
 		this.icon = icon;
 		this.pointCosts = pointCosts;
 		this.type = type;
 		this.id = id;
-		this.oppositePerks = oppositePerks;
+		this.conflictPerks = conflictPerks;
+		this.pairingPerks = null;
+	}
+
+	Perk(int icon, int pointCosts, perkType type, int id, int[] conflictPerks, int[] pairingPerks){
+		this.icon = icon;
+		this.pointCosts = pointCosts;
+		this.type = type;
+		this.id = id;
+		this.conflictPerks = conflictPerks;
+		this.pairingPerks = pairingPerks;
 	}
 
 
@@ -236,6 +251,18 @@ public enum Perk {
 			perkList.remove(perk);
 		}
 		return perkList;
+	}
+
+	public static String getPerkNameByID(int id){
+		List<Perk> perkList = new ArrayList<>(EnumSet.allOf(Perk.class));
+		for (Perk perk : perkList){
+			if (perk.id == id && perk.type == perkType.POSITIVE){
+				return "{"+perk.title()+"{";
+			} else if (perk.id == id && perk.type == perkType.NEGATIVE){
+				return "}"+perk.title()+"}";
+			}
+		}
+		return null;
 	}
 
 	public enum perkType {
@@ -256,7 +283,9 @@ public enum Perk {
 		return id;
 	}
 
-	public int[] oppositePerks() { return oppositePerks; }
+	public int[] conflictPerks() { return conflictPerks; }
+
+	public int[] pairingPerks() { return pairingPerks; }
 
 	public String title(){
 		return Messages.get(this, name() + ".title");
@@ -287,7 +316,10 @@ public enum Perk {
 	public static void onMobInfoTrigger(){}
 
 	//throwing things
-	public static void onItemThrow(){}
+	public static void onItemThrowTrigger(){}
+
+	//Equipping Weapons
+	public static void onWeaponEquipTrigger(){}
 
 	public static void onTalentUpgraded( Hero hero, Perk perk){
 		if (perk == NATURES_BOUNTY){

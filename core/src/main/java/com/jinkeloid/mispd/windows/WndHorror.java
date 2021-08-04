@@ -27,33 +27,32 @@ public class WndHorror extends Window {
 
         IconTitle titlebar = new IconTitle();
 
-        Image perkIcon = Icons.JINKELOID.get();
+        Image perkIcon = Icons.JINKELOID.get();//placeholder, will be replaced soon
         String title;
         String desc;
+        String appendKey;
         int horrorVal = (int)(Dungeon.hero.Horror / 25);
         switch (horrorVal){
             case 0:
-                title = Messages.get(this, "title_uneasy");
-                desc = Messages.get(this, "desc_uneasy");
+                appendKey = "uneasy";
                 break;
             case 1:
-                title = Messages.get(this, "title_frightened");
-                desc = Messages.get(this, "desc_frightened");
+                appendKey = "frightened";
                 break;
             case 2:
-                title = Messages.get(this, "title_horrified");
-                desc = Messages.get(this, "desc_horrified");
+                appendKey = "horrified";
                 break;
             case 3:
-                title = Messages.get(this, "title_trembling");
-                desc = Messages.get(this, "desc_trembling");
+                appendKey = "trembling";
                 break;
             default:
-                title = Messages.get(this, "title_error");
-                desc = Messages.get(this, "desc_error");
+                appendKey = "error";
                 break;
         }
-        desc += Messages.get(this, "desc_additional_info");
+        title = Messages.get(this, "title_"+appendKey);
+        desc = Messages.get(this, "desc_"+appendKey);
+        int accPan = (int)Math.min(Dungeon.hero.Horror*0.4f, 30);
+        desc += "\n" + Messages.get(this, "desc_"+appendKey+"_generic", accPan);
         titlebar.icon( perkIcon );
         titlebar.label( title.toUpperCase(), Window.TITLE_COLOR );
         titlebar.setRect( 0, 0, WIDTH, 0 );

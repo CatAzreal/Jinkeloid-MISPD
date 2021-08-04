@@ -44,7 +44,6 @@ import com.jinkeloid.mispd.actors.buffs.Drowsy;
 import com.jinkeloid.mispd.actors.buffs.Foresight;
 import com.jinkeloid.mispd.actors.buffs.Fury;
 import com.jinkeloid.mispd.actors.buffs.HoldFast;
-import com.jinkeloid.mispd.actors.buffs.Hunger;
 import com.jinkeloid.mispd.actors.buffs.Invisibility;
 import com.jinkeloid.mispd.actors.buffs.MindVision;
 import com.jinkeloid.mispd.actors.buffs.Momentum;
@@ -183,7 +182,7 @@ public class Hero extends Char {
 	public int ST;
 
 	public float Horror;
-	public int GuiltMax;
+	public int HorrorMax;
 	
 	public int HTBoost = 0;
 	
@@ -197,7 +196,7 @@ public class Hero extends Char {
 		super();
 
 		HP = HT = 20;
-		GuiltMax = 100;
+		HorrorMax = 100;
 		Horror = 0;
 		STR = STARTING_STR;
 		if (DeviceCompat.isDebug()) {

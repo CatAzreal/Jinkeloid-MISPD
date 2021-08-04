@@ -49,6 +49,8 @@ import com.jinkeloid.mispd.items.weapon.SpiritBow;
 import com.jinkeloid.mispd.items.weapon.melee.Dagger;
 import com.jinkeloid.mispd.items.weapon.melee.Gloves;
 import com.jinkeloid.mispd.items.weapon.melee.MagesStaff;
+import com.jinkeloid.mispd.items.weapon.melee.Shortsword;
+import com.jinkeloid.mispd.items.weapon.melee.Sword;
 import com.jinkeloid.mispd.items.weapon.melee.WornShortsword;
 import com.jinkeloid.mispd.items.weapon.missiles.ThrowingKnife;
 import com.jinkeloid.mispd.items.weapon.missiles.ThrowingStone;
@@ -108,6 +110,8 @@ public enum HeroClass {
 
 		new ScrollOfIdentify().identify();
 		if (DeviceCompat.isDebug()) {
+			Sword sword = new Sword();
+			sword.identify().collect();
 			Pasty pasty = new Pasty();
 			pasty.quantity(10).collect();
 			Food ration = new Food();

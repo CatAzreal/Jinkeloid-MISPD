@@ -34,13 +34,26 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
+import java.util.ArrayList;
+
 abstract public class KindOfWeapon extends EquipableItem {
-	
+
+	public static final String AC_EQUIPINST		= "EQUIPINST";
+
 	protected static final float TIME_TO_EQUIP = 1f;
 
 	protected String hitSound = Assets.Sounds.HIT;
 	protected float hitSoundPitch = 1f;
-	
+	public static boolean instantSwitch = false;
+
+	@Override
+	public ArrayList<String> actions(Hero hero ) {
+		ArrayList<String> actions = super.actions( hero );
+		actions.remove( isEquipped( hero ) ? AC_UNEQUIP : AC_EQUIP );
+		actions.add( isEquipped( hero ) ? AC_UNEQUIP : instantSwitch ? AC_EQUIPINST : AC_EQUIP );
+		return actions;
+	}
+
 	@Override
 	public boolean isEquipped( Hero hero ) {
 		return hero.belongings.weapon == this || hero.belongings.stashedWeapon == this;
@@ -63,8 +76,15 @@ abstract public class KindOfWeapon extends EquipableItem {
 				equipCursed( hero );
 				GLog.n( Messages.get(KindOfWeapon.class, "equip_cursed") );
 			}
-			
-			hero.spendAndNext( TIME_TO_EQUIP );
+
+			//If hero have weapon switch perk then let them switch weapon instantly
+			Perk.onWeaponEquipTrigger();
+			if (!instantSwitch)hero.spendAndNext( TIME_TO_EQUIP );
+			else {
+			hero.spendAndNext(0);
+			instantSwitch = false;
+			GLog.i("instantSwitch performed");
+			}
 			return true;
 			
 		} else {

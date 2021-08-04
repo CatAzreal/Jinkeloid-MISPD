@@ -130,7 +130,7 @@ public class Item implements Bundlable {
 	public void reset(){}
 
 	public void doThrow( Hero hero ) {
-		Perk.onItemThrow();
+		Perk.onItemThrowTrigger();
 		if (hero.hasPerk(Perk.CLUMSY)){
 			double chance = Math.random();
 			if (chance<0.3f){
@@ -239,7 +239,7 @@ public class Item implements Bundlable {
 		return collect( Dungeon.hero.belongings.backpack );
 	}
 	
-	//returns a new item if the split was sucessful and there are now 2 items, otherwise null
+	//returns a new item if the split was successful and there are now 2 items, otherwise null
 	public Item split( int amount ){
 		if (amount <= 0 || amount >= quantity()) {
 			return null;
@@ -552,7 +552,7 @@ public class Item implements Bundlable {
 		Char enemy = Actor.findChar( cell );
 		QuickSlotButton.target(enemy);
 		float delay = castDelay(user, dst);
-		Perk.onItemThrow();
+		Perk.onItemThrowTrigger();
 		if (instantAct){
 			GLog.i(Messages.get( Item.class, "instantthrow", Item.this.name()));
 			delay = 0;

@@ -33,6 +33,8 @@ import com.watabou.noosa.audio.Sample;
 
 import java.util.ArrayList;
 
+import static com.jinkeloid.mispd.items.KindOfWeapon.AC_EQUIPINST;
+
 public abstract class EquipableItem extends Item {
 
 	public static final String AC_EQUIP		= "EQUIP";
@@ -54,7 +56,7 @@ public abstract class EquipableItem extends Item {
 
 		super.execute( hero, action );
 
-		if (action.equals( AC_EQUIP )) {
+		if (action.equals( AC_EQUIP ) || action.equals( AC_EQUIPINST )) {
 			//In addition to equipping itself, item reassigns itself to the quickslot
 			//This is a special case as the item is being removed from inventory, but is staying with the hero.
 			int slot = Dungeon.quickslot.getSlot( this );
