@@ -23,6 +23,8 @@ package com.watabou.noosa;
 
 import com.watabou.utils.RectF;
 
+import java.io.Console;
+
 public class MovieClip extends Image {
 
 	protected Animation curAnim;

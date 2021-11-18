@@ -94,27 +94,27 @@ public class WndInfoMob extends WndTitledMessage {
                 switch ((int) mobHealth) {
                     case 5:
                     case 4:
-                        state.text("Healthy");
+                        state.text(Messages.get(WndInfoMob.class, "healthy"));
                         state.hardlight(0x0db53a);
                         break;
                     case 3:
-                        state.text("Lightly_Damaged");
+                        state.text(Messages.get(WndInfoMob.class, "l_damaged"));
                         state.hardlight(0xd7f229);
                         break;
                     case 2:
-                        state.text("Damaged");
+                        state.text(Messages.get(WndInfoMob.class, "damaged"));
                         state.hardlight(0xf4f734);
                         break;
                     case 1:
-                        state.text("Wounded");
+                        state.text(Messages.get(WndInfoMob.class, "wounded"));
                         state.hardlight(0xe39219);
                         break;
                     case 0:
-                        state.text("Severely_Wounded");
+                        state.text(Messages.get(WndInfoMob.class, "s_wounded"));
                         state.hardlight(0xba0606);
                         break;
                     default:
-                        state.text("Healthy??");
+                        state.text(Messages.get(WndInfoMob.class, "error"));
                         state.hardlight(0x001296);
                         break;
                 }

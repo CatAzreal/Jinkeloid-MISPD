@@ -54,6 +54,9 @@ public class MISPDSettings extends GameSettings {
 	public static final String KEY_ZOOM			= "zoom";
 	public static final String KEY_BRIGHTNESS	= "brightness";
 	public static final String KEY_GRID 	    = "visual_grid";
+
+	public static final String URI_QQ 			= "https://jq.qq.com/?_wv=1027&k=EDmIEQC2";
+	public static final String URI_DISCORD 		= "https://discord.gg/MdpS7zPs6t";
 	
 	public static void fullscreen( boolean value ) {
 		put( KEY_FULLSCREEN, value );
@@ -261,7 +264,9 @@ public class MISPDSettings extends GameSettings {
 	
 	public static boolean systemFont(){
 		return getBoolean(KEY_SYSTEMFONT,
-				(language() == Languages.KOREAN || language() == Languages.CHINESE || language() == Languages.JAPANESE));
+				(language() == Languages.CHINESE
+						//|| language() == Languages.KOREAN || language() == Languages.JAPANESE
+				));
 	}
 
 	//Connectivity

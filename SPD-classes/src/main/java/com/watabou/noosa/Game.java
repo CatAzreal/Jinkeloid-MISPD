@@ -37,9 +37,11 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.PlatformSupport;
 import com.watabou.utils.Reflection;
+import com.watabou.utils.Signal;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Observable;
 
 public class Game implements ApplicationListener {
 
@@ -58,6 +60,9 @@ public class Game implements ApplicationListener {
 	
 	public static String version;
 	public static int versionCode;
+
+	// todo: Anything is better than this line but screw it
+	public static boolean startTrigger = true;
 	
 	// Current scene
 	protected Scene scene;
@@ -90,7 +95,7 @@ public class Game implements ApplicationListener {
 	//this is partly to improve stats on google play, and partly to try and diagnose what the cause of slow loading times is
 	//ultimately once the cause is found it should be fixed and this should no longer be needed
 	private boolean justResumed = true;
-	
+
 	@Override
 	public void create() {
 		density = Gdx.graphics.getDensity();

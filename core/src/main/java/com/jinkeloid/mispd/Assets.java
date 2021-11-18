@@ -66,6 +66,10 @@ public class Assets {
 	public static class Interfaces {
 		public static final String ARCS_BG  = "interfaces/arcs1.png";
 		public static final String ARCS_FG  = "interfaces/arcs2.png";
+		public static final String TITLE  = "interfaces/title_preview.png";
+		public static final String TITLE_BG  = "interfaces/background.png";
+		public static final String DISCORD  = "interfaces/large_discord.png";
+		public static final String TENCENT_QQ  = "interfaces/large_qq.png";
 
 		public static final String BANNERS	= "interfaces/banners.png";
 		public static final String BADGES	= "interfaces/badges.png";
@@ -214,6 +218,13 @@ public class Assets {
 	public static class Sprites {
 		public static final String ITEMS	    = "sprites/items.png";
 		public static final String ITEM_ICONS   = "sprites/item_icons.png";
+
+		public static final String A_BTN_START = "sprites/ui_anim/pb_start.png";
+		public static final String A_BTN_SIGIL = "sprites/ui_anim/pb_sigil.png";
+		public static final String A_BTN_GAMELOG = "sprites/ui_anim/pb_gamelog.png";
+		public static final String A_BTN_CONFIG = "sprites/ui_anim/pb_config.png";
+		public static final String A_BTN_CREDIT = "sprites/ui_anim/pb_credit.png";
+		public static final String ANIM_TITLE = "sprites/ui_anim/title_anim.png";
 
 		public static final String WARRIOR	= "sprites/warrior.png";
 		public static final String MAGE		= "sprites/mage.png";

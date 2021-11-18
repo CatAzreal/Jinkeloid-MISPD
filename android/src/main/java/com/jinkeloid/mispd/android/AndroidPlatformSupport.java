@@ -44,6 +44,7 @@ import com.badlogic.gdx.graphics.g2d.PixmapPacker;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.jinkeloid.mispd.MISPDSettings;
 import com.jinkeloid.mispd.android.windows.WndAndroidTextInput;
+import com.jinkeloid.mispd.messages.Languages;
 import com.jinkeloid.mispd.scenes.PixelScene;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Callback;
@@ -274,17 +275,17 @@ public class AndroidPlatformSupport extends PlatformSupport {
 			//typefaces are 0-JP, 1-KR, 2-SC, 3-TC.
 			int typeFace;
 			switch (MISPDSettings.language()) {
-				case JAPANESE:
-					typeFace = 0;
-					break;
-				case KOREAN:
-					typeFace = 1;
-					break;
-				case CHINESE:
-				default:
-					typeFace = 2;
+//				case JAPANESE:
+//					typeFace = 0;
+//					break;
+//				case KOREAN:
+//					typeFace = 1;
+//					break;
+//				case CHINESE:
+//				default:
+//					typeFace = 2;
 			}
-			KRFontGenerator = SCFontGenerator = JPFontGenerator = new FreeTypeFontGenerator(Gdx.files.absolute("/system/fonts/NotoSansCJK-Regular.ttc"), typeFace);
+//			KRFontGenerator = SCFontGenerator = JPFontGenerator = new FreeTypeFontGenerator(Gdx.files.absolute("/system/fonts/NotoSansCJK-Regular.ttc"), typeFace);
 			
 		//otherwise we have to go over a few possibilities.
 		} else {
@@ -298,11 +299,12 @@ public class AndroidPlatformSupport extends PlatformSupport {
 			}
 			
 			//Chinese font generators
-			if (Gdx.files.absolute("/system/fonts/NotoSansSC-Regular.otf").exists()){
-				SCFontGenerator = new FreeTypeFontGenerator(Gdx.files.absolute("/system/fonts/NotoSansSC-Regular.otf"));
-			} else if (Gdx.files.absolute("/system/fonts/NotoSansHans-Regular.otf").exists()){
-				SCFontGenerator = new FreeTypeFontGenerator(Gdx.files.absolute("/system/fonts/NotoSansHans-Regular.otf"));
-			}
+			//Selected Font
+//			if (Gdx.files.absolute("/system/fonts/NotoSansSC-Regular.otf").exists()){
+//				SCFontGenerator = new FreeTypeFontGenerator(Gdx.files.absolute("/system/fonts/NotoSansSC-Regular.otf"));
+//			} else if (Gdx.files.absolute("/system/fonts/NotoSansHans-Regular.otf").exists()){
+//				SCFontGenerator = new FreeTypeFontGenerator(Gdx.files.absolute("/system/fonts/NotoSansHans-Regular.otf"));
+//			}
 			
 			//Japaneses font generators
 			if (Gdx.files.absolute("/system/fonts/NotoSansJP-Regular.otf").exists()){
@@ -323,7 +325,8 @@ public class AndroidPlatformSupport extends PlatformSupport {
 			if (JPFontGenerator == null) JPFontGenerator = fallbackGenerator;
 			
 		}
-		
+
+		SCFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/zpix_font.ttf"));
 		if (basicFontGenerator != null) fonts.put(basicFontGenerator, basicFonts);
 		if (KRFontGenerator != null) fonts.put(KRFontGenerator, KRFonts);
 		if (SCFontGenerator != null) fonts.put(SCFontGenerator, SCFonts);

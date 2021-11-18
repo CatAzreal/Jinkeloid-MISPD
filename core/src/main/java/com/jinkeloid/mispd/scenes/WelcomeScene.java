@@ -196,12 +196,12 @@ public class WelcomeScene extends PixelScene {
 
 		//resetting language preference back to native for finnish speakers if they were on english
 		//This is because Finnish was unmaintained for quite a while
-		if ( previousVersion <= 500
-				&& Languages.matchLocale(Locale.getDefault()) == Languages.FINNISH
-				&& Messages.lang() == Languages.ENGLISH) {
-			MISPDSettings.language(Languages.FINNISH);
-			Messages.setup(Languages.FINNISH);
-		}
+//		if ( previousVersion <= 500
+//				&& Languages.matchLocale(Locale.getDefault()) == Languages.FINNISH
+//				&& Messages.lang() == Languages.ENGLISH) {
+//			MISPDSettings.language(Languages.FINNISH);
+//			Messages.setup(Languages.FINNISH);
+//		}
 		
 		MISPDSettings.version(MusicImplantSPD.versionCode);
 	}
