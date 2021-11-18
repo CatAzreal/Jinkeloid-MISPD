@@ -77,6 +77,8 @@ public enum Icons {
 	LIBGDX,
 	WATA,
 	WARNING,
+	TENCENT_QQ,
+	DISCORD,
 
 	//icons for credits
 	JINKELOID;

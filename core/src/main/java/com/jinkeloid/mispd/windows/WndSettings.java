@@ -252,17 +252,17 @@ public class WndSettings extends WndTabbed {
 				add( chkSaver );
 			}
 
-			if (!DeviceCompat.isDesktop()) {
-				btnOrientation = new RedButton(PixelScene.landscape() ?
-						Messages.get(this, "portrait")
-						: Messages.get(this, "landscape")) {
-					@Override
-					protected void onClick() {
-						MISPDSettings.landscape(!PixelScene.landscape());
-					}
-				};
-				add(btnOrientation);
-			}
+//			if (!DeviceCompat.isDesktop()) {
+//				btnOrientation = new RedButton(PixelScene.landscape() ?
+//						Messages.get(this, "portrait")
+//						: Messages.get(this, "landscape")) {
+//					@Override
+//					protected void onClick() {
+//						MISPDSettings.landscape(!PixelScene.landscape());
+//					}
+//				};
+//				add(btnOrientation);
+//			}
 
 			sep2 = new ColorBlock(1, 1, 0xFF000000);
 			add(sep2);
@@ -689,10 +689,10 @@ public class WndSettings extends WndTabbed {
 
 	private static class LangsTab extends Component{
 
-		final static int COLS_P = 3;
-		final static int COLS_L = 4;
+		final static int COLS_P = 1;
+		final static int COLS_L = 1;
 
-		final static int BTN_HEIGHT = 11;
+		final static int BTN_HEIGHT = 20;
 
 		RenderedTextBlock title;
 		ColorBlock sep1;
@@ -715,7 +715,7 @@ public class WndSettings extends WndTabbed {
 
 			final ArrayList<Languages> langs = new ArrayList<>(Arrays.asList(Languages.values()));
 
-			Languages nativeLang = Languages.matchLocale(Locale.getDefault());
+			Languages nativeLang = Languages.matchLocale(Locale.CHINESE);
 			langs.remove(nativeLang);
 			//move the native language to the top.
 			langs.add(0, nativeLang);
@@ -729,7 +729,8 @@ public class WndSettings extends WndTabbed {
 			add(txtLangName);
 
 			txtLangInfo = PixelScene.renderTextBlock(6);
-			if (currLang == Languages.ENGLISH) txtLangInfo.text("This is the source language, written by the developer.");
+			if (currLang == Languages.CHINESE) txtLangInfo.text("游戏开发时的源语言之一");
+			else if (currLang == Languages.ENGLISH) txtLangInfo.text("The source language written by developer");
 			else if (currLang.status() == Languages.Status.REVIEWED) txtLangInfo.text(Messages.get(this, "completed"));
 			else if (currLang.status() == Languages.Status.UNREVIEWED) txtLangInfo.text(Messages.get(this, "unreviewed"));
 			else if (currLang.status() == Languages.Status.INCOMPLETE) txtLangInfo.text(Messages.get(this, "unfinished"));
@@ -781,81 +782,82 @@ public class WndSettings extends WndTabbed {
 			sep3 = new ColorBlock(1, 1, 0xFF000000);
 			add(sep3);
 
-			txtTranifex = PixelScene.renderTextBlock(6);
-			txtTranifex.text(Messages.get(this, "transifex"));
-			add(txtTranifex);
-
-			if (currLang != Languages.ENGLISH) {
-				String credText = Messages.titleCase(Messages.get(this, "credits"));
-				btnCredits = new RedButton(credText, credText.length() > 9 ? 6 : 9) {
-					@Override
-					protected void onClick() {
-						super.onClick();
-						String creds = "";
-						String creds2 = "";
-						String[] reviewers = currLang.reviewers();
-						String[] translators = currLang.translators();
-
-						ArrayList<String> total = new ArrayList<>();
-						total.addAll(Arrays.asList(reviewers));
-						total.addAll(Arrays.asList(reviewers));
-						total.addAll(Arrays.asList(translators));
-						int translatorIdx = reviewers.length;
-
-						//we have 2 columns in wide mode
-						boolean wide = (2 * reviewers.length + translators.length) > (PixelScene.landscape() ? 15 : 30);
-
-						int i;
-						if (reviewers.length > 0) {
-							creds += Messages.titleCase(Messages.get(LangsTab.this, "reviewers"));
-							creds2 += "";
-							boolean col2 = false;
-							for (i = 0; i < total.size(); i++) {
-								if (i == translatorIdx){
-									creds += "\n\n" + Messages.titleCase(Messages.get(LangsTab.this, "translators"));
-									creds2 += "\n\n";
-									if (col2) creds2 += "\n";
-									col2 = false;
-								}
-								if (wide && col2) {
-									creds2 += "\n-" + total.get(i);
-								} else {
-									creds += "\n-" + total.get(i);
-								}
-								col2 = !col2 && wide;
-							}
-						}
-
-						Window credits = new Window(0, 0, 0, Chrome.get(Chrome.Type.TOAST));
-
-						int w = wide ? 125 : 60;
-
-						RenderedTextBlock title = PixelScene.renderTextBlock(6);
-						title.text(Messages.titleCase(Messages.get(LangsTab.this, "credits")), w);
-						title.hardlight(TITLE_COLOR);
-						title.setPos((w - title.width()) / 2, 0);
-						credits.add(title);
-
-						RenderedTextBlock text = PixelScene.renderTextBlock(5);
-						text.setHightlighting(false);
-						text.text(creds, 65);
-						text.setPos(0, title.bottom() + 2);
-						credits.add(text);
-
-						if (wide) {
-							RenderedTextBlock rightColumn = PixelScene.renderTextBlock(5);
-							rightColumn.setHightlighting(false);
-							rightColumn.text(creds2, 65);
-							rightColumn.setPos(65, title.bottom() + 6);
-							credits.add(rightColumn);
-						}
-
-						credits.resize(w, (int) text.bottom() + 2);
-						MusicImplantSPD.scene().addToFront(credits);
-					}
-				};
-				add(btnCredits);
-			}
+			//No transifex for now
+//			txtTranifex = PixelScene.renderTextBlock(6);
+//			txtTranifex.text(Messages.get(this, "transifex"));
+//			add(txtTranifex);
+//
+//			if (currLang != Languages.ENGLISH && currLang != Languages.CHINESE) {
+//				String credText = Messages.titleCase(Messages.get(this, "credits"));
+//				btnCredits = new RedButton(credText, credText.length() > 9 ? 6 : 9) {
+//					@Override
+//					protected void onClick() {
+//						super.onClick();
+//						String creds = "";
+//						String creds2 = "";
+//						String[] reviewers = currLang.reviewers();
+//						String[] translators = currLang.translators();
+//
+//						ArrayList<String> total = new ArrayList<>();
+//						total.addAll(Arrays.asList(reviewers));
+//						total.addAll(Arrays.asList(reviewers));
+//						total.addAll(Arrays.asList(translators));
+//						int translatorIdx = reviewers.length;
+//
+//						//we have 2 columns in wide mode
+//						boolean wide = (2 * reviewers.length + translators.length) > (PixelScene.landscape() ? 15 : 30);
+//
+//						int i;
+//						if (reviewers.length > 0) {
+//							creds += Messages.titleCase(Messages.get(LangsTab.this, "reviewers"));
+//							creds2 += "";
+//							boolean col2 = false;
+//							for (i = 0; i < total.size(); i++) {
+//								if (i == translatorIdx){
+//									creds += "\n\n" + Messages.titleCase(Messages.get(LangsTab.this, "translators"));
+//									creds2 += "\n\n";
+//									if (col2) creds2 += "\n";
+//									col2 = false;
+//								}
+//								if (wide && col2) {
+//									creds2 += "\n-" + total.get(i);
+//								} else {
+//									creds += "\n-" + total.get(i);
+//								}
+//								col2 = !col2 && wide;
+//							}
+//						}
+//
+//						Window credits = new Window(0, 0, 0, Chrome.get(Chrome.Type.TOAST));
+//
+//						int w = wide ? 125 : 60;
+//
+//						RenderedTextBlock title = PixelScene.renderTextBlock(6);
+//						title.text(Messages.titleCase(Messages.get(LangsTab.this, "credits")), w);
+//						title.hardlight(TITLE_COLOR);
+//						title.setPos((w - title.width()) / 2, 0);
+//						credits.add(title);
+//
+//						RenderedTextBlock text = PixelScene.renderTextBlock(5);
+//						text.setHightlighting(false);
+//						text.text(creds, 65);
+//						text.setPos(0, title.bottom() + 2);
+//						credits.add(text);
+//
+//						if (wide) {
+//							RenderedTextBlock rightColumn = PixelScene.renderTextBlock(5);
+//							rightColumn.setHightlighting(false);
+//							rightColumn.text(creds2, 65);
+//							rightColumn.setPos(65, title.bottom() + 6);
+//							credits.add(rightColumn);
+//						}
+//
+//						credits.resize(w, (int) text.bottom() + 2);
+//						MusicImplantSPD.scene().addToFront(credits);
+//					}
+//				};
+//				add(btnCredits);
+//			}
 
 		}
 
@@ -897,20 +899,21 @@ public class WndSettings extends WndTabbed {
 			sep3.y = y;
 			y += 2;
 
-			if (btnCredits != null){
-				btnCredits.setSize(btnCredits.reqWidth() + 2, 16);
-				btnCredits.setPos(width - btnCredits.width(), y);
-
-				txtTranifex.setPos(0, y);
-				txtTranifex.maxWidth((int)btnCredits.left());
-
-				height = Math.max(btnCredits.bottom(), txtTranifex.bottom());
-			} else {
-				txtTranifex.setPos(0, y);
-				txtTranifex.maxWidth((int)width);
-
-				height = txtTranifex.bottom();
-			}
+			//Transifex related UI
+//			if (btnCredits != null && txtTranifex != null){
+//				btnCredits.setSize(btnCredits.reqWidth() + 2, 16);
+//				btnCredits.setPos(width - btnCredits.width(), y);
+//
+//				txtTranifex.setPos(0, y);
+//				txtTranifex.maxWidth((int)btnCredits.left());
+//
+//				height = Math.max(btnCredits.bottom(), txtTranifex.bottom());
+//			} else {
+//				txtTranifex.setPos(0, y);
+//				txtTranifex.maxWidth((int)width);
+//
+//				height = txtTranifex.bottom();
+//			}
 
 		}
 	}
