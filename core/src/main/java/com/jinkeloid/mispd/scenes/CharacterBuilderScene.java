@@ -51,6 +51,8 @@ import com.watabou.noosa.ui.Component;
 import com.watabou.utils.GameMath;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +73,7 @@ public class CharacterBuilderScene extends PixelScene {
 	private IconButton btnExit;
 
 	//Total character points spent
-	private int charPoint;
+	public static int charPoint;
 	//Temporary list to store perks selected in this scene
 	public static ArrayList<Perk> tempPerks;
 	//Link map for dynamic perk buttons
@@ -137,7 +139,7 @@ public class CharacterBuilderScene extends PixelScene {
 
 		for (Perk perk: posPerkList) {
 			LinkedCheckBox cb = new LinkedCheckBox( "_+" + perk.pointCosts() + "_ " +
-					Messages.titleCase(perk.title()), 7, perk.id(), perk.conflictPerks()){
+					Messages.titleCase(perk.title()), 7, perk.id(), perk.conflictPerks(), true){
 				@Override
 				protected void layout() {
 					super.layout();
@@ -200,11 +202,22 @@ public class CharacterBuilderScene extends PixelScene {
 							new WndInfoPerk(perk)
 					);
 				}
+				@Override
+				protected void layout() {
+					super.layout();
+
+					if (icon != null) {
+						icon.x = x + (width - icon.width()/2f) / 2f;
+						icon.y = y + (height - icon.height()/2f) / 2f;
+						icon.scale.set(0.5f);
+						PixelScene.align(icon);
+					}
+				}
 			};
 			buttonLinkRef.put(perk.id(), cb);
 			cb.setRect(0, pos, w/2-10, 16);
 			posContent.add(cb);
-			info.setRect(cb.right()-14, pos+3, 12, 12);
+			info.setRect(cb.right()-14, pos+4, 6, 6);
 			posContent.add(info);
 			pos = cb.bottom();
 			pos += 2;
@@ -230,7 +243,7 @@ public class CharacterBuilderScene extends PixelScene {
 
 		for (Perk perk: negPerkList) {
 			LinkedCheckBox cb = new LinkedCheckBox( "_-" + perk.pointCosts() + "_ " +
-					Messages.titleCase(perk.title()), 7, perk.id(), perk.conflictPerks()){
+					Messages.titleCase(perk.title()), 7, perk.id(), perk.conflictPerks(), false){
 				@Override
 				protected void layout() {
 					super.layout();
@@ -293,11 +306,22 @@ public class CharacterBuilderScene extends PixelScene {
 							new WndInfoPerk(perk)
 					);
 				}
+				@Override
+				protected void layout() {
+					super.layout();
+
+					if (icon != null) {
+						icon.x = x + (width - icon.width()/2f) / 2f;
+						icon.y = y + (height - icon.height()/2f) / 2f;
+						icon.scale.set(0.5f);
+						PixelScene.align(icon);
+					}
+				}
 			};
 			buttonLinkRef.put(perk.id(), cb);
 			cb.setRect(0, pos, w/2-10, 16);
 			negContent.add(cb);
-			info.setRect(cb.right()-14, pos+3, 12, 12);
+			info.setRect(cb.right()-14, pos+4, 6, 6);
 			negContent.add(info);
 			pos = cb.bottom();
 			pos += 2;

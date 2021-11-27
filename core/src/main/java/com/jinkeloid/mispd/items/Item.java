@@ -107,7 +107,7 @@ public class Item implements Bundlable {
 	}
 	
 	public boolean doPickUp( Hero hero ) {
-		if (collect( hero.belongings.backpack )) {
+		if (collect( hero.belongings.backpack, false )) {
 			
 			GameScene.pickUp( this, hero.pos );
 			Sample.INSTANCE.play( Assets.Sounds.ITEM );
@@ -133,11 +133,11 @@ public class Item implements Bundlable {
 		Perk.onItemThrowTrigger();
 		if (hero.hasPerk(Perk.CLUMSY)){
 			double chance = Math.random();
-			if (chance<0.3f){
+			if (chance<0.23f){
 				hero.busy();
 				GLog.w(Messages.get( Item.class, "clumsythrow", Item.this.name()));
-				//10% chance of dropping all of them
-				if (chance<0.1f){
+				//3% chance of dropping all of them
+				if (chance<0.03f){
 				GLog.w(Messages.get( Item.class, "clumsycrit"));
 					doDrop(hero);
 				}
@@ -187,8 +187,9 @@ public class Item implements Bundlable {
 		}
 		return this;
 	}
-	
-	public boolean collect( Bag container ) {
+
+	//this method must be checked if loaded, because we have to skip the container full check for capacity-related perks to work as expected
+	public boolean collect( Bag container, boolean isLoaded) {
 
 		if (quantity <= 0){
 			return true;
@@ -198,15 +199,17 @@ public class Item implements Bundlable {
 
 		for (Item item:items) {
 			if (item instanceof Bag && ((Bag)item).canHold( this )) {
-				if (collect( (Bag)item )){
+				if (collect( (Bag)item, false)){
 					return true;
 				}
 			}
 		}
 
+		if (!isLoaded){
 		if (!container.canHold(this)){
 			GLog.n( Messages.get(Item.class, "pack_full", container.name()) );
 			return false;
+		}
 		}
 
 		if (items.contains( this )) {
@@ -236,7 +239,7 @@ public class Item implements Bundlable {
 	}
 	
 	public boolean collect() {
-		return collect( Dungeon.hero.belongings.backpack );
+		return collect( Dungeon.hero.belongings.backpack, false );
 	}
 	
 	//returns a new item if the split was successful and there are now 2 items, otherwise null
@@ -552,7 +555,6 @@ public class Item implements Bundlable {
 		Char enemy = Actor.findChar( cell );
 		QuickSlotButton.target(enemy);
 		float delay = castDelay(user, dst);
-		Perk.onItemThrowTrigger();
 		if (instantAct){
 			GLog.i(Messages.get( Item.class, "instantthrow", Item.this.name()));
 			delay = 0;

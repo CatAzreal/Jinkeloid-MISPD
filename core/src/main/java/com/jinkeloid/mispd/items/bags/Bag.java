@@ -25,6 +25,7 @@ import com.jinkeloid.mispd.Badges;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.hero.Hero;
+import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.items.Item;
 import com.jinkeloid.mispd.scenes.GameScene;
 import com.jinkeloid.mispd.windows.WndBag;
@@ -35,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Bag extends Item implements Iterable<Item> {
+
+	public int emptySlot = 0;
 
 	public static final String AC_OPEN	= "OPEN";
 	
@@ -51,9 +54,23 @@ public class Bag extends Item implements Iterable<Item> {
 	public ArrayList<Item> items = new ArrayList<>();
 
 	public int capacity(){
-		return 20; // default container size
+		Perk.onInventoryTrigger();
+		return (Dungeon.hero.hasPerk(Perk.ORGANIZED) ? 25 :
+				Dungeon.hero.hasPerk(Perk.DISORGANIZED) ? 15 : 20) - emptySlot;
+
 	}
-	
+
+	//because backpack hide other types of bags, we have to count how many bags are hiding there to enable dynamic inventory
+	public int bagCount(){
+		int count = 0;
+		for (Item item : items){
+			if (item instanceof Bag){
+				count++;
+			}
+		}
+		return count;
+	}
+
 	@Override
 	public void execute( Hero hero, String action ) {
 
@@ -67,11 +84,11 @@ public class Bag extends Item implements Iterable<Item> {
 	}
 	
 	@Override
-	public boolean collect( Bag container ) {
+	public boolean collect( Bag container, boolean isLoaded ) {
 
 		grabItems(container);
 
-		if (super.collect( container )) {
+		if (super.collect( container, isLoaded)) {
 			
 			owner = container.owner;
 			
@@ -102,8 +119,8 @@ public class Bag extends Item implements Iterable<Item> {
 			if (canHold( item )) {
 				int slot = Dungeon.quickslot.getSlot(item);
 				item.detachAll(container);
-				if (!item.collect(this)) {
-					item.collect(container);
+				if (!item.collect(this, false)) {
+					item.collect(container, false);
 				}
 				if (slot != -1) {
 					Dungeon.quickslot.setSlot(slot, item);
@@ -144,7 +161,7 @@ public class Bag extends Item implements Iterable<Item> {
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle( bundle );
 		for (Bundlable item : bundle.getCollection( ITEMS )) {
-			if (item != null) ((Item)item).collect( this );
+			if (item != null) ((Item)item).collect( this, true );
 		}
 	}
 	

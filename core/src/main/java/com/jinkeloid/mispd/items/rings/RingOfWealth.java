@@ -234,11 +234,11 @@ public class RingOfWealth extends Ring {
 				} else {
 					return i.quantity(i.quantity()*2);
 				}
+//			case 1:
+//				return new StoneOfEnchantment();
 			case 1:
-				return new StoneOfEnchantment();
-			case 2:
 				return new PotionOfExperience();
-			case 3:
+			case 2:
 				return new ScrollOfTransmutation();
 		}
 	}

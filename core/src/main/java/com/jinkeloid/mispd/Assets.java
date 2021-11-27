@@ -119,7 +119,18 @@ public class Assets {
 	public static class Music {
 		public static final String GAME		= "music/game.ogg";
 		public static final String SURFACE	= "music/surface.ogg";
-		public static final String THEME	= "music/theme.ogg";
+		public static final String THEME	= "music/Peacock/Geometrical_Dominator.mp3";
+
+		public static final String SEWER		= "music/Peacock/Sky_Fortress.mp3";
+		public static final String SEWERBOSS	= "music/Peacock/Starcrater.mp3";
+		public static final String PRISON		= "music/Peacock/Error.ogg";
+		public static final String PRISONBOSS	= "music/Peacock/ComboBreakerJapan.ogg";
+		public static final String CAVE			= "music/Peacock/Ghost_Train.ogg";
+		public static final String CAVEBOSS		= "music/Peacock/Field_of_memories.mp3";
+		public static final String CITY			= "music/Peacock/Homeland.ogg";
+		public static final String CITYBOSS		= "music/Peacock/FinalBattle.mp3";
+		public static final String HALL			= "music/Peacock/Conclusion.mp3";
+		public static final String HALLBOSS		= "music/Peacock/Ricochet_Love.mp3";
 	}
 
 	public static class Sounds {

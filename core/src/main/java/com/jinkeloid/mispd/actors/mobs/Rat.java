@@ -37,7 +37,7 @@ public class Rat extends Mob {
 		maxDamage = 4;
 		minDR = 0;
 		maxDR = 1;
-
+		
 		maxLvl = 5;
 	}
 	

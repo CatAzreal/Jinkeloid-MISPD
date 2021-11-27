@@ -210,16 +210,19 @@ public class Ring extends KindofMisc {
 		//+1: 26.67% (4/15)
 		//+2: 6.67%  (1/15)
 		int n = 0;
-		if (Random.Int(3) == 0) {
-			n++;
-			if (Random.Int(5) == 0){
+		if (!Dungeon.hero.hasPerk(Perk.UNLUCKY)) {
+			if (Random.Int(3) == 0) {
 				n++;
+				if (Random.Int(5) == 0) {
+					n++;
+				}
 			}
 		}
 		level(n);
-		
-		//30% chance to be cursed
-		if (Random.Float() < 0.3f) {
+
+		//30% chance to be cursed, 50% if unlucky
+		float curseChance = Dungeon.hero.hasPerk(Perk.UNLUCKY) ? 0.5f : 0.3f;
+		if (Random.Float() < curseChance) {
 			cursed = true;
 		}
 		
@@ -309,6 +312,7 @@ public class Ring extends KindofMisc {
 		for (RingBuff buff : target.buffs(type)) {
 			bonus += buff.buffedLvl();
 		}
+		if (type == RingOfWealth.Wealth.class && Dungeon.hero.hasPerk(Perk.LUCKY)) return 2;
 		return bonus;
 	}
 	

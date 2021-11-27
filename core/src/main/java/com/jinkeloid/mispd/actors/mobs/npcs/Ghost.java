@@ -25,6 +25,7 @@ import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Buff;
+import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.actors.mobs.FetidRat;
 import com.jinkeloid.mispd.actors.mobs.GnollTrickster;
 import com.jinkeloid.mispd.actors.mobs.GreatCrab;
@@ -322,6 +323,7 @@ public class Ghost extends NPC {
 				} else {
 					itemLevel = 3;
 				}
+				if (Dungeon.hero.hasPerk(Perk.UNLUCKY)) itemLevel = 0;
 				weapon.upgrade(itemLevel);
 				armor.upgrade(itemLevel);
 

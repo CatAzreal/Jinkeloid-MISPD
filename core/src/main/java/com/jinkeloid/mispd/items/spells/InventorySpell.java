@@ -64,7 +64,7 @@ public abstract class InventorySpell extends Spell {
 				Invisibility.dispel();
 				
 			} else {
-				curItem.collect( curUser.belongings.backpack );
+				curItem.collect( curUser.belongings.backpack, false );
 			}
 		}
 	};

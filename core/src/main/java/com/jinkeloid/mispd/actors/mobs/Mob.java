@@ -682,20 +682,21 @@ public abstract class Mob extends Char {
 				Badges.validateMonstersSlain();
 				Statistics.qualifiedForNoKilling = false;
 				
-				int exp = Dungeon.hero.lvl <= maxLvl ? EXP : 0;
+				int exp = Dungeon.hero.lvl <= (Dungeon.hero.hasPerk(Perk.QUICK_LEARNER) ? maxLvl + 1 : maxLvl) ? EXP : 0;
+				exp = Dungeon.hero.hasPerk(Perk.QUICK_LEARNER) ? (int)Math.floor(exp*1.25f) : exp;
 				if (exp > 0) {
 					Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "exp", exp));
 				}
 				Dungeon.hero.earnExp(exp, getClass());
 
 				// Hero with pacifist perk would get horror by killing foes
-				if (!Dungeon.hero.hasPerk(Perk.PACIFIST)){
-					if (Dungeon.hero.Horror + this.HORRORGAIN >= 100){
-						Dungeon.hero.Horror = 100;
-					} else {
-						Dungeon.hero.Horror += this.HORRORGAIN;
-					}
-				}
+//				if (!Dungeon.hero.hasPerk(Perk.PACIFIST)){
+//					if (Dungeon.hero.Horror + this.HORRORGAIN >= 100){
+//						Dungeon.hero.Horror = 100;
+//					} else {
+//						Dungeon.hero.Horror += this.HORRORGAIN;
+//					}
+//				}
 			}
 		}
 	}

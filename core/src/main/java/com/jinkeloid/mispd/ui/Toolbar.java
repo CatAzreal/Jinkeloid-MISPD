@@ -25,7 +25,9 @@ import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.MISPDAction;
 import com.jinkeloid.mispd.MISPDSettings;
+import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.items.Item;
+import com.jinkeloid.mispd.journal.Journal;
 import com.jinkeloid.mispd.messages.Messages;
 import com.jinkeloid.mispd.scenes.CellSelector;
 import com.jinkeloid.mispd.scenes.GameScene;
@@ -33,6 +35,7 @@ import com.jinkeloid.mispd.sprites.ItemSprite;
 import com.jinkeloid.mispd.tiles.DungeonTerrainTilemap;
 import com.jinkeloid.mispd.windows.WndBag;
 import com.jinkeloid.mispd.windows.WndJournal;
+import com.jinkeloid.mispd.windows.WndMessage;
 import com.watabou.input.GameAction;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
@@ -156,7 +159,10 @@ public class Toolbar extends Component {
 			@Override
 			protected boolean onLongClick() {
 				WndJournal.last_index = 3; //catalog page
-				GameScene.show(new WndJournal());
+
+				if (!Dungeon.hero.hasPerk(Perk.ILLITERATE)) GameScene.show(new WndJournal());
+				else GameScene.show(new WndMessage(Messages.get(Journal.class, "illiterate")));
+
 				return true;
 			}
 

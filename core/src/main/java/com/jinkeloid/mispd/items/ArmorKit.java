@@ -100,7 +100,7 @@ public class ArmorKit extends Item {
 		} else {
 			
 			armor.detach( curUser.belongings.backpack );
-			classArmor.collect( curUser.belongings.backpack );
+			classArmor.collect( curUser.belongings.backpack, false );
 			
 		}
 		

@@ -9,7 +9,7 @@ import com.jinkeloid.mispd.utils.GLog;
 
 public class RegenPerTurn extends Buff {
 
-    private int throwCounter = 0;
+    private int consumableUseCounter = 0;
     private int switchCounter = 0;
     //this class will handle all hero stats that update every turn
     {
@@ -36,13 +36,14 @@ public class RegenPerTurn extends Buff {
                 }
             }
             Perk.onItemThrowTrigger();
-            //Re-apply the free throw to hero every turn
+            //Re-apply the free consumable use every turn
             if (((Hero) target).hasPerk(Perk.DEXTEROUS) && !Item.instantAct){
-                throwCounter++;
-                if (throwCounter == 2){
-                    GLog.i(Messages.get(this, "throwrestore"));
+                consumableUseCounter++;
+                if (consumableUseCounter == 2){
+                    GLog.i(Messages.get(this, "actrestore"));
                     Item.instantAct = true;
-                    throwCounter = 0;
+
+                    consumableUseCounter = 0;
                 }
             }
             if (((Hero) target).hasPerk(Perk.QUICK_DRAW) && !KindOfWeapon.instantSwitch){

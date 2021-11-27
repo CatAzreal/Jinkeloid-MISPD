@@ -25,6 +25,9 @@ import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.Actor;
 import com.jinkeloid.mispd.actors.Char;
+import com.jinkeloid.mispd.actors.buffs.Buff;
+import com.jinkeloid.mispd.actors.buffs.ChampionEnemy;
+import com.jinkeloid.mispd.actors.buffs.Cripple;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.messages.Messages;
@@ -77,19 +80,31 @@ abstract public class KindOfWeapon extends EquipableItem {
 				GLog.n( Messages.get(KindOfWeapon.class, "equip_cursed") );
 			}
 
-			//If hero have weapon switch perk then let them switch weapon instantly
+			//If hero have slowpoke, then switching and equipping weapon would cost them 10x turns
 			Perk.onWeaponEquipTrigger();
-			if (!instantSwitch)hero.spendAndNext( TIME_TO_EQUIP );
+			if (hero.hasPerk(Perk.SLOWPOKE))hero.spendAndNext( TIME_TO_EQUIP * 10 );
+			//If hero have weapon switch perk then let them switch weapon instantly
+			else if (!instantSwitch)hero.spendAndNext( TIME_TO_EQUIP );
 			else {
 			hero.spendAndNext(0);
 			instantSwitch = false;
 			GLog.i("instantSwitch performed");
 			}
+			//If hero have slowpoke, grant random debuff when the weapon is equipped
+//			if (hero.hasPerk(Perk.SLOWPOKE)){
+//				switch (Random.Int(6)){
+//					case 0: default:    Buff.affect(hero, Cripple.class, 5f);      break;
+//					case 1:             Buff.affect(hero, ChampionEnemy.Projecting.class);   break;
+//					case 2:             Buff.affect(hero, ChampionEnemy.AntiMagic.class);    break;
+//					case 3:             Buff.affect(hero, ChampionEnemy.Giant.class);        break;
+//					case 4:             Buff.affect(hero, ChampionEnemy.Blessed.class);      break;
+//					case 5:             Buff.affect(hero, ChampionEnemy.Growing.class);      break;
+//				}
+//			}
 			return true;
-			
 		} else {
 			
-			collect( hero.belongings.backpack );
+			collect( hero.belongings.backpack, false);
 			return false;
 		}
 	}

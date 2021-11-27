@@ -28,6 +28,8 @@ import com.jinkeloid.mispd.Statistics;
 import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.effects.Speck;
 import com.jinkeloid.mispd.items.Item;
+import com.jinkeloid.mispd.journal.Journal;
+import com.jinkeloid.mispd.messages.Messages;
 import com.jinkeloid.mispd.scenes.GameScene;
 import com.jinkeloid.mispd.scenes.PixelScene;
 import com.jinkeloid.mispd.sprites.HeroSprite;
@@ -35,6 +37,7 @@ import com.jinkeloid.mispd.utils.GLog;
 import com.jinkeloid.mispd.windows.WndGame;
 import com.jinkeloid.mispd.windows.WndHero;
 import com.jinkeloid.mispd.windows.WndJournal;
+import com.jinkeloid.mispd.windows.WndMessage;
 import com.watabou.input.GameAction;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Camera;
@@ -86,6 +89,7 @@ public class StatusPane extends Component {
 	private Toolbar.PickedUpItem pickedUp;
 	
 	private BitmapText version;
+	private BitmapText pointSpent;
 
 	@Override
 	protected void createChildren() {
@@ -172,6 +176,10 @@ public class StatusPane extends Component {
 		version = new BitmapText( "v" + Game.version, PixelScene.pixelFont);
 		version.alpha( 0.5f );
 		add(version);
+
+		pointSpent = new BitmapText( "Ch.Points: " + Dungeon.hero.charPoint, PixelScene.pixelFont);
+		pointSpent.alpha( 0.5f );
+		add(pointSpent);
 	}
 
 	@Override
@@ -226,6 +234,11 @@ public class StatusPane extends Component {
 		version.x = width - version.width();
 		version.y = btnMenu.bottom() + (4 - version.baseLine());
 		PixelScene.align(version);
+
+		pointSpent.scale.set(PixelScene.align(0.5f));
+		pointSpent.measure();
+		pointSpent.x = width - pointSpent.width();
+		pointSpent.y = version.y + pointSpent.height() - 1;
 	}
 	
 	private static final int[] warningColors = new int[]{0x660000, 0xCC0000, 0x660000};
@@ -442,7 +455,8 @@ public class StatusPane extends Component {
 			flashing = false;
 			time = 0;
 			keyIcon.am = journalIcon.am = 1;
-			GameScene.show( new WndJournal() );
+			if (!Dungeon.hero.hasPerk(Perk.ILLITERATE)) GameScene.show(new WndJournal());
+			else GameScene.show(new WndMessage(Messages.get(Journal.class, "illiterate")));
 		}
 
 	}

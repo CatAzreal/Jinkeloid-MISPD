@@ -90,7 +90,7 @@ public abstract class InventoryStone extends Runestone {
 				((InventoryStone)curItem).onItemSelected( item );
 				
 			} else{
-				curItem.collect( curUser.belongings.backpack );
+				curItem.collect( curUser.belongings.backpack, false );
 			}
 		}
 	};

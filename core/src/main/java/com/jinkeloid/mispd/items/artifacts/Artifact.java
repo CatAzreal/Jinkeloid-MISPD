@@ -25,6 +25,7 @@ import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.hero.Hero;
+import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.items.Item;
 import com.jinkeloid.mispd.items.KindofMisc;
 import com.jinkeloid.mispd.messages.Messages;
@@ -181,9 +182,10 @@ public class Artifact extends KindofMisc {
 	@Override
 	public Item random() {
 		//always +0
-		
-		//30% chance to be cursed
-		if (Random.Float() < 0.3f) {
+
+		//30% chance to be cursed, 50% if unlucky
+		float curseChance = Dungeon.hero.hasPerk(Perk.UNLUCKY) ? 0.5f : 0.3f;
+		if (Random.Float() < curseChance) {
 			cursed = true;
 		}
 		return this;

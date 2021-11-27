@@ -22,6 +22,7 @@
 package com.jinkeloid.mispd.items;
 
 import com.jinkeloid.mispd.Dungeon;
+import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.items.armor.Armor;
 import com.jinkeloid.mispd.items.armor.ClothArmor;
 import com.jinkeloid.mispd.items.armor.LeatherArmor;
@@ -437,8 +438,9 @@ public class Generator {
 					RingOfMight.class,
 					RingOfSharpshooting.class,
 					RingOfTenacity.class,
-					RingOfWealth.class};
-			RING.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+					RingOfWealth.class
+			};
+			RING.probs = new float[]{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 };
 			
 			ARTIFACT.classes = new Class<?>[]{
 					CapeOfThorns.class,
@@ -460,13 +462,18 @@ public class Generator {
 		}
 	}
 
-	private static final float[][] floorSetTierProbs = new float[][] {
+	private static final float[][] floorSetTierProbs = Dungeon.hero.hasPerk(Perk.UNLUCKY) ? new float[][] {
+			{0, 90, 9,  1,  0},
+			{0, 50, 40, 9,  1},
+			{0, 20, 50, 25, 5},
+			{0, 10, 30, 40, 20},
+			{0,  5, 10, 25, 60}}
+			: new float[][] {
 			{0, 75, 20,  4,  1},
 			{0, 25, 50, 20,  5},
 			{0,  0, 40, 50, 10},
 			{0,  0, 20, 40, 40},
-			{0,  0,  0, 20, 80}
-	};
+			{0,  0,  0, 20, 80}};
 	
 	private static HashMap<Category,Float> categoryProbs = new LinkedHashMap<>();
 

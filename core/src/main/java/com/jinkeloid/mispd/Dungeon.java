@@ -66,6 +66,7 @@ import com.jinkeloid.mispd.ui.QuickSlotButton;
 import com.jinkeloid.mispd.utils.BArray;
 import com.jinkeloid.mispd.utils.DungeonSeed;
 import com.watabou.noosa.Game;
+import com.watabou.noosa.audio.Music;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.FileUtils;
@@ -212,13 +213,14 @@ public class Dungeon {
 		Blacksmith.Quest.reset();
 		Imp.Quest.reset();
 
-		Generator.fullReset();
 		hero = new Hero();
-		hero.live();
-		
+
 		Badges.reset();
 		
 		GamesInProgress.selectedClass.initHero( hero );
+		hero.live();
+		hero.postInit();
+		Generator.fullReset();
 	}
 
 	public static boolean isChallenged( int mask ) {
@@ -360,6 +362,20 @@ public class Dungeon {
 		} else if (pos < 0 || pos >= level.length() || (!level.passable[pos] && !level.avoid[pos])){
 			pos = level.entrance;
 		}
+
+		String musicString = "";
+		if (Dungeon.depth < 5)          	musicString = Assets.Music.SEWER;
+		else if (Dungeon.depth == 5)        musicString = Assets.Music.SEWERBOSS;
+		else if (Dungeon.depth < 10)    	musicString = Assets.Music.PRISON;
+		else if (Dungeon.depth == 10)    	musicString = Assets.Music.PRISONBOSS;
+		else if (Dungeon.depth < 15)    	musicString = Assets.Music.CAVE;
+		else if (Dungeon.depth == 15)    	musicString = Assets.Music.CAVEBOSS;
+		else if (Dungeon.depth < 20)    	musicString = Assets.Music.CITY;
+		else if (Dungeon.depth == 20)    	musicString = Assets.Music.CITYBOSS;
+		else if (Dungeon.depth < 25)    	musicString = Assets.Music.HALL;
+		else if (Dungeon.depth == 25)    	musicString = Assets.Music.HALLBOSS;
+
+		Music.INSTANCE.play(musicString, true);
 		
 		PathFinder.setMapSize(level.width(), level.height());
 		

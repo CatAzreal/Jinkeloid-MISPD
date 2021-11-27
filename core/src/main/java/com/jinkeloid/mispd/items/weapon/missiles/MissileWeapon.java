@@ -139,9 +139,9 @@ abstract public class MissileWeapon extends Weapon {
 	}
 	
 	@Override
-	public boolean collect(Bag container) {
+	public boolean collect(Bag container, boolean isLoaded) {
 		if (container instanceof MagicalHolster) holster = true;
-		return super.collect(container);
+		return super.collect(container, isLoaded);
 	}
 	
 	@Override

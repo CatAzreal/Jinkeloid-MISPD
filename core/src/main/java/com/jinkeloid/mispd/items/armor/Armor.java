@@ -56,6 +56,7 @@ import com.jinkeloid.mispd.items.armor.glyphs.Stone;
 import com.jinkeloid.mispd.items.armor.glyphs.Swiftness;
 import com.jinkeloid.mispd.items.armor.glyphs.Thorns;
 import com.jinkeloid.mispd.items.armor.glyphs.Viscosity;
+import com.jinkeloid.mispd.items.weapon.Weapon;
 import com.jinkeloid.mispd.levels.Terrain;
 import com.jinkeloid.mispd.messages.Messages;
 import com.jinkeloid.mispd.sprites.HeroSprite;
@@ -218,7 +219,7 @@ public class Armor extends EquipableItem {
 			
 		} else {
 			
-			collect( hero.belongings.backpack );
+			collect( hero.belongings.backpack, false );
 			return false;
 			
 		}
@@ -504,21 +505,25 @@ public class Armor extends EquipableItem {
 		//+1: 20% (4/20)
 		//+2: 5%  (1/20)
 		int n = 0;
-		if (Random.Int(4) == 0) {
-			n++;
-			if (Random.Int(5) == 0) {
+		if (!Dungeon.hero.hasPerk(Perk.UNLUCKY)){
+			if (Random.Int(4) == 0) {
 				n++;
+				if (Random.Int(5) == 0) {
+					n++;
+				}
 			}
 		}
 		level(n);
-		
-		//30% chance to be cursed
-		//15% chance to be inscribed
+
+		//30% chance to be cursed, 50% if unlucky
+		//15% chance to be inscribed, 5% if unlucky
+		float curseChance = Dungeon.hero.hasPerk(Perk.UNLUCKY) ? 0.5f : 0.3f;
+		float enchantChance = Dungeon.hero.hasPerk(Perk.UNLUCKY) ? 0.95f : 0.85f;
 		float effectRoll = Random.Float();
-		if (effectRoll < 0.3f) {
+		if (effectRoll < curseChance) {
 			inscribe(Glyph.randomCurse());
 			cursed = true;
-		} else if (effectRoll >= 0.85f){
+		} else if (effectRoll >= enchantChance){
 			inscribe();
 		}
 

@@ -35,6 +35,10 @@ public class Chrome {
 		GREY_BUTTON_TR,
 		TAG,
 		GEM,
+		GEM_WB,
+		GEM_GREEN,
+		GEM_ORANGE,
+		GEM_GREY,
 		SCROLL,
 		TAB_SET,
 		TAB_SELECTED,
@@ -61,6 +65,14 @@ public class Chrome {
 			return new NinePatch( Asset, 22, 18, 16, 14, 3 );
 		case GEM:
 			return new NinePatch( Asset, 0, 32, 32, 32, 13 );
+		case GEM_WB:
+			return new NinePatch( Asset, 0, 64, 32, 32, 13 );
+		case GEM_GREEN:
+			return new NinePatch( Asset, 32, 64, 32, 32, 13 );
+		case GEM_ORANGE:
+			return new NinePatch( Asset, 64, 64, 32, 32, 13 );
+		case GEM_GREY:
+			return new NinePatch( Asset, 96, 64, 32, 32, 13 );
 		case SCROLL:
 			return new NinePatch( Asset, 32, 32, 32, 32, 5, 11, 5, 11 );
 		case TAB_SET:

@@ -172,6 +172,7 @@ public enum Rankings {
 		Actor.clear();
 		Dungeon.hero = null;
 		Dungeon.level = null;
+		Dungeon.hero = (Hero)data.get(HERO);
 		Generator.fullReset();
 		Notes.reset();
 		Dungeon.quickslot.reset();
@@ -183,8 +184,6 @@ public enum Rankings {
 		Ring.restore(handler);
 
 		Badges.loadLocal(data.getBundle(BADGES));
-
-		Dungeon.hero = (Hero)data.get(HERO);
 
 		Statistics.restoreFromBundle(data.getBundle(STATS));
 		

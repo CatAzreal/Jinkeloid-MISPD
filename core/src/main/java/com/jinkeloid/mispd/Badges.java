@@ -827,7 +827,7 @@ public class Badges {
 			badge = Badge.CHAMPION_3;
 		}
 		local.add(badge);
-		displayBadge( badge );
+//		displayBadge( badge );
 	}
 	
 	private static void displayBadge( Badge badge ) {

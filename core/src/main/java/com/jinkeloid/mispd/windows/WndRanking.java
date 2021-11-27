@@ -36,6 +36,7 @@ import com.jinkeloid.mispd.ui.BadgesGrid;
 import com.jinkeloid.mispd.ui.BadgesList;
 import com.jinkeloid.mispd.ui.Icons;
 import com.jinkeloid.mispd.ui.ItemSlot;
+import com.jinkeloid.mispd.ui.PerksPane;
 import com.jinkeloid.mispd.ui.RedButton;
 import com.jinkeloid.mispd.ui.RenderedTextBlock;
 import com.jinkeloid.mispd.ui.TalentsPane;
@@ -121,9 +122,9 @@ public class WndRanking extends WndTabbed {
 	private void createControls() {
 		
 		String[] labels =
-			{Messages.get(this, "stats"), Messages.get(this, "items"), Messages.get(this, "badges")};
+			{Messages.get(this, "stats"), Messages.get(this, "items"), Messages.get(this, "perks")};
 		Group[] pages =
-			{new StatsTab(), new ItemsTab(), new BadgesTab()};
+			{new StatsTab(), new ItemsTab(), new PerksTab()};
 		
 		for (int i=0; i < pages.length; i++) {
 			
@@ -324,6 +325,34 @@ public class WndRanking extends WndTabbed {
 			}
 			add(badges);
 			badges.setSize( WIDTH, HEIGHT );
+		}
+	}
+
+	private class PerksTab extends Group {
+		public PerksTab() {
+			super();
+
+			camera = WndRanking.this.camera;
+
+			Component perks = new Component(){
+				PerksPane pane;
+
+				@Override
+				protected void createChildren() {
+					super.createChildren();
+					pane = new PerksPane();
+					add(pane);
+				}
+
+				@Override
+				protected void layout() {
+					super.layout();
+					pane.setRect(x, y, width, height);
+					pane.setupList();
+				}
+			};
+			add(perks);
+			perks.setSize( WIDTH, HEIGHT );
 		}
 	}
 

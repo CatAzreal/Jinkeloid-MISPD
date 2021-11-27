@@ -85,6 +85,7 @@ import com.jinkeloid.mispd.items.potions.Potion;
 import com.jinkeloid.mispd.items.potions.PotionOfExperience;
 import com.jinkeloid.mispd.items.potions.PotionOfHealing;
 import com.jinkeloid.mispd.items.potions.elixirs.ElixirOfMight;
+import com.jinkeloid.mispd.items.rings.Ring;
 import com.jinkeloid.mispd.items.rings.RingOfAccuracy;
 import com.jinkeloid.mispd.items.rings.RingOfEvasion;
 import com.jinkeloid.mispd.items.rings.RingOfForce;
@@ -92,6 +93,7 @@ import com.jinkeloid.mispd.items.rings.RingOfFuror;
 import com.jinkeloid.mispd.items.rings.RingOfHaste;
 import com.jinkeloid.mispd.items.rings.RingOfMight;
 import com.jinkeloid.mispd.items.rings.RingOfTenacity;
+import com.jinkeloid.mispd.items.rings.RingOfWealth;
 import com.jinkeloid.mispd.items.scrolls.Scroll;
 import com.jinkeloid.mispd.items.scrolls.ScrollOfMagicMapping;
 import com.jinkeloid.mispd.items.wands.WandOfLivingEarth;
@@ -156,7 +158,10 @@ public class Hero extends Char {
 	public HeroSubClass subClass = HeroSubClass.NONE;
 	public ArrayList<LinkedHashMap<Perk, Integer>> placeholder = new ArrayList<LinkedHashMap<Perk, Integer>>();
 	public ArrayList<Perk> perks = new ArrayList<>();
-	
+	public int charPoint;
+
+	private int basicHT = 20;
+	private int hpMultiplier = 5;
 	private int attackSkill = 10;
 	private int defenseSkill = 5;
 
@@ -195,7 +200,7 @@ public class Hero extends Char {
 	public Hero() {
 		super();
 
-		HP = HT = 20;
+		HP = HT = basicHT;
 		HorrorMax = 100;
 		Horror = 0;
 		STR = STARTING_STR;
@@ -210,11 +215,19 @@ public class Hero extends Char {
 		
 		visibleEnemies = new ArrayList<>();
 	}
-	
+
+	//after the hero is initiated and had all the perks loaded, we gotta give him a post init to make sure the stats are in
+	public void postInit() {
+		hpMultiplier = this.hasPerk(Perk.STURDY)? hpMultiplier + 2 :
+				this.hasPerk(Perk.FRAIL) ? hpMultiplier - 2 : hpMultiplier ;
+		basicHT = HP = HT = this.hasPerk(Perk.STURDY) ? basicHT+3 :
+				this.hasPerk(Perk.FRAIL) ? basicHT-2 : basicHT ;
+	}
+
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
-		
-		HT = 20 + 5*(lvl-1) + HTBoost;
+
+		HT = basicHT + hpMultiplier*(lvl-1) + HTBoost;
 		if (DeviceCompat.isDebug()) {
 			HT = 800 + 100 * lvl;
 		}
@@ -229,6 +242,9 @@ public class Hero extends Char {
 			HP += Math.max(HT - curHT, 0);
 		}
 		HP = Math.min(HP, HT);
+
+		HT*=Satiation.satiationHPBonus();
+		if (HP > HT) HP = HT;
 	}
 
 	public int STR() {
@@ -236,6 +252,7 @@ public class Hero extends Char {
 
 		STR += RingOfMight.strengthBonus( this );
 		STR += Satiation.satiationSTRBonus();
+		if (this.hasPerk(Perk.VERY_STRONG)) STR += 1;
 		AdrenalineSurge buff = buff(AdrenalineSurge.class);
 		if (buff != null){
 			STR += buff.boost();
@@ -258,7 +275,7 @@ public class Hero extends Char {
 		
 		heroClass.storeInBundle( bundle );
 		subClass.storeInBundle( bundle );
-		Perk.storeTalentsInBundle( bundle, this );
+		Perk.storePerksInBundle( bundle, this );
 		
 		bundle.put( ATTACK, attackSkill );
 		bundle.put( DEFENSE, defenseSkill );
@@ -285,7 +302,7 @@ public class Hero extends Char {
 		
 		heroClass = HeroClass.restoreInBundle( bundle );
 		subClass = HeroSubClass.restoreInBundle( bundle );
-		Perk.restoreTalentsFromBundle( bundle, this );
+		Perk.restorePerksFromBundle( bundle, this );
 		
 		attackSkill = bundle.getInt( ATTACK );
 		defenseSkill = bundle.getInt( DEFENSE );
@@ -308,10 +325,11 @@ public class Hero extends Char {
 	}
 
 	public boolean hasPerk(Perk perk ){
-		if (this.perks.contains(perk)){
-			return true;
-		}
-		return false;
+		return this.perks.contains(perk);
+	}
+
+	public static boolean hasPerk(Hero hero, Perk perk ){
+		return hero.perks.contains(perk);
 	}
 
 	public int pointsInTalent( Perk perk){
@@ -547,6 +565,7 @@ public class Hero extends Char {
 	}
 
 	public boolean canSurpriseAttack(){
+		if (this.hasPerk(Perk.UNRESPONSIVE))										return false;
 		if (belongings.weapon == null || !(belongings.weapon instanceof Weapon))    return true;
 		if (STR() < ((Weapon)belongings.weapon).STRReq())                           return false;
 		if (belongings.weapon instanceof Flail)                                     return false;
@@ -1453,7 +1472,7 @@ public class Hero extends Char {
 	}
 	
 	public void earnExp( int exp, Class source ) {
-		
+
 		this.exp += exp;
 		float percent = exp/(float)maxExp();
 
@@ -1476,6 +1495,7 @@ public class Hero extends Char {
 		}
 		
 		boolean levelUp = false;
+		boolean strIncrease = false;
 		while (this.exp >= maxExp()) {
 			this.exp -= maxExp();
 			if (lvl < MAX_LEVEL) {
@@ -1487,6 +1507,11 @@ public class Hero extends Char {
 				}
 				
 				updateHT( true );
+				if (( this.hasPerk(Perk.STOUT) && lvl%10 == 0 ) ||
+						( this.hasPerk(Perk.VERY_STRONG) && lvl%7 == 0 )){
+					STR++;
+					strIncrease = true;
+				}
 				attackSkill++;
 				defenseSkill++;
 
@@ -1505,7 +1530,7 @@ public class Hero extends Char {
 			
 			if (sprite != null) {
 				GLog.newLine();
-				GLog.p( Messages.get(this, "new_level") );
+				GLog.p( strIncrease ? Messages.get(this, "new_level_str", hpMultiplier) : Messages.get(this, "new_level", hpMultiplier) );
 				sprite.showStatus( CharSprite.POSITIVE, Messages.get(Hero.class, "level_up") );
 				Sample.INSTANCE.play( Assets.Sounds.LEVELUP );
 //				if (lvl < Perk.tierLevelThresholds[Perk.MAX_TALENT_TIERS+1]){
@@ -1580,7 +1605,7 @@ public class Hero extends Char {
 	}
 	
 	@Override
-	public void die( Object cause  ) {
+	public void die( Object cause ) {
 		
 		curAction = null;
 
