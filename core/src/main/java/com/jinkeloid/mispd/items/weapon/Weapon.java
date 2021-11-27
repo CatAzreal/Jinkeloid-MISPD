@@ -267,21 +267,26 @@ abstract public class Weapon extends KindOfWeapon {
 		//+1: 20% (4/20)
 		//+2: 5%  (1/20)
 		int n = 0;
+		if (!Dungeon.hero.hasPerk(Perk.UNLUCKY)){
 		if (Random.Int(4) == 0) {
 			n++;
 			if (Random.Int(5) == 0) {
 				n++;
 			}
 		}
+		}
 		level(n);
-		
-		//30% chance to be cursed
-		//10% chance to be enchanted
+
+		//TODO: put all these chance numbers into Item
+		//30% chance to be cursed, 50% if unlucky
+		//10% chance to be enchanted, 5% if unlucky
+		float curseChance = Dungeon.hero.hasPerk(Perk.UNLUCKY) ? 0.5f : 0.3f;
+		float enchantChance = Dungeon.hero.hasPerk(Perk.UNLUCKY) ? 0.95f : 0.9f;
 		float effectRoll = Random.Float();
-		if (effectRoll < 0.3f) {
+		if (effectRoll < curseChance) {
 			enchant(Enchantment.randomCurse());
 			cursed = true;
-		} else if (effectRoll >= 0.9f){
+		} else if (effectRoll >= enchantChance){
 			enchant();
 		}
 

@@ -103,7 +103,7 @@ public class ScrollOfTransmutation extends InventoryScroll {
 		if (result == null){
 			//This shouldn't ever trigger
 			GLog.n( Messages.get(this, "nothing") );
-			curItem.collect( curUser.belongings.backpack );
+			curItem.collect( curUser.belongings.backpack, false );
 		} else {
 			if (item.isEquipped(Dungeon.hero)){
 				item.cursed = false; //to allow it to be unequipped

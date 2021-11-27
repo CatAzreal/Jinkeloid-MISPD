@@ -33,6 +33,7 @@ import com.jinkeloid.mispd.actors.buffs.FlavourBuff;
 import com.jinkeloid.mispd.actors.buffs.Haste;
 import com.jinkeloid.mispd.actors.buffs.Recharging;
 import com.jinkeloid.mispd.actors.buffs.Roots;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.buffs.WandEmpower;
 import com.jinkeloid.mispd.actors.mobs.Mob;
 import com.jinkeloid.mispd.effects.CellEmitter;
@@ -69,66 +70,76 @@ import java.util.List;
 public enum Perk {
 
 	//Positive Perks
-	CATS_EYES(0, 2, perkType.POSITIVE, 101, new int[]{201}),
+	CATS_EYES(0, 1, perkType.POSITIVE, PerkIndex.CAT_EYE, new int[]{PerkIndex.SHORT_SIGHTED, PerkIndex.BLIND}),
 	//viewrange + 1(if game works like before it won't exceed 8)
-	INCONSPICUOUS(0, 2, perkType.POSITIVE, 102, new int[]{202}),
+	INCONSPICUOUS(0, 2, perkType.POSITIVE, PerkIndex.INCONSPICUOUS, new int[]{PerkIndex.CONSPICUOUS}),
 	//basically ring of stealth
-	QUICK_DRAW(0, 2, perkType.POSITIVE, 103, new int[]{203}),
+	QUICK_DRAW(0, 1, perkType.POSITIVE, PerkIndex.QUICK_DRAW, new int[]{PerkIndex.SLOWPOKE}),
 	//every turn's first weapon switch is instant
-	ON_DIET(0, 3, perkType.POSITIVE, 104, new int[]{204}),
+	ON_DIET(0, 3, perkType.POSITIVE, PerkIndex.ON_DIET, new int[]{PerkIndex.BIG_STOMACH}, new int[]{PerkIndex.ABSTINENCE}),
 	//slower hunger build up time
-	DEXTEROUS(0, 3, perkType.POSITIVE, 105, new int[]{205}),
-	//every turn's first consumable use is instant
-	ORGANIZED(0, 3, perkType.POSITIVE, 106, new int[]{206}),
+	ABSTINENCE(0, 4, perkType.POSITIVE, PerkIndex.ABSTINENCE, new int[]{PerkIndex.BIG_STOMACH}, new int[]{PerkIndex.ON_DIET}),
+	//replaces hunger debuff with weaker version
+	DEXTEROUS(0, 3, perkType.POSITIVE, PerkIndex.DEXTEROUS, new int[]{PerkIndex.CLUMSY}),
+	//every turn's first throwable use is instant
+	ORGANIZED(0, 4, perkType.POSITIVE, PerkIndex.ORGANIZED, new int[]{PerkIndex.DISORGANIZED}),
 	//+backpacksize
-	LUCKY(0, 4, perkType.POSITIVE, 107, new int[]{207}),
-	//ring of wealth
-	QUICK_LEARNER(0, 5, perkType.POSITIVE, 108, null),
-	//faster exp gain(will make this one useful)
-	STOUT(0, 5, perkType.POSITIVE, 109, null),
-	//strength+
-	IRON_LUNG(0, 5, perkType.POSITIVE, 110, null),
-	//stamina+(not available yet)
-	ARMOR_PROFICIENCY(0, 6, perkType.POSITIVE, 111, new int[]{208}),
-	//changing armor would cost 1/5 of usual time(armor changing turn cost would be significantly increased), grant bonus depending on armor type
-	BIOLOGIST(0, 4, perkType.POSITIVE, 112, new int[]{209}),
+	LUCKY(0, 4, perkType.POSITIVE, PerkIndex.LUCKY, new int[]{PerkIndex.UNLUCKY}),
+	//ring of wealth + 2
+	QUICK_LEARNER(0, 4, perkType.POSITIVE, PerkIndex.QUICK_LEARNER, null),
+	//faster exp gain, increase the effective exp gain level of monsters by 1
+	STOUT(0, 6, perkType.POSITIVE, PerkIndex.STOUT, new int[]{PerkIndex.VERY_STRONG}),
+	//Every 10 level will grant you 1 strength
+//	IRON_LUNG(0, 5, perkType.POSITIVE, PerkIndex.IRON_LUNG, null),
+//	//stamina+(not available yet)
+//	ARMOR_PROFICIENCY(0, 6, perkType.POSITIVE, PerkIndex.ARMOR_PROFICIENCY, new int[]{PerkIndex.ROOKIE}),
+//	//changing armor would cost 1/5 of usual time(armor changing turn cost would be significantly increased), grant bonus depending on armor type
+	BIOLOGIST(0, 4, perkType.POSITIVE, PerkIndex.BIOLOGIST, new int[]{PerkIndex.ILLITERATE}),
 	//show detailed info about mob, their health, dmgrange, dr and weakness(if have any)
-	ADRENALINE(0, 4, perkType.POSITIVE, 113, null),
-	//the horror of enemy can stimulate you, strengthening reflex, resulting less penalty on accuracy and bonus to attackspeed and movement speed
-	BRAVE(0, 4, perkType.POSITIVE, 114, new int[]{210}, new int[]{115}),
-	//faster horror decay on low health, more damage output on low health
-	CONFIDENT(0, 4, perkType.POSITIVE, 115, new int[]{210}, new int[]{114}),
-	//faster horror decay on near full health, more accuracy near full health
+//	ADRENALINE(0, 4, perkType.POSITIVE, PerkIndex.ADRENALINE, null),
+//	//the horror of enemy can stimulate you, strengthening reflex, resulting less penalty on accuracy and bonus to attackspeed and movement speed
+//	BRAVE(0, 4, perkType.POSITIVE, PerkIndex.BRAVE, new int[]{PerkIndex.PACIFIST}, new int[]{PerkIndex.CONFIDENT}),
+//	//slower horror increase on low health, more damage output on low health
+//	CONFIDENT(0, 4, perkType.POSITIVE, PerkIndex.CONFIDENT, new int[]{PerkIndex.PACIFIST}, new int[]{PerkIndex.BRAVE}),
+//	//slower horror increase on near full health, more accuracy near full health
+	STURDY(0, 6, perkType.POSITIVE, PerkIndex.STURDY, new int[]{PerkIndex.FRAIL}),
+	//+3 starting health, +2 max health per level
+	VERY_STRONG(0, 10, perkType.POSITIVE, PerkIndex.VERY_STRONG, new int[]{PerkIndex.STOUT}),
+	//+1 starting strength, +1 strength per 7 level
 
 	//Negative Perks
-	SHORT_SIGHTED(0, 1, perkType.NEGATIVE, 201, new int[]{101}),
+	SHORT_SIGHTED(0, 1, perkType.NEGATIVE, PerkIndex.SHORT_SIGHTED, new int[]{PerkIndex.CAT_EYE, PerkIndex.BLIND}, new int[]{PerkIndex.BLIND}),
 	//viewrange - 1(to minimum of 2)
-	CONSPICUOUS(0, 1, perkType.NEGATIVE, 202, new int[]{102}),
+	CONSPICUOUS(0, 2, perkType.NEGATIVE, PerkIndex.CONSPICUOUS, new int[]{PerkIndex.INCONSPICUOUS}),
 	//basically cursed ring of stealth
-	SLOWPOKE(0, 1, perkType.NEGATIVE, 203, new int[]{103}),
+	SLOWPOKE(0, 1, perkType.NEGATIVE, PerkIndex.SLOWPOKE, new int[]{PerkIndex.QUICK_DRAW}),
 	//switching weapon during battle would be a really bad idea
-	BIG_STOMACH(0, 1, perkType.NEGATIVE, 204, new int[]{104}),
+	BIG_STOMACH(0, 3, perkType.NEGATIVE, PerkIndex.BIG_STOMACH, new int[]{PerkIndex.ON_DIET, PerkIndex.ABSTINENCE}),
 	//faster hunger build up
-	CLUMSY(0, 1, perkType.NEGATIVE, 205, new int[]{105}),
+	CLUMSY(0, 3, perkType.NEGATIVE, PerkIndex.CLUMSY, new int[]{PerkIndex.DEXTEROUS}),
 	//using consumable could fail and skip a whole turn(30% chance)
-	DISORGANIZED(0, 1, perkType.NEGATIVE, 206, new int[]{106}),
+	DISORGANIZED(0, 4, perkType.NEGATIVE, PerkIndex.DISORGANIZED, new int[]{PerkIndex.ORGANIZED}),
 	//-backpacksize
-	UNLUCKY(0, 1, perkType.NEGATIVE, 207, new int[]{107}),
+	UNLUCKY(0, 4, perkType.NEGATIVE, PerkIndex.UNLUCKY, new int[]{PerkIndex.LUCKY}),
 	//cursed ring of wealth
-	ROOKIE(0, 1, perkType.NEGATIVE, 208, new int[]{111}),
-	//you better choose somewhere safe to take off your armor, and each of them will provide you unique penalties
-	ILLITERATE(0, 1, perkType.NEGATIVE, 209, new int[]{112}),
-	//no journals, no identifying items, better take notes!
-	PACIFIST(0, 1, perkType.NEGATIVE, 210, new int[]{114,115}),
-	//You can never get used to the horror of combat, killing enemies only reduce
-	BLIND(0, 1, perkType.NEGATIVE, 211, null),
+//	ROOKIE(0, 1, perkType.NEGATIVE, PerkIndex.ROOKIE, new int[]{PerkIndex.ARMOR_PROFICIENCY}),
+//	//you better choose somewhere safe to take off your armor, and each of them will provide you unique penalties
+	ILLITERATE(0, 6, perkType.NEGATIVE, PerkIndex.ILLITERATE, new int[]{PerkIndex.BIOLOGIST}),
+	//no journals, reading scrolls(except SoUs) may have unexpected outcome
+//	PACIFIST(0, 1, perkType.NEGATIVE, PerkIndex.PACIFIST, new int[]{PerkIndex.BRAVE, PerkIndex.CONFIDENT}),
+//	//You can never get used to the horror of combat, killing enemies does not reduce your horror level
+	BLIND(0, 8, perkType.NEGATIVE, PerkIndex.BLIND, new int[]{PerkIndex.CAT_EYE, PerkIndex.SHORT_SIGHTED}, new int[]{PerkIndex.SHORT_SIGHTED}),
 	//You are (almost) blind, only the one tile around you are visible, good thing is you can still (barely) read scrolls and identify things
-	AMNESIA(0, 1, perkType.NEGATIVE, 212, null),
+	AMNESIA(0, 6, perkType.NEGATIVE, PerkIndex.AMNESIA, null),
 	//when finding a way to somewhere, you always managed to get to the wrong way, not because you are stupid,
 	//you are just not good at determining direction and remembering places, using scroll of magic mapping would have different outcomes
-	LACK_OF_SENSE(0, 1, perkType.NEGATIVE, 213, null),
+	LACK_OF_SENSE(0, 2, perkType.NEGATIVE, PerkIndex.LACK_OF_SENSE, null),
 	//you sense is so low that you can't grasp the exact condition yourself is currently in
 	//health and stamina will only display it's vague value
+	UNRESPONSIVE(0, 4, perkType.NEGATIVE, PerkIndex.UNRESPONSIVE, null),
+	//cannot surprise attack
+	FRAIL(0, 6, perkType.NEGATIVE, PerkIndex.FRAIL, new int[]{PerkIndex.STURDY}),
+	//-2 starting health, -2 max health per level
 
 	//Warrior T1
 	HEARTY_MEAL(0), ARMSMASTERS_INTUITION(1), TEST_SUBJECT(2), IRON_WILL(3),
@@ -241,6 +252,17 @@ public enum Perk {
 		//get all perks
 		List<Perk> perkList = new ArrayList<>(EnumSet.allOf(Perk.class));
 		List<Perk> removeList = new ArrayList<>();
+		Perk temp;
+		//sort the perks
+		for(int i=0; i < perkList.size(); i++){
+			for(int j=1; j < (perkList.size()-i); j++){
+				if(perkList.get(j - 1).id > perkList.get(j).id){
+					temp = perkList.get(j - 1);
+					perkList.set(j - 1, perkList.get(j));
+					perkList.set(j, temp);
+				}
+			}
+		}
 		//pick
 		for (Perk perk : perkList) {
 			if (perk.type != type){
@@ -299,25 +321,22 @@ public enum Perk {
 
 	//Determining if a perk has effect on hero's status
 	public static void onHeroStatusTrigger(){}
-
 	//Determining if a perk has effect on Health bar related action
 	public static void onHealthBarTrigger(){}
-
 	//View range
 	public static void onViewRangeTrigger(){}
-
+	//Satiation
+	public static void onSatiationTrigger(){}
+	//Inventory
+	public static void onInventoryTrigger(){}
 	//Fog of War
 	public static void onFOWTrigger(){}
-
 	//Stealth
 	public static void onStealthTrigger(){}
-
 	//mobInfo
 	public static void onMobInfoTrigger(){}
-
 	//throwing things
 	public static void onItemThrowTrigger(){}
-
 	//Equipping Weapons
 	public static void onWeaponEquipTrigger(){}
 
@@ -538,7 +557,7 @@ public enum Perk {
 			}
 		}
 
-		return dmg;
+		return (int)Math.ceil(dmg*Satiation.satiationDMGBonus());
 	}
 
 	public static class SuckerPunchTracker extends Buff{};
@@ -672,22 +691,27 @@ public enum Perk {
 
 	private static final String PERK_INDEX = "perk_";
 	private static final String PERK_COUNT = "perkCount";
+	private static final String CHAR_POINTS = "charPoints";
 
-	public static void storeTalentsInBundle( Bundle bundle, Hero hero ){
+	public static void storePerksInBundle(Bundle bundle, Hero hero ){
 			int i = 0;
+			int k = 0;
 			for (Perk perk : hero.perks){
+				k = k + (perk.type == perkType.POSITIVE ? perk.pointCosts : -perk.pointCosts);
 				bundle.put(PERK_INDEX + i, perk.name());
 				i++;
 			}
 			//this should store all the perks this hero processed
 			bundle.put(PERK_COUNT, i);
+			bundle.put(CHAR_POINTS, k);
 	}
 
-	public static void restoreTalentsFromBundle( Bundle bundle, Hero hero ){
+	public static void restorePerksFromBundle(Bundle bundle, Hero hero ){
 		//the most primitive way I can think of to retrieve such values, hope they work
 		for (int i = 0; i < bundle.getInt(PERK_COUNT); i++){
 			hero.perks.add( Perk.valueOf(bundle.getString(PERK_INDEX +i )) );
 		}
+		hero.charPoint = bundle.getInt(CHAR_POINTS);
 	}
 
 }

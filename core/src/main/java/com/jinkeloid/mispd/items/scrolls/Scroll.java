@@ -55,6 +55,7 @@ import com.jinkeloid.mispd.sprites.HeroSprite;
 import com.jinkeloid.mispd.sprites.ItemSpriteSheet;
 import com.jinkeloid.mispd.utils.GLog;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Random;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
@@ -172,7 +173,27 @@ public abstract class Scroll extends Item {
 			} else {
 				curUser = hero;
 				curItem = detach( hero.belongings.backpack );
-				doRead();
+				//40% chance to trigger a random scroll effect
+				if (Dungeon.hero.hasPerk(Perk.ILLITERATE) && Random.Int(9) <= 3
+						&& !(this instanceof ScrollOfUpgrade || this instanceof ScrollOfTransmutation) ) {
+					Scroll scroll;
+					do {
+						scroll = (Scroll) Generator.randomUsingDefaults(Generator.Category.SCROLL);
+					} while (scroll == null
+							//reduce the frequency of these scrolls by half
+							|| ((scroll instanceof ScrollOfIdentify ||
+							scroll instanceof ScrollOfRemoveCurse ||
+							scroll instanceof ScrollOfMagicMapping) && Random.Int(2) == 0)
+							//don't roll teleportation scrolls on boss floors
+							|| (scroll instanceof ScrollOfTeleportation && Dungeon.bossLevel())
+							//cannot roll transmutation
+							|| (scroll instanceof ScrollOfTransmutation));
+					scroll.anonymize();
+					scroll.doRead();
+					GLog.n( Messages.get(this, "illiterate") );
+				} else {
+					doRead();
+				}
 			}
 			
 		}

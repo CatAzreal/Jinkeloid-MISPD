@@ -49,20 +49,20 @@ public class SkeletonKey extends Key {
 
 	@Override
 	public boolean doPickUp(Hero hero) {
-		if(!MISPDSettings.supportNagged()){
-			try {
-				Dungeon.saveAll();
-				Game.runOnRenderThread(new Callback() {
-					@Override
-					public void call() {
-						MusicImplantSPD.scene().add(new WndSupportPrompt());
-					}
-				});
-			} catch (IOException e) {
-				MusicImplantSPD.reportException(e);
-			}
-			
-		}
+//		if(!MISPDSettings.supportNagged()){
+//			try {
+//				Dungeon.saveAll();
+//				Game.runOnRenderThread(new Callback() {
+//					@Override
+//					public void call() {
+//						MusicImplantSPD.scene().add(new WndSupportPrompt());
+//					}
+//				});
+//			} catch (IOException e) {
+//				MusicImplantSPD.reportException(e);
+//			}
+//
+//		}
 		
 		return super.doPickUp(hero);
 	}

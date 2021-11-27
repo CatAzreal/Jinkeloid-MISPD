@@ -78,6 +78,7 @@ public enum HeroClass {
 
 		hero.heroClass = this;
 		hero.perks = CharacterBuilderScene.tempPerks;
+		hero.charPoint = CharacterBuilderScene.charPoint;
 
 		initCommon( hero );
 
@@ -118,7 +119,10 @@ public enum HeroClass {
 			ration.quantity(10).collect();
 			SmallRation smallRation = new SmallRation();
 			smallRation.quantity(10).collect();
-//			defenseSkill = 50;
+			PotionOfHealing potionOfHealing = new PotionOfHealing();
+			potionOfHealing.quantity(50).collect();
+			new ScrollOfMagicMapping().quantity(50).identify().collect();
+			new ScrollOfUpgrade().quantity(50).identify().collect();
 		}
 
 	}
@@ -143,9 +147,9 @@ public enum HeroClass {
 		stones.quantity(50).collect();
 		Dungeon.quickslot.setSlot(0, stones);
 
-		if (hero.belongings.armor != null){
-			hero.belongings.armor.affixSeal(new BrokenSeal());
-		}
+//		if (hero.belongings.armor != null){
+//			hero.belongings.armor.affixSeal(new BrokenSeal());
+//		}
 
 		new PotionBandolier().collect();
 		Dungeon.LimitedDrops.POTION_BANDOLIER.drop();

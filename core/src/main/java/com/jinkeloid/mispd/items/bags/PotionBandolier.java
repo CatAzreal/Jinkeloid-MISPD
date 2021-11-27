@@ -29,6 +29,8 @@ public class PotionBandolier extends Bag {
 
 	{
 		image = ItemSpriteSheet.BANDOLIER;
+
+		emptySlot = 1;
 	}
 
 	@Override
@@ -38,10 +40,6 @@ public class PotionBandolier extends Bag {
 		} else {
 			return false;
 		}
-	}
-
-	public int capacity(){
-		return 19;
 	}
 
 	@Override

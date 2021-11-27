@@ -132,8 +132,8 @@ public class CloakOfShadows extends Artifact {
 	}
 
 	@Override
-	public boolean collect( Bag container ) {
-		if (super.collect(container)){
+	public boolean collect( Bag container, boolean isLoaded ) {
+		if (super.collect(container, isLoaded)){
 			if (container.owner instanceof Hero
 					&& passiveBuff == null
 					&& ((Hero) container.owner).hasPerk(Perk.LIGHT_CLOAK)){

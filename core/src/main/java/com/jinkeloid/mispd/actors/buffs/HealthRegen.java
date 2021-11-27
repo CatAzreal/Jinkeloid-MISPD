@@ -61,6 +61,7 @@ public class HealthRegen extends Buff {
 					delay /= RingOfEnergy.artifactChargeMultiplier(target);
 				}
 			}
+			delay *= Satiation.satiationRegenBonus();
 			spend( delay );
 			
 		} else {

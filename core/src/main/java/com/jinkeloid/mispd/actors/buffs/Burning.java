@@ -115,7 +115,7 @@ public class Burning extends Buff implements Hero.Doom {
 						GLog.w( Messages.get(this, "burnsup", Messages.capitalize(toBurn.toString())) );
 						if (toBurn instanceof MysteryMeat || toBurn instanceof FrozenCarpaccio){
 							ChargrilledMeat steak = new ChargrilledMeat();
-							if (!steak.collect( hero.belongings.backpack )) {
+							if (!steak.collect( hero.belongings.backpack, false )) {
 								Dungeon.level.drop( steak, hero.pos ).sprite.drop();
 							}
 						}

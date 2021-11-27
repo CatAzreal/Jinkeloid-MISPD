@@ -185,8 +185,8 @@ public class MagesStaff extends MeleeWeapon {
 	}
 
 	@Override
-	public boolean collect( Bag container ) {
-		if (super.collect(container)) {
+	public boolean collect( Bag container, boolean isLoaded ) {
+		if (super.collect(container, isLoaded)) {
 			if (container.owner != null && wand != null) {
 				wand.charge(container.owner, STAFF_SCALE_FACTOR);
 			}

@@ -31,6 +31,8 @@ public class ScrollHolder extends Bag {
 
 	{
 		image = ItemSpriteSheet.HOLDER;
+
+		emptySlot = 1;
 	}
 
 	@Override
@@ -40,10 +42,6 @@ public class ScrollHolder extends Bag {
 		} else {
 			return false;
 		}
-	}
-
-	public int capacity(){
-		return 19;
 	}
 	
 	@Override

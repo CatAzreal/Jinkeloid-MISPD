@@ -31,6 +31,8 @@ public class MagicalHolster extends Bag {
 
 	{
 		image = ItemSpriteSheet.HOLSTER;
+
+		emptySlot = 1;
 	}
 
 	public static final float HOLSTER_SCALE_FACTOR = 0.85f;
@@ -44,14 +46,10 @@ public class MagicalHolster extends Bag {
 			return false;
 		}
 	}
-
-	public int capacity(){
-		return 19;
-	}
 	
 	@Override
-	public boolean collect( Bag container ) {
-		if (super.collect( container )) {
+	public boolean collect( Bag container, boolean isLoaded ) {
+		if (super.collect( container, isLoaded )) {
 			if (owner != null) {
 				for (Item item : items) {
 					if (item instanceof Wand) {

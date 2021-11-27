@@ -180,7 +180,7 @@ public class GameScene extends PixelScene {
 			return;
 		}
 		
-		Music.INSTANCE.play( Assets.Music.GAME, true );
+//		Music.INSTANCE.play( Assets.Music.GAME, true );
 
 		MISPDSettings.lastClass(Dungeon.hero.heroClass.ordinal());
 		
@@ -320,10 +320,10 @@ public class GameScene extends PixelScene {
 		pane.setSize( uiCamera.width, 0 );
 		add( pane );
 
-		gauge = new HorrorGauge();
-		gauge.camera = uiCamera;
-		gauge.setRect(0, uiCamera.height, gauge.width(), gauge.height());
-		add(gauge);
+//		gauge = new HorrorGauge();
+//		gauge.camera = uiCamera;
+//		gauge.setRect(0, uiCamera.height, gauge.width(), gauge.height());
+//		add(gauge);
 		
 		toolbar = new Toolbar();
 		toolbar.camera = uiCamera;

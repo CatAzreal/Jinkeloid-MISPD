@@ -113,7 +113,7 @@ public abstract class EquipableItem extends Item {
 			hero.spend( time2equip( hero ) );
 		}
 
-		if (!collect || !collect( hero.belongings.backpack )) {
+		if (!collect || !collect( hero.belongings.backpack , false)) {
 			onDetach();
 			Dungeon.quickslot.clearItem(this);
 			updateQuickslot();

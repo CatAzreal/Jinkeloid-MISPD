@@ -110,6 +110,7 @@ public class UnstableSpellbook extends Artifact {
 		if (action.equals( AC_READ )) {
 
 			if (hero.buff( Blindness.class ) != null) GLog.w( Messages.get(this, "blinded") );
+			else if (hero.hasPerk(Perk.ILLITERATE))   GLog.w( Messages.get(this, "illiterate") );
 			else if (!isEquipped( hero ))             GLog.i( Messages.get(Artifact.class, "need_to_equip") );
 			else if (charge <= 0)                     GLog.i( Messages.get(this, "no_charge") );
 			else if (cursed)                          GLog.i( Messages.get(this, "cursed") );

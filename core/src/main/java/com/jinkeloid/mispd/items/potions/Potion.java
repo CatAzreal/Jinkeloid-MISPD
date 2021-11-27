@@ -33,6 +33,7 @@ import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Burning;
 import com.jinkeloid.mispd.actors.buffs.Ooze;
 import com.jinkeloid.mispd.actors.hero.Hero;
+import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.effects.Splash;
 import com.jinkeloid.mispd.items.Generator;
 import com.jinkeloid.mispd.items.Item;
@@ -198,8 +199,8 @@ public class Potion extends Item {
 	}
 	
 	@Override
-	public boolean collect( Bag container ) {
-		if (super.collect( container )){
+	public boolean collect( Bag container, boolean isLoaded ) {
+		if (super.collect( container, isLoaded )){
 			setAction();
 			return true;
 		} else {
@@ -283,11 +284,27 @@ public class Potion extends Item {
 	}
 	
 	protected void drink( Hero hero ) {
-		
+		if (hero.hasPerk(Perk.CLUMSY)){
+			double chance = Math.random();
+			if (chance<0.23f){
+				hero.busy();
+				GLog.w(Messages.get( Item.class, "clumsydrink", this.name()));
+				//3% chance of dropping all of them
+				if (chance<0.03f){
+					GLog.w(Messages.get( Item.class, "clumsycrit"));
+					doDrop(hero);
+				}
+				hero.spendAndNext(1f);
+				return;
+			}
+		}
 		detach( hero.belongings.backpack );
-		
+		if (instantAct){
+			GLog.i(Messages.get( Item.class, "instantdrink",this.name()));
+			instantAct = false;
+		} else {
 		hero.spend( TIME_TO_DRINK );
-		hero.busy();
+		hero.busy();}
 		apply( hero );
 		
 		Sample.INSTANCE.play( Assets.Sounds.DRINK );
