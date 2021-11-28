@@ -70,7 +70,7 @@ import java.util.List;
 public enum Perk {
 
 	//Positive Perks
-	CATS_EYES(0, 1, perkType.POSITIVE, PerkIndex.CAT_EYE, new int[]{PerkIndex.SHORT_SIGHTED, PerkIndex.BLIND}),
+	CATS_EYES(0, 1, perkType.POSITIVE, PerkIndex.CAT_EYE, new int[]{PerkIndex.SHORT_SIGHTED, PerkIndex.NYCTALOPIA}),
 	//viewrange + 1(if game works like before it won't exceed 8)
 	INCONSPICUOUS(0, 2, perkType.POSITIVE, PerkIndex.INCONSPICUOUS, new int[]{PerkIndex.CONSPICUOUS}),
 	//basically ring of stealth
@@ -108,7 +108,7 @@ public enum Perk {
 	//+1 starting strength, +1 strength per 7 level
 
 	//Negative Perks
-	SHORT_SIGHTED(0, 1, perkType.NEGATIVE, PerkIndex.SHORT_SIGHTED, new int[]{PerkIndex.CAT_EYE, PerkIndex.BLIND}, new int[]{PerkIndex.BLIND}),
+	SHORT_SIGHTED(0, 1, perkType.NEGATIVE, PerkIndex.SHORT_SIGHTED, new int[]{PerkIndex.CAT_EYE, PerkIndex.NYCTALOPIA}, new int[]{PerkIndex.NYCTALOPIA}),
 	//viewrange - 1(to minimum of 2)
 	CONSPICUOUS(0, 2, perkType.NEGATIVE, PerkIndex.CONSPICUOUS, new int[]{PerkIndex.INCONSPICUOUS}),
 	//basically cursed ring of stealth
@@ -128,7 +128,7 @@ public enum Perk {
 	//no journals, reading scrolls(except SoUs) may have unexpected outcome
 //	PACIFIST(0, 1, perkType.NEGATIVE, PerkIndex.PACIFIST, new int[]{PerkIndex.BRAVE, PerkIndex.CONFIDENT}),
 //	//You can never get used to the horror of combat, killing enemies does not reduce your horror level
-	BLIND(0, 8, perkType.NEGATIVE, PerkIndex.BLIND, new int[]{PerkIndex.CAT_EYE, PerkIndex.SHORT_SIGHTED}, new int[]{PerkIndex.SHORT_SIGHTED}),
+	NYCTALOPIA(0, 8, perkType.NEGATIVE, PerkIndex.NYCTALOPIA, new int[]{PerkIndex.CAT_EYE, PerkIndex.SHORT_SIGHTED}, new int[]{PerkIndex.SHORT_SIGHTED}),
 	//You are (almost) blind, only the one tile around you are visible, good thing is you can still (barely) read scrolls and identify things
 	AMNESIA(0, 6, perkType.NEGATIVE, PerkIndex.AMNESIA, null),
 	//when finding a way to somewhere, you always managed to get to the wrong way, not because you are stupid,

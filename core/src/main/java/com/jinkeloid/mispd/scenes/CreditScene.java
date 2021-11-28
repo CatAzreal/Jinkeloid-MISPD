@@ -76,9 +76,11 @@ public class CreditScene extends PixelScene {
 		//*** Musics Used ***
 
 		CreditsBlock musicUsed = new CreditsBlock(true, Window.MISPD_COLOR,
-				"Music:\n",
+				"Music Used:\n",
 				null,
-				"Placeholders\nPlaceholders\nPlaceholders\nPlaceholders\nPlaceholders\nPlaceholders\nPlaceholders\n"
+				"Sky Fortress\nError\nGhost Train\nHomeland\nConclusion\nStargrater" +
+						"\nCombo Breaker Japan\nField of Memories\nFinal Battle\nRicochet Love\nGeometrical Dominator\n\n" +
+						"All composed by Waterflame\n"
 				,
 				null,
 				null);
@@ -90,7 +92,7 @@ public class CreditScene extends PixelScene {
 		CreditsBlock specialThanks = new CreditsBlock(true, Window.MISPD_COLOR,
 				"Special Thanks to:\n",
 				null,
-				"Evan Debenham\n\n ConsideredHamster\n\n _69_Omicronrg_69_\n\n" +
+				"Evan Debenham\n\nConsideredHamster\n\nOmicronrg\n\nChronie Lynn\n\n" +
 						"Players from Chinese PD community\n who supported me and this mod back from 2016\n\n" +
 						"All the kind souls on PD Discord\n\n" +
 						"...\n" +

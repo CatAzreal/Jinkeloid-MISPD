@@ -310,7 +310,7 @@ public abstract class Level implements Bundlable {
 		version = bundle.getInt( VERSION );
 		
 		//saves from before v0.7.5e are not supported
-		if (version < MusicImplantSPD.v0_7_5e){
+		if (version < MusicImplantSPD.abandoned){
 			throw new RuntimeException("old save");
 		}
 

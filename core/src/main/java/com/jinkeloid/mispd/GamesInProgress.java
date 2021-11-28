@@ -103,7 +103,7 @@ public class GamesInProgress {
 				Dungeon.preview(info, bundle);
 				
 				//saves from before v0.7.5e are not supported
-				if (info.version < MusicImplantSPD.v0_7_5e) {
+				if (info.version < MusicImplantSPD.abandoned) {
 					info = null;
 				}
 

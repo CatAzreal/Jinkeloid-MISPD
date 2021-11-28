@@ -289,7 +289,7 @@ public abstract class Char extends Actor {
 		} else if (hit( this, enemy, false )) {
 			
 			int dr = enemy.drRoll();
-			
+
 			if (this instanceof Hero){
 				Hero h = (Hero)this;
 				if (h.belongings.weapon instanceof MissileWeapon

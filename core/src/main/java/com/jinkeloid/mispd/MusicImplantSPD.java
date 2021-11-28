@@ -23,8 +23,10 @@ package com.jinkeloid.mispd;
 
 import com.jinkeloid.mispd.scenes.GameScene;
 import com.jinkeloid.mispd.scenes.PixelScene;
+import com.jinkeloid.mispd.scenes.TitleScene;
 import com.jinkeloid.mispd.scenes.WelcomeScene;
 import com.watabou.noosa.Game;
+import com.watabou.noosa.Tilemap;
 import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PlatformSupport;
@@ -33,18 +35,11 @@ public class MusicImplantSPD extends Game {
 
 	//variable constants for specific older versions of shattered, used for data conversion
 	//versions older than v0.7.5e are no longer supported, and data from them is ignored
-	public static final int v0_7_5e = 382;
-
-	public static final int v0_8_0b = 414;
-	public static final int v0_8_1a = 422;
-	public static final int v0_8_2d = 463;
-
-	public static final int v0_9_0b  = 489;
-	public static final int v0_9_1d  = 511;
-	public static final int v0_9_2   = 519;
+	public static final int abandoned = 10000;
+	public static final int peacock0_2_0   = 20000;
 	
 	public MusicImplantSPD(PlatformSupport platform ) {
-		super( sceneClass == null ? WelcomeScene.class : sceneClass, platform );
+		super( sceneClass == null ? TitleScene.class : sceneClass, platform );
 
 		//v0.8.0
 		com.watabou.utils.Bundle.addAlias(

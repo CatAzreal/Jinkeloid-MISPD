@@ -82,7 +82,7 @@ public class CharacterBuilderScene extends PixelScene {
 	@Override
 	public void create() {
 		super.create();
-
+		charPoint = 0;
 		Badges.loadGlobal();
 		Journal.loadGlobal();
 		//each time we enter the scene, the perk list need to be cleared
