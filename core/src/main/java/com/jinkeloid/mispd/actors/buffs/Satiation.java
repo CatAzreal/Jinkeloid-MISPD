@@ -102,7 +102,7 @@ public class Satiation extends Buff implements Hero.Doom {
                     hero.interrupt();
                 }
                 //update player max health when satiation level increased
-                if (newLevel > HUNGRY && level <= HUNGRY || newLevel > STARVING && level <= STARVING){
+                if ((newLevel > HUNGRY && level <= HUNGRY) || (newLevel > STARVING && level <= STARVING)){
                     HTUpdate = true;
                 }
                 level = newLevel;
@@ -245,15 +245,15 @@ public class Satiation extends Buff implements Hero.Doom {
             result = Messages.get(this, "desc_intro_stable");
             result += Messages.get(this, "desc_turncount_stable", decayTurnCount());
         }else if (isPeckish()){
-            if (Dungeon.hero.hasPerk(Perk.ABSTINENCE)) result = Messages.get(this, "desc_intro_peckish");
+            if (!Dungeon.hero.hasPerk(Perk.ABSTINENCE)) result = Messages.get(this, "desc_intro_peckish");
             else result = Messages.get(this, "desc_intro_peckish_ab");
             result += Messages.get(this, "desc_turncount_peckish", decayTurnCount());
         }else if (isHungry()){
-            if (Dungeon.hero.hasPerk(Perk.ABSTINENCE)) result = Messages.get(this, "desc_intro_hungry");
+            if (!Dungeon.hero.hasPerk(Perk.ABSTINENCE)) result = Messages.get(this, "desc_intro_hungry");
             else result = Messages.get(this, "desc_intro_hungry_ab");
             result += Messages.get(this, "desc_turncount_hungry", decayTurnCount());
         } else {
-            if (Dungeon.hero.hasPerk(Perk.ABSTINENCE)) result = Messages.get(this, "desc_intro_starving");
+            if (!Dungeon.hero.hasPerk(Perk.ABSTINENCE)) result = Messages.get(this, "desc_intro_starving");
             else result = Messages.get(this, "desc_intro_starving_ab");}
         result += Messages.get(this, "desc");
 

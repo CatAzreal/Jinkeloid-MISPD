@@ -36,7 +36,7 @@ public class PerkIndex {
     public static final int ILLITERATE         = 210;
     public static final int AMNESIA            = 211;
     public static final int FRAIL              = 212;
-    public static final int BLIND              = 213;
+    public static final int NYCTALOPIA         = 213;
     //not yet implemented
     public static final int PACIFIST           = 2000;
     public static final int ROOKIE             = 2000;

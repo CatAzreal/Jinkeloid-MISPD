@@ -344,7 +344,7 @@ public abstract class Mob extends Char {
 
 	@Override
 	public int damageRoll() {
-		return Random.NormalIntRange( minDamage, minDamage );
+		return Random.NormalIntRange( minDamage, maxDamage );
 	}
 
 	@Override

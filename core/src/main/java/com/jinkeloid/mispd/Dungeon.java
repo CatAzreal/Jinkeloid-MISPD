@@ -406,7 +406,7 @@ public class Dungeon {
 		hero.viewDistance = light == null ? level.viewDistance : Math.max( Light.DISTANCE, level.viewDistance );
 		hero.viewDistance = hero.hasPerk(Perk.CATS_EYES) ? Math.max(8, hero.viewDistance + 1) : hero.viewDistance;
 		hero.viewDistance = hero.hasPerk(Perk.SHORT_SIGHTED) ? hero.viewDistance - 1 : hero.viewDistance;
-		hero.viewDistance = hero.hasPerk(Perk.BLIND) ? (light == null ? 1 : 3 ): hero.viewDistance;
+		hero.viewDistance = hero.hasPerk(Perk.NYCTALOPIA) ? (light == null ? 1 : 3 ): hero.viewDistance;
 
 		
 		hero.curAction = hero.lastAction = null;
@@ -640,6 +640,7 @@ public class Dungeon {
 		
 		hero = null;
 		hero = (Hero)bundle.get( HERO );
+		hero.postInit();
 		
 		gold = bundle.getInt( GOLD );
 		depth = bundle.getInt( DEPTH );

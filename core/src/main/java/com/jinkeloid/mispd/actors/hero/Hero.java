@@ -220,8 +220,8 @@ public class Hero extends Char {
 	public void postInit() {
 		hpMultiplier = this.hasPerk(Perk.STURDY)? hpMultiplier + 2 :
 				this.hasPerk(Perk.FRAIL) ? hpMultiplier - 2 : hpMultiplier ;
-		basicHT = HP = HT = this.hasPerk(Perk.STURDY) ? basicHT+3 :
-				this.hasPerk(Perk.FRAIL) ? basicHT-2 : basicHT ;
+		basicHT = HP = HT = this.hasPerk(Perk.STURDY) ? basicHT + 3 :
+				this.hasPerk(Perk.FRAIL) ? basicHT - 2 : basicHT ;
 	}
 
 	public void updateHT( boolean boostHP ){
@@ -1180,7 +1180,7 @@ public class Hero extends Char {
 		if (rockArmor != null) {
 			damage = rockArmor.absorb(damage);
 		}
-		
+
 		return damage;
 	}
 	
