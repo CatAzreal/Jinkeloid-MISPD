@@ -22,6 +22,7 @@
 package com.jinkeloid.mispd.ui;
 
 import com.jinkeloid.mispd.Dungeon;
+import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.tiles.DungeonTilemap;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Image;
@@ -58,7 +59,7 @@ public class Compass extends Image {
 		}
 		
 		if (!visible) {
-			visible = Dungeon.level.visited[cell] || Dungeon.level.mapped[cell];
+			visible = Dungeon.level.visited[cell] || Dungeon.level.mapped[cell] || Dungeon.hero.hasPerk(Perk.MIND_COMPASS);
 		}
 		
 		if (visible) {

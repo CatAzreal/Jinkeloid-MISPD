@@ -217,11 +217,14 @@ public class Hero extends Char {
 	}
 
 	//after the hero is initiated and had all the perks loaded, we gotta give him a post init to make sure the stats are in
-	public void postInit() {
+	public void postInit(boolean firstInit) {
 		hpMultiplier = this.hasPerk(Perk.STURDY)? hpMultiplier + 2 :
 				this.hasPerk(Perk.FRAIL) ? hpMultiplier - 2 : hpMultiplier ;
-		basicHT = HP = HT = this.hasPerk(Perk.STURDY) ? basicHT + 3 :
+		basicHT = HT = this.hasPerk(Perk.STURDY) ? basicHT + 3 :
 				this.hasPerk(Perk.FRAIL) ? basicHT - 2 : basicHT ;
+		if (firstInit) HP = HT;
+		updateHT(false);
+		if (this.hasPerk(Perk.QUICK_DRAW) && firstInit) KindOfWeapon.instantSwitch = true;
 	}
 
 	public void updateHT( boolean boostHP ){

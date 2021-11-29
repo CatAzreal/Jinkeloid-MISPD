@@ -73,8 +73,8 @@ public class HornOfPlenty extends Artifact {
 		ArrayList<String> actions = super.actions( hero );
 		if (isEquipped( hero ) && charge > 0)
 			actions.add(AC_EAT);
-		if (isEquipped( hero ) && level() < levelCap && !cursed)
-			actions.add(AC_STORE);
+//		if (isEquipped( hero ) && level() < levelCap && !cursed)
+//			actions.add(AC_STORE);
 		return actions;
 	}
 
@@ -89,7 +89,7 @@ public class HornOfPlenty extends Artifact {
 			else if (charge == 0)  GLog.i( Messages.get(this, "no_food") );
 			else {
 				//consume as much food as it takes to be full, to a minimum of 1
-				int satietyPerCharge = (int) (Satiation.STABLE /10f);
+				int satietyPerCharge = (int) (Satiation.SATIATED /20f);
 				if (Dungeon.isChallenged(Challenges.NO_FOOD)){
 					satietyPerCharge /= 3;
 				}

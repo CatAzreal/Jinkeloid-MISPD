@@ -34,6 +34,7 @@ import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.effects.SpellSprite;
 import com.jinkeloid.mispd.items.Item;
 import com.jinkeloid.mispd.messages.Messages;
+import com.jinkeloid.mispd.plants.Plant;
 import com.jinkeloid.mispd.sprites.ItemSpriteSheet;
 import com.jinkeloid.mispd.utils.GLog;
 import com.watabou.noosa.audio.Sample;
@@ -46,7 +47,7 @@ public class Food extends Item {
 	
 	public static final String AC_EAT	= "EAT";
 	
-	public float energy = Satiation.PECKISH;
+	public float energy = Satiation.SATIATED/2;
 	
 	{
 		stackable = true;
@@ -72,7 +73,10 @@ public class Food extends Item {
 			detach( hero.belongings.backpack );
 			
 			satisfy(hero);
-			GLog.i( Messages.get(this, "eat_msg") );
+			if (!this.getClass().getSimpleName().equals("Seed"))
+				GLog.i( Messages.get(this, "eat_msg") );
+			else
+				GLog.i( Messages.get(Plant.class, "eat_msg") );
 			
 			hero.sprite.operate( hero.pos );
 			hero.busy();
@@ -90,14 +94,8 @@ public class Food extends Item {
 	}
 
 	protected float eatingTime(){
-		if (Dungeon.hero.hasPerk(Perk.IRON_STOMACH)
-			|| Dungeon.hero.hasPerk(Perk.ENERGIZING_MEAL)
-			|| Dungeon.hero.hasPerk(Perk.MYSTICAL_MEAL)
-			|| Dungeon.hero.hasPerk(Perk.INVIGORATING_MEAL)){
-			return TIME_TO_EAT - 2;
-		} else {
-			return TIME_TO_EAT;
-		}
+		return Dungeon.hero.hasPerk(Perk.GOBBLER) ? TIME_TO_EAT - 2 :
+				Dungeon.hero.hasPerk(Perk.NIBBLING) ? TIME_TO_EAT * 2 : TIME_TO_EAT;
 	}
 	
 	protected void satisfy( Hero hero ){

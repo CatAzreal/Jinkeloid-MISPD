@@ -106,6 +106,10 @@ public enum Perk {
 	//+3 starting health, +2 max health per level
 	VERY_STRONG(0, 10, perkType.POSITIVE, PerkIndex.VERY_STRONG, new int[]{PerkIndex.STOUT}),
 	//+1 starting strength, +1 strength per 7 level
+	GOBBLER(0, 2, perkType.POSITIVE, PerkIndex.GOBBLER, new int[]{PerkIndex.NIBBLING}),
+	//eat food at an extremely fast pace
+	MIND_COMPASS(0, 2, perkType.POSITIVE, PerkIndex.MIND_COMPASS, new int[]{PerkIndex.AMNESIA}),
+	//eat food at an extremely fast pace
 
 	//Negative Perks
 	SHORT_SIGHTED(0, 1, perkType.NEGATIVE, PerkIndex.SHORT_SIGHTED, new int[]{PerkIndex.CAT_EYE, PerkIndex.NYCTALOPIA}, new int[]{PerkIndex.NYCTALOPIA}),
@@ -130,7 +134,7 @@ public enum Perk {
 //	//You can never get used to the horror of combat, killing enemies does not reduce your horror level
 	NYCTALOPIA(0, 8, perkType.NEGATIVE, PerkIndex.NYCTALOPIA, new int[]{PerkIndex.CAT_EYE, PerkIndex.SHORT_SIGHTED}, new int[]{PerkIndex.SHORT_SIGHTED}),
 	//You are (almost) blind, only the one tile around you are visible, good thing is you can still (barely) read scrolls and identify things
-	AMNESIA(0, 6, perkType.NEGATIVE, PerkIndex.AMNESIA, null),
+	AMNESIA(0, 6, perkType.NEGATIVE, PerkIndex.AMNESIA, new int[]{PerkIndex.MIND_COMPASS}),
 	//when finding a way to somewhere, you always managed to get to the wrong way, not because you are stupid,
 	//you are just not good at determining direction and remembering places, using scroll of magic mapping would have different outcomes
 	LACK_OF_SENSE(0, 2, perkType.NEGATIVE, PerkIndex.LACK_OF_SENSE, null),
@@ -140,6 +144,8 @@ public enum Perk {
 	//cannot surprise attack
 	FRAIL(0, 6, perkType.NEGATIVE, PerkIndex.FRAIL, new int[]{PerkIndex.STURDY}),
 	//-2 starting health, -2 max health per level
+	NIBBLING(0, 2, perkType.NEGATIVE, PerkIndex.NIBBLING, new int[]{PerkIndex.GOBBLER}),
+	//eat food slowly
 
 	//Warrior T1
 	HEARTY_MEAL(0), ARMSMASTERS_INTUITION(1), TEST_SUBJECT(2), IRON_WILL(3),

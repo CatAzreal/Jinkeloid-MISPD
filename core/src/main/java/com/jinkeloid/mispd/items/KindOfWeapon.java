@@ -30,6 +30,7 @@ import com.jinkeloid.mispd.actors.buffs.ChampionEnemy;
 import com.jinkeloid.mispd.actors.buffs.Cripple;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.actors.hero.Perk;
+import com.jinkeloid.mispd.items.weapon.missiles.MissileWeapon;
 import com.jinkeloid.mispd.messages.Messages;
 import com.jinkeloid.mispd.utils.BArray;
 import com.jinkeloid.mispd.utils.GLog;
@@ -53,7 +54,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 	public ArrayList<String> actions(Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
 		actions.remove( isEquipped( hero ) ? AC_UNEQUIP : AC_EQUIP );
-		actions.add( isEquipped( hero ) ? AC_UNEQUIP : instantSwitch ? AC_EQUIPINST : AC_EQUIP );
+		actions.add( isEquipped( hero ) ? AC_UNEQUIP : (instantSwitch && (!MissileWeapon.class.isAssignableFrom(this.getClass()))) ? AC_EQUIPINST : AC_EQUIP );
 		return actions;
 	}
 

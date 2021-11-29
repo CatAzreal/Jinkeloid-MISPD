@@ -22,24 +22,30 @@
 package com.jinkeloid.mispd.plants;
 
 import com.jinkeloid.mispd.Assets;
+import com.jinkeloid.mispd.Badges;
 import com.jinkeloid.mispd.Challenges;
 import com.jinkeloid.mispd.Dungeon;
+import com.jinkeloid.mispd.Statistics;
 import com.jinkeloid.mispd.actors.Actor;
 import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Barkskin;
 import com.jinkeloid.mispd.actors.buffs.Buff;
+import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.actors.hero.HeroSubClass;
 import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.effects.CellEmitter;
+import com.jinkeloid.mispd.effects.SpellSprite;
 import com.jinkeloid.mispd.effects.particles.LeafParticle;
 import com.jinkeloid.mispd.items.Item;
+import com.jinkeloid.mispd.items.food.Food;
 import com.jinkeloid.mispd.items.wands.WandOfRegrowth;
 import com.jinkeloid.mispd.levels.Level;
 import com.jinkeloid.mispd.levels.Terrain;
 import com.jinkeloid.mispd.messages.Messages;
 import com.jinkeloid.mispd.scenes.GameScene;
 import com.jinkeloid.mispd.sprites.ItemSpriteSheet;
+import com.jinkeloid.mispd.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
@@ -122,7 +128,7 @@ public abstract class Plant implements Bundlable {
 		return desc;
 	}
 	
-	public static class Seed extends Item {
+	public static class Seed extends Food {
 
 		public static final String AC_PLANT	= "PLANT";
 		
@@ -131,8 +137,15 @@ public abstract class Plant implements Bundlable {
 		{
 			stackable = true;
 			defaultAction = AC_THROW;
+			energy = Satiation.HUNGRY/4f;
 		}
-		
+
+		@Override
+		protected float eatingTime(){
+			return Dungeon.hero.hasPerk(Perk.GOBBLER) ? 1 :
+					Dungeon.hero.hasPerk(Perk.NIBBLING) ? 3 : 2;
+		}
+
 		protected Class<? extends Plant> plantClass;
 		
 		@Override
@@ -168,7 +181,7 @@ public abstract class Plant implements Bundlable {
 		@Override
 		public void execute( Hero hero, String action ) {
 
-			super.execute (hero, action );
+			super.execute ( hero, action );
 
 			if (action.equals( AC_PLANT )) {
 							
