@@ -57,7 +57,7 @@ public class HealthRegen extends Buff {
 				if (regenBuff.isCursed()) {
 					delay *= 1.5f;
 				} else {
-					delay -= regenBuff.itemLevel()*0.9f;
+					delay *= Math.pow(0.9f, regenBuff.itemLevel());
 					delay /= RingOfEnergy.artifactChargeMultiplier(target);
 				}
 			}

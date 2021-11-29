@@ -30,7 +30,7 @@ public class StewedMeat extends Food {
 	
 	{
 		image = ItemSpriteSheet.STEWED;
-		energy = Satiation.PECKISH/2f;
+		energy = Satiation.STABLE/2f;
 	}
 	
 	@Override

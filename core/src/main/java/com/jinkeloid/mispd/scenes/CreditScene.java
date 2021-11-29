@@ -92,7 +92,7 @@ public class CreditScene extends PixelScene {
 		CreditsBlock specialThanks = new CreditsBlock(true, Window.MISPD_COLOR,
 				"Special Thanks to:\n",
 				null,
-				"Evan Debenham\n\nConsideredHamster\n\nOmicronrg\n\nChronie Lynn\n\n" +
+				"Evan Debenham\n\nConsideredHamster\n\nOmicronrg9\n\nChronie Lynn\n\n" +
 						"Players from Chinese PD community\n who supported me and this mod back from 2016\n\n" +
 						"All the kind souls on PD Discord\n\n" +
 						"...\n" +

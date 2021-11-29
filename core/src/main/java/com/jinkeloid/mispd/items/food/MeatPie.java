@@ -35,7 +35,7 @@ public class MeatPie extends Food {
 	
 	{
 		image = ItemSpriteSheet.MEAT_PIE;
-		energy = Satiation.SATISFIED;
+		energy = Satiation.SATIATED;
 	}
 	
 	@Override

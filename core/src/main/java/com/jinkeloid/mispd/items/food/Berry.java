@@ -35,7 +35,7 @@ public class Berry extends Food {
 
 	{
 		image = ItemSpriteSheet.BERRY;
-		energy = Satiation.PECKISH/3f; //100 food value
+		energy = Satiation.HUNGRY; //100 food value
 	}
 
 	@Override

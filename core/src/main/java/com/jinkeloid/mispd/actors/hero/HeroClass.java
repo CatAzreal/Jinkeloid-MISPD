@@ -32,7 +32,9 @@ import com.jinkeloid.mispd.items.artifacts.CloakOfShadows;
 import com.jinkeloid.mispd.items.bags.PotionBandolier;
 import com.jinkeloid.mispd.items.bags.ScrollHolder;
 import com.jinkeloid.mispd.items.bags.VelvetPouch;
+import com.jinkeloid.mispd.items.food.ChargrilledMeat;
 import com.jinkeloid.mispd.items.food.Food;
+import com.jinkeloid.mispd.items.food.MysteryMeat;
 import com.jinkeloid.mispd.items.food.Pasty;
 import com.jinkeloid.mispd.items.food.SmallRation;
 import com.jinkeloid.mispd.items.potions.PotionOfHealing;
@@ -55,6 +57,7 @@ import com.jinkeloid.mispd.items.weapon.melee.WornShortsword;
 import com.jinkeloid.mispd.items.weapon.missiles.ThrowingKnife;
 import com.jinkeloid.mispd.items.weapon.missiles.ThrowingStone;
 import com.jinkeloid.mispd.messages.Messages;
+import com.jinkeloid.mispd.plants.Firebloom;
 import com.jinkeloid.mispd.scenes.CharacterBuilderScene;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.DeviceCompat;
@@ -123,6 +126,9 @@ public enum HeroClass {
 			potionOfHealing.quantity(50).collect();
 			new ScrollOfMagicMapping().quantity(50).identify().collect();
 			new ScrollOfUpgrade().quantity(50).identify().collect();
+			new ChargrilledMeat().quantity(10).collect();
+			new MysteryMeat().quantity(10).collect();
+			new Firebloom.Seed().quantity(10).collect();
 		}
 
 	}

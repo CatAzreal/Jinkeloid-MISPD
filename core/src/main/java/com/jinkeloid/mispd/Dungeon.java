@@ -219,7 +219,7 @@ public class Dungeon {
 		
 		GamesInProgress.selectedClass.initHero( hero );
 		hero.live();
-		hero.postInit();
+		hero.postInit(true);
 		Generator.fullReset();
 	}
 
@@ -640,7 +640,7 @@ public class Dungeon {
 		
 		hero = null;
 		hero = (Hero)bundle.get( HERO );
-		hero.postInit();
+		hero.postInit(false);
 		
 		gold = bundle.getInt( GOLD );
 		depth = bundle.getInt( DEPTH );
