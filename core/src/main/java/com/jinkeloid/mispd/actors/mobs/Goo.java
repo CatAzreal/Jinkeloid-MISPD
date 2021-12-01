@@ -21,6 +21,7 @@
 
 package com.jinkeloid.mispd.actors.mobs;
 
+import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Badges;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.Actor;
@@ -39,6 +40,7 @@ import com.jinkeloid.mispd.sprites.GooSprite;
 import com.jinkeloid.mispd.ui.BossHealthBar;
 import com.jinkeloid.mispd.utils.GLog;
 import com.watabou.noosa.Camera;
+import com.watabou.noosa.audio.Music;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
@@ -206,6 +208,7 @@ public class Goo extends Mob {
 	@Override
 	public void damage(int dmg, Object src) {
 		if (!BossHealthBar.isAssigned()){
+			Music.INSTANCE.play(Assets.Music.SEWERBOSS, true);
 			BossHealthBar.assignBoss( this );
 		}
 		boolean bleeding = (HP*2 <= HT);
@@ -249,6 +252,7 @@ public class Goo extends Mob {
 	public void notice() {
 		super.notice();
 		if (!BossHealthBar.isAssigned()) {
+			Music.INSTANCE.play(Assets.Music.SEWERBOSS, true);
 			BossHealthBar.assignBoss(this);
 			yell(Messages.get(this, "notice"));
 			for (Char ch : Actor.chars()){

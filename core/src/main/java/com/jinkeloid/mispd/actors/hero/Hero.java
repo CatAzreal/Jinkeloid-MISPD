@@ -208,7 +208,7 @@ public class Hero extends Char {
 			HT = HP += 900;
 			STR = 18;
 			attackSkill = 50;
-//			defenseSkill = 50;
+			defenseSkill = 50;
 		}
 		
 		belongings = new Belongings( this );

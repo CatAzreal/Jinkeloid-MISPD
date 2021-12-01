@@ -63,6 +63,7 @@ import com.jinkeloid.mispd.tiles.DungeonTilemap;
 import com.jinkeloid.mispd.ui.BossHealthBar;
 import com.jinkeloid.mispd.utils.GLog;
 import com.watabou.noosa.Camera;
+import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
@@ -345,6 +346,7 @@ public class NewDM300 extends Mob {
 	public void notice() {
 		super.notice();
 		if (!BossHealthBar.isAssigned()) {
+			Music.INSTANCE.play(Assets.Music.CAVEBOSS, true);
 			BossHealthBar.assignBoss(this);
 			turnsSinceLastAbility = 0;
 			yell(Messages.get(this, "notice"));

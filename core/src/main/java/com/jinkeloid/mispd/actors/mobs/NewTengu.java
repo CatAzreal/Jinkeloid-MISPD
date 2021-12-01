@@ -65,6 +65,7 @@ import com.jinkeloid.mispd.tiles.DungeonTilemap;
 import com.jinkeloid.mispd.ui.BossHealthBar;
 import com.jinkeloid.mispd.utils.BArray;
 import com.jinkeloid.mispd.utils.GLog;
+import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
@@ -319,6 +320,7 @@ public class NewTengu extends Mob {
 	public void notice() {
 		super.notice();
 		if (!BossHealthBar.isAssigned()) {
+			Music.INSTANCE.play(Assets.Music.PRISONBOSS, true);
 			BossHealthBar.assignBoss(this);
 			if (HP <= HT/2) BossHealthBar.bleed(true);
 			if (HP == HT) {
