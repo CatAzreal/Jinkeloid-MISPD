@@ -14,8 +14,8 @@ allprojects {
         appName = 'MISPD'
         appPackageName = 'com.jinkeloid.mispd'
 
-        appVersionCode = 20010
-        appVersionName = '0.2.0(Peacock)b15'
+        appVersionCode = 20011
+        appVersionName = '0.2.0(Peacock)b16'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 
@@ -29,6 +29,7 @@ allprojects {
 
     repositories {
         google()
+
         jcenter()
     }
 

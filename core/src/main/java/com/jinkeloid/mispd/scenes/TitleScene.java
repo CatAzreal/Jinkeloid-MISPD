@@ -158,7 +158,7 @@ public class TitleScene extends PixelScene {
 			protected void onPointerUp() {}
 			@Override
 			protected void onClick() {
-				if (btnSigil.sprite.alpha() == 1) MusicImplantSPD.scene().add(new WndMessage("Sigil is not available yet"));
+				if (btnSigil.sprite.alpha() == 1) MusicImplantSPD.scene().add(new WndMessage(Messages.get(TitleScene.class, "sigil_na")));
 //				super.onClick();
 //				spriteSigil.callback = new Callback() {
 //					@Override

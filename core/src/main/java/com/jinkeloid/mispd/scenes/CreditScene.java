@@ -78,8 +78,8 @@ public class CreditScene extends PixelScene {
 		CreditsBlock musicUsed = new CreditsBlock(true, Window.MISPD_COLOR,
 				"Music Used:\n",
 				null,
-				"Sky Fortress\nError\nGhost Train\nHomeland\nConclusion\nStargrater" +
-						"\nCombo Breaker Japan\nField of Memories\nFinal Battle\nRicochet Love\nGeometrical Dominator\n\n" +
+				"Winterwind\nError\nGhost Train\nHomeland\nConclusion\nStarcrater" +
+						"\nCombo Breaker Japan\nField of Memories\nFinal Battle\nRicochet Love\nWelkin Wing\n\n" +
 						"All composed by Waterflame\n"
 				,
 				null,

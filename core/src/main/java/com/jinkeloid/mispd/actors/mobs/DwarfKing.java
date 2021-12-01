@@ -53,6 +53,7 @@ import com.jinkeloid.mispd.sprites.CharSprite;
 import com.jinkeloid.mispd.sprites.KingSprite;
 import com.jinkeloid.mispd.ui.BossHealthBar;
 import com.jinkeloid.mispd.ui.BuffIndicator;
+import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
@@ -346,6 +347,7 @@ public class DwarfKing extends Mob {
 	public void notice() {
 		super.notice();
 		if (!BossHealthBar.isAssigned()) {
+			Music.INSTANCE.play(Assets.Music.CITYBOSS, true);
 			BossHealthBar.assignBoss(this);
 			yell(Messages.get(this, "notice"));
 			for (Char ch : Actor.chars()){

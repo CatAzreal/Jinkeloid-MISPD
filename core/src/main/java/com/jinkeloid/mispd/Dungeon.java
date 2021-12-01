@@ -365,15 +365,15 @@ public class Dungeon {
 
 		String musicString = "";
 		if (Dungeon.depth < 5)          	musicString = Assets.Music.SEWER;
-		else if (Dungeon.depth == 5)        musicString = Assets.Music.SEWERBOSS;
+		else if (Dungeon.depth == 5)        ;
 		else if (Dungeon.depth < 10)    	musicString = Assets.Music.PRISON;
-		else if (Dungeon.depth == 10)    	musicString = Assets.Music.PRISONBOSS;
+		else if (Dungeon.depth == 10)    	;
 		else if (Dungeon.depth < 15)    	musicString = Assets.Music.CAVE;
-		else if (Dungeon.depth == 15)    	musicString = Assets.Music.CAVEBOSS;
+		else if (Dungeon.depth == 15)    	;
 		else if (Dungeon.depth < 20)    	musicString = Assets.Music.CITY;
-		else if (Dungeon.depth == 20)    	musicString = Assets.Music.CITYBOSS;
+		else if (Dungeon.depth == 20)    	;
 		else if (Dungeon.depth < 25)    	musicString = Assets.Music.HALL;
-		else if (Dungeon.depth == 25)    	musicString = Assets.Music.HALLBOSS;
+		else if (Dungeon.depth == 25)    	;
 
 		Music.INSTANCE.play(musicString, true);
 		

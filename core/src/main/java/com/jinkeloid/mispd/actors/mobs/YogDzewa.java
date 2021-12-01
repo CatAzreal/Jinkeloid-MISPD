@@ -21,6 +21,7 @@
 
 package com.jinkeloid.mispd.actors.mobs;
 
+import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.Statistics;
 import com.jinkeloid.mispd.actors.Actor;
@@ -51,6 +52,7 @@ import com.jinkeloid.mispd.sprites.YogSprite;
 import com.jinkeloid.mispd.tiles.DungeonTilemap;
 import com.jinkeloid.mispd.ui.BossHealthBar;
 import com.jinkeloid.mispd.utils.GLog;
+import com.watabou.noosa.audio.Music;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
@@ -410,6 +412,7 @@ public class YogDzewa extends Mob {
 	@Override
 	public void notice() {
 		if (!BossHealthBar.isAssigned()) {
+			Music.INSTANCE.play(Assets.Music.HALLBOSS, true);
 			BossHealthBar.assignBoss(this);
 			yell(Messages.get(this, "notice"));
 			for (Char ch : Actor.chars()){
