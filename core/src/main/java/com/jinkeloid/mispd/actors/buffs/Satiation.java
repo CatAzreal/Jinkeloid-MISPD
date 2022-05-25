@@ -57,16 +57,20 @@ public class Satiation extends Buff implements Hero.Doom {
     @Override
     public boolean act() {
         boolean HTUpdate;
-        if (Dungeon.level.locked){
-            spend(STEP);
-            return true;
-        }
+//        if (Dungeon.level.locked){
+//            spend(STEP);
+//            return true;
+//        }
         if (target.isAlive() && target instanceof Hero) {
             Hero hero = (Hero)target;
             if (isStarving()) {
                 level -= STEP/2;
-                //every value under starvation line would result in additional 0.1% damage to max health per turn, 0.05% if abstinence
-                partialDamage += (1 - level/10) * target.HT/(hero.hasPerk(Perk.ABSTINENCE) ? 2000f : 1000f );
+                //every value under starvation line would result in additional 0.1% damage to max health per turn,
+                //0.05% if abstinence
+                //none if the floor is locked
+                if (!Dungeon.level.locked) {
+                    partialDamage += (1 - level / 10) * target.HT / (hero.hasPerk(Perk.ABSTINENCE) ? 2000f : 1000f);
+                }
                 if (partialDamage > 1){
                     target.damage( (int)partialDamage, this);
                     partialDamage -= (int)partialDamage;

@@ -32,6 +32,7 @@ import com.watabou.utils.PointF;
 
 public abstract class DungeonTilemap extends Tilemap {
 
+	//remind to self future 32-bit project starts here
 	public static final int SIZE = 16;
 
 	protected int[] map;

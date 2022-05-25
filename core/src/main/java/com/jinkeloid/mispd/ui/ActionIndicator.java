@@ -35,7 +35,7 @@ public class ActionIndicator extends Tag {
 	public static ActionIndicator instance;
 
 	public ActionIndicator() {
-		super( 0xFFFF4C );
+		super( 0xFFFF4C ,false,false);
 
 		instance = this;
 

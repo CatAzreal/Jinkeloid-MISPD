@@ -43,6 +43,7 @@ public enum Icons {
 	DATA,
 	AUDIO,
 	TALENT,
+	HELP,
 	
 	//ingame UI icons
 	SKULL,
@@ -81,7 +82,18 @@ public enum Icons {
 	DISCORD,
 
 	//icons for credits
-	JINKELOID;
+	JINKELOID,
+	//icons for scene switch buttons
+	MENU,
+	SHOP,
+	SEWER,
+	TRAIT,
+	//icons for CBS ui elements
+	GEM,
+	METER,
+	SCORE,
+	POSCONT,
+	NEGCONT;
 
 	public Image get() {
 		return get( this );
@@ -128,6 +140,9 @@ public enum Icons {
 			break;
 		case AUDIO:
 			icon.frame( icon.texture.uvRect( 64, 16, 78, 30 ) );
+			break;
+		case HELP:
+			icon.frame( icon.texture.uvRect( 96, 16, 105, 28 ) );
 			break;
 		case TALENT:
 			icon.frame( icon.texture.uvRect( 80, 16, 93, 29 ) );
@@ -216,8 +231,37 @@ public enum Icons {
 
 		//32*32 icons are scaled down to match game's size
 		case JINKELOID:
-			icon.frame( icon.texture.uvRect( 0, 94, 33, 142 ) );
+			icon.frame( icon.texture.uvRect( 0, 96, 31, 143 ) );
 			icon.scale.set(PixelScene.align(0.49f));
+			break;
+		case MENU:
+			icon.frame( icon.texture.uvRect( 32, 96, 79, 127 ) );
+			break;
+		case SHOP:
+			icon.frame( icon.texture.uvRect( 80, 96, 127, 127 ) );
+			break;
+		case SEWER:
+			icon.frame( icon.texture.uvRect( 32, 128, 79, 159 ) );
+			break;
+		case TRAIT:
+			icon.frame( icon.texture.uvRect( 80, 128, 127, 159 ) );
+			break;
+
+		//Character building scene UI
+		case METER:
+			icon.frame( icon.texture.uvRect( 0, 160, 128, 192 ) );
+			break;
+		case GEM:
+			icon.frame( icon.texture.uvRect( 80, 16, 84, 20 ) );
+			break;
+		case SCORE:
+			icon.frame( icon.texture.uvRect( 48, 80, 63, 95 ) );
+			break;
+		case POSCONT:
+			icon.frame( icon.texture.uvRect( 64, 80, 79, 95 ) );
+			break;
+		case NEGCONT:
+			icon.frame( icon.texture.uvRect( 80, 80, 95, 95 ) );
 			break;
 		}
 		return icon;

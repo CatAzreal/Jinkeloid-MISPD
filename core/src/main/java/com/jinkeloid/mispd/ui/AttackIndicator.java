@@ -49,7 +49,7 @@ public class AttackIndicator extends Tag {
 	private ArrayList<Mob> candidates = new ArrayList<>();
 	
 	public AttackIndicator() {
-		super( DangerIndicator.COLOR );
+		super( DangerIndicator.COLOR, false,false );
 
 		synchronized (this) {
 			instance = this;

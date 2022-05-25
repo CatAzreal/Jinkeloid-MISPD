@@ -34,6 +34,7 @@ public class Chrome {
 		GREY_BUTTON,
 		GREY_BUTTON_TR,
 		TAG,
+		TAG_BIG,
 		GEM,
 		GEM_WB,
 		GEM_GREEN,
@@ -63,6 +64,8 @@ public class Chrome {
 			return new NinePatch( Asset, 29, 6, 6, 6, 2 );
 		case TAG:
 			return new NinePatch( Asset, 22, 18, 16, 14, 3 );
+		case TAG_BIG:
+			return new NinePatch( Asset, 112, 0, 18, 19, 9 );
 		case GEM:
 			return new NinePatch( Asset, 0, 32, 32, 32, 13 );
 		case GEM_WB:

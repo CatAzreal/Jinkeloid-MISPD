@@ -293,6 +293,16 @@ public enum Perk {
 		return null;
 	}
 
+	public static Perk getPerkByID(int id){
+		List<Perk> perkList = new ArrayList<>(EnumSet.allOf(Perk.class));
+		for (Perk perk : perkList){
+			if (perk.id == id){
+				return perk;
+			}
+		}
+		return null;
+	}
+
 	public enum perkType {
 		POSITIVE,
 		NEGATIVE,
@@ -314,6 +324,8 @@ public enum Perk {
 	public int[] conflictPerks() { return conflictPerks; }
 
 	public int[] pairingPerks() { return pairingPerks; }
+	//currently only positive perk check is sufficient, might need more types later
+	public boolean isPositive() { return type == perkType.POSITIVE; }
 
 	public String title(){
 		return Messages.get(this, name() + ".title");
@@ -713,7 +725,7 @@ public enum Perk {
 	}
 
 	public static void restorePerksFromBundle(Bundle bundle, Hero hero ){
-		//the most primitive way I can think of to retrieve such values, hope they work
+		//the most primitive way I can think of to retrieve such values
 		for (int i = 0; i < bundle.getInt(PERK_COUNT); i++){
 			hero.perks.add( Perk.valueOf(bundle.getString(PERK_INDEX +i )) );
 		}
