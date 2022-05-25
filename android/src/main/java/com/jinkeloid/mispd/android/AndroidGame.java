@@ -21,16 +21,25 @@
 
 package com.jinkeloid.mispd.android;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
+import android.graphics.text.LineBreaker;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.widget.TextView;
 
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.backends.android.AndroidClipboard;
 import com.jinkeloid.mispd.MISPDSettings;
 import com.jinkeloid.mispd.MusicImplantSPD;
+import com.jinkeloid.mispd.messages.Messages;
 import com.jinkeloid.mispd.services.news.News;
 import com.jinkeloid.mispd.services.news.NewsImpl;
 import com.jinkeloid.mispd.services.updates.UpdateImpl;
@@ -38,15 +47,28 @@ import com.jinkeloid.mispd.services.updates.Updates;
 import com.watabou.noosa.Game;
 import com.watabou.utils.FileUtils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 public class AndroidGame extends AndroidApplication {
 	
 	public static AndroidApplication instance;
 	
 	private static AndroidPlatformSupport support;
-	
+
+	private static int STACK_TRACE_SIZE = 1000;
+
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Setup handler for uncaught exceptions.
+		Thread.setDefaultUncaughtExceptionHandler (new Thread.UncaughtExceptionHandler() {
+			@Override
+			public void uncaughtException (Thread thread, Throwable e) {
+				handleUncaughtException (thread, e);
+			}
+		});
 
 		//there are some things we only need to set up on first launch
 		if (instance == null) {
@@ -139,5 +161,56 @@ public class AndroidGame extends AndroidApplication {
 	public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
 		super.onMultiWindowModeChanged(isInMultiWindowMode);
 		support.updateSystemUI();
+	}
+
+	public void handleUncaughtException (Thread thread, Throwable e)
+	{
+		try {
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			pw.flush();
+			sw.flush();
+			TextView text = new TextView(this);
+			runOnUiThread(new Runnable() {
+
+				@TargetApi(Build.VERSION_CODES.Q)
+				@SuppressLint({"SetTextI18n", "RtlHardcoded", "WrongConstant"})
+				@Override
+				public void run() {
+					String remove = "\t";
+					String stackTrace = sw.toString();
+					stackTrace = stackTrace.replaceAll(remove, "");
+					stackTrace = stackTrace.replaceAll("at ", "");
+					stackTrace = stackTrace.trim();
+					if (stackTrace.length() > STACK_TRACE_SIZE) {
+						String disclaimer = " [stack trace too large]";
+						stackTrace = stackTrace.substring(0, STACK_TRACE_SIZE - disclaimer.length()) + disclaimer;
+					}
+					text.setText(new StringBuilder()
+							.append("MISPD崩溃啦！\n")
+							.append("下面是报错记录，详细报错已复制在剪贴板上，反馈请联系qq377844252\n\n")
+							.append("MISPD just crashed, what a surprise!\n")
+							.append("Please dm this error log(which should be already copied to your clipboard) to me via Discord(or PD server): Jinkeloid#0864\n\n\n\n")
+							.append(stackTrace).toString());
+					text.setTextSize(12);
+					text.setTextColor(0xFFFFFFFF);
+					text.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/zpix_font.ttf"));
+					text.setGravity(Gravity.LEFT);
+					text.setPadding(20, 15, 20, 15);
+					setContentView(text);
+				}
+			});
+			AndroidClipboard androidClipboard = new AndroidClipboard(this.getApplicationContext());
+			androidClipboard.setContents(sw.toString());
+			sw.close();
+			pw.close();
+		} catch (Exception exception) {
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			exception.printStackTrace(pw);
+			pw.flush();
+			System.err.println(sw.toString());
+		}
 	}
 }

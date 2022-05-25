@@ -52,6 +52,18 @@ public class StyledButton extends Button {
 		text.text( label );
 		add( text );
 	}
+
+	public StyledButton(Chrome.Type type, String label, int size, boolean flip){
+		super();
+
+		bg = Chrome.get( type );
+		bg.flipHorizontal(flip);
+		addToBack( bg );
+
+		text = PixelScene.renderTextBlock( size );
+		text.text( label );
+		add( text );
+	}
 	
 	@Override
 	protected void layout() {

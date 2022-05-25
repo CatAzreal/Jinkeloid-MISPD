@@ -21,6 +21,7 @@
 
 package com.jinkeloid.mispd;
 
+import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.messages.Languages;
 import com.jinkeloid.mispd.scenes.GameScene;
 import com.jinkeloid.mispd.scenes.PixelScene;
@@ -29,6 +30,7 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.GameSettings;
 import com.watabou.utils.Point;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class MISPDSettings extends GameSettings {

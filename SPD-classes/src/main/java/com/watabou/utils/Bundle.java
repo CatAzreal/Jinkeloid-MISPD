@@ -400,6 +400,19 @@ public class Bundle {
 			Game.reportException(e);
 		}
 	}
+
+	//There's no reason that collections like ArrayList cannot work here, right?
+	public void put( String key, ArrayList<Integer> list){
+		try {
+			JSONArray jsonArray = new JSONArray();
+			for (int i=0; i < list.size(); i++) {
+				jsonArray.put( i, list.get(i) );
+			}
+			data.put( key, jsonArray );
+		} catch (JSONException e) {
+			Game.reportException(e);
+		}
+	}
 	
 	public void put( String key, Collection<? extends Bundlable> collection ) {
 		JSONArray array = new JSONArray();

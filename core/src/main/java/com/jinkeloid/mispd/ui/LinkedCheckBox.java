@@ -32,11 +32,6 @@ public class LinkedCheckBox extends StyledButton{
     @Override
     protected void layout() {
         super.layout();
-//        bg_selected.x = bg_normal.x = bg_disabled.x = x;
-//        bg_selected.y = bg_normal.y = bg_disabled.y = y;
-//        bg_selected.size(width, height);
-//        bg_normal.size(width, height);
-//        bg_disabled.size(width, height);
         bg_selected_neg.x = bg_selected_pos.x = bg_normal.x = bg_disabled.x = x;
         bg_selected_neg.y = bg_selected_pos.y = bg_normal.y = bg_disabled.y = y;
         bg_selected_neg.height = bg_selected_pos.height = bg_normal.height = bg_disabled.height = height*2;
@@ -105,11 +100,30 @@ public class LinkedCheckBox extends StyledButton{
         }
     }
 
+    //reset used for setup loading
+    public void reset(){
+        disabled = checked = false;
+        erase(bg);
+        erase(bg_selected_pos);
+        erase(bg_selected_neg);
+        erase(bg_disabled);
+        addToBack(bg_normal);
+        text.resetColor();
+        text.setHightlighting(false);
+        text.setHightlighting(true, Window.TITLE_COLOR);
+    }
+
     @Override
     protected void onClick() {
         if (!disabled){
         super.onClick();
         checked( !checked, positive);
+        }
+    }
+    //simulated click used for loading setups
+    public void simulatedClick() {
+        if (!disabled){
+            checked( !checked, positive);
         }
     }
 }

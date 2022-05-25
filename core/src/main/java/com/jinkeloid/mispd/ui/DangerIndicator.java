@@ -42,7 +42,7 @@ public class DangerIndicator extends Tag {
 	private int lastNumber = -1;
 	
 	public DangerIndicator() {
-		super( 0xFF4C4C );
+		super( 0xFF4C4C, false,false );
 		
 		setSize( 24, 16 );
 		

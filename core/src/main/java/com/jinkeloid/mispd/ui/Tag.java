@@ -31,24 +31,28 @@ public class Tag extends Button {
 	private float r;
 	private float g;
 	private float b;
+	private boolean big;
+	private boolean flip;
 	protected NinePatch bg;
 	
 	protected float lightness = 0;
 	
-	public Tag( int color ) {
+	public Tag( int color, boolean big, boolean flip) {
 		super();
 		
 		this.r = (color >> 16) / 255f;
 		this.g = ((color >> 8) & 0xFF) / 255f;
 		this.b = (color & 0xFF) / 255f;
+		this.big = big;
+		this.flip = flip;
 	}
 	
 	@Override
 	protected void createChildren() {
 		
 		super.createChildren();
-		
-		bg = Chrome.get( Chrome.Type.TAG );
+
+		bg = big ? Chrome.get( Chrome.Type.TAG_BIG ) : Chrome.get( Chrome.Type.TAG );
 		bg.hardlight( r, g, b );
 		add( bg );
 	}

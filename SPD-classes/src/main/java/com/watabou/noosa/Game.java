@@ -43,6 +43,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Observable;
 
+import javax.swing.text.View;
+
+import sun.awt.im.InputMethodManager;
+
 public class Game implements ApplicationListener {
 
 	public static Game instance;
@@ -286,7 +290,7 @@ public class Game implements ApplicationListener {
 		}
 	}
 	
-	protected void logException( Throwable tr ){
+	public void logException( Throwable tr ){
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		tr.printStackTrace(pw);
