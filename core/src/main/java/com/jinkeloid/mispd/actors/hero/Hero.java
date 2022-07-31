@@ -175,6 +175,8 @@ public class Hero extends Char {
 	public boolean resting = false;
 	
 	public Belongings belongings;
+
+	private Bundle postInitBundle;
 	
 	public int STR;
 	
@@ -216,13 +218,14 @@ public class Hero extends Char {
 		visibleEnemies = new ArrayList<>();
 	}
 
-	//after the hero is initiated and had all the perks loaded, we gotta give him a post init to make sure the stats are in
+	//after the hero is initiated and had all the perks loaded, load all other stats that are dependent on perks or other factors inside hero to initialize
 	public void postInit(boolean firstInit) {
 		hpMultiplier = this.hasPerk(Perk.STURDY)? hpMultiplier + 2 :
 				this.hasPerk(Perk.FRAIL) ? hpMultiplier - 2 : hpMultiplier ;
 		basicHT = HT = this.hasPerk(Perk.STURDY) ? basicHT + 3 :
 				this.hasPerk(Perk.FRAIL) ? basicHT - 2 : basicHT ;
 		if (firstInit) HP = HT;
+		else belongings.restoreFromBundle( postInitBundle );
 		updateHT(false);
 		if (this.hasPerk(Perk.QUICK_DRAW) && firstInit) KindOfWeapon.instantSwitch = true;
 	}
@@ -295,7 +298,8 @@ public class Hero extends Char {
 	
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
-
+		//after the hero is initiated, postpone any other hero stats that's subjected to perk manipulation
+		postInitBundle = bundle;
 		lvl = bundle.getInt( LEVEL );
 		exp = bundle.getInt( EXPERIENCE );
 
@@ -311,8 +315,6 @@ public class Hero extends Char {
 		defenseSkill = bundle.getInt( DEFENSE );
 		
 		STR = bundle.getInt( STRENGTH );
-
-		belongings.restoreFromBundle( bundle );
 	}
 	
 	public static void preview( GamesInProgress.Info info, Bundle bundle ) {
