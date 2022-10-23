@@ -27,11 +27,13 @@ import com.jinkeloid.mispd.Statistics;
 import com.jinkeloid.mispd.actors.Actor;
 import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Amok;
+import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Charm;
 import com.jinkeloid.mispd.actors.buffs.Frost;
-import com.jinkeloid.mispd.actors.buffs.Light;
+import com.jinkeloid.mispd.actors.buffs.LightOld;
 import com.jinkeloid.mispd.actors.buffs.LockedFloor;
 import com.jinkeloid.mispd.actors.buffs.Paralysis;
+import com.jinkeloid.mispd.actors.buffs.RegionSecure;
 import com.jinkeloid.mispd.actors.buffs.Sleep;
 import com.jinkeloid.mispd.actors.buffs.Terror;
 import com.jinkeloid.mispd.actors.buffs.Vertigo;
@@ -70,7 +72,7 @@ public class YogDzewa extends Mob {
 
 		HP = HT = 1000;
 
-		EXP = 50;
+		EXP = 500;
 
 		//so that allies can attack it. States are never actually used.
 		state = HUNTING;
@@ -360,7 +362,7 @@ public class YogDzewa extends Mob {
 		}
 		level.viewDistance = Math.max(1, level.viewDistance);
 		if (Dungeon.hero != null) {
-			if (Dungeon.hero.buff(Light.class) == null) {
+			if (Dungeon.hero.buff(LightOld.class) == null) {
 				Dungeon.hero.viewDistance = level.viewDistance;
 			}
 			Dungeon.observe();
@@ -399,7 +401,8 @@ public class YogDzewa extends Mob {
 				mob.die( cause );
 			}
 		}
-
+		Dungeon.progress = Dungeon.BossProgress.YOG;
+        Buff.affect(Dungeon.hero, RegionSecure.class);
 		updateVisibility(Dungeon.level);
 
 		GameScene.bossSlain();
@@ -508,9 +511,9 @@ public class YogDzewa extends Mob {
 			maxDamage = 25;
 			minDR = 0;
 			maxDR = 4;
-			viewDistance = Light.DISTANCE;
+			viewDistance = LightOld.DISTANCE;
 
-			EXP = 5;
+			EXP = 50;
 			maxLvl = -2;
 
 			properties.add(Property.DEMONIC);

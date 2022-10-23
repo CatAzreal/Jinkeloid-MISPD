@@ -34,8 +34,10 @@ import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.ChampionEnemy;
 import com.jinkeloid.mispd.actors.buffs.Charm;
 import com.jinkeloid.mispd.actors.buffs.Corruption;
-import com.jinkeloid.mispd.actors.buffs.Hunger;
+import com.jinkeloid.mispd.actors.buffs.FellEnemy;
+import com.jinkeloid.mispd.actors.buffs.Horror;
 import com.jinkeloid.mispd.actors.buffs.Preparation;
+import com.jinkeloid.mispd.actors.buffs.RegionSecure;
 import com.jinkeloid.mispd.actors.buffs.Satiation;
 import com.jinkeloid.mispd.actors.buffs.Sleep;
 import com.jinkeloid.mispd.actors.buffs.SoulMark;
@@ -103,9 +105,8 @@ public abstract class Mob extends Char {
 	public int attackSkill = 0;
 	public int defenseSkill = 0;
 	
-	public int EXP = 1;
-	public int HORRORGAIN = 20;
-	public int maxLvl = Hero.MAX_LEVEL;
+	public int EXP = 10;
+	public int maxLvl = Dungeon.hero.lvl + 2;
 
 	//Had to label these stats out for mob info display
 	public int minDamage = 1;
@@ -588,7 +589,7 @@ public abstract class Mob extends Char {
 	public int defenseProc( Char enemy, int damage ) {
 		
 		if (enemy instanceof Hero
-				&& ((Hero) enemy).belongings.weapon instanceof MissileWeapon
+				&& ((Hero) enemy).belongings.mainhand instanceof MissileWeapon
 				&& !hitWithRanged){
 			hitWithRanged = true;
 			Statistics.thrownAssists++;
@@ -600,8 +601,8 @@ public abstract class Mob extends Char {
 			Badges.validateRogueUnlock();
 			//TODO this is somewhat messy, it would be nicer to not have to manually handle delays here
 			// playing the strong hit sound might work best as another property of weapon?
-			if (Dungeon.hero.belongings.weapon instanceof SpiritBow.SpiritArrow
-				|| Dungeon.hero.belongings.weapon instanceof Dart){
+			if (Dungeon.hero.belongings.mainhand instanceof SpiritBow.SpiritArrow
+				|| Dungeon.hero.belongings.mainhand instanceof Dart){
 				Sample.INSTANCE.playDelayed(Assets.Sounds.HIT_STRONG, 0.125f);
 			} else {
 				Sample.INSTANCE.play(Assets.Sounds.HIT_STRONG);
@@ -681,22 +682,31 @@ public abstract class Mob extends Char {
 				Statistics.enemiesSlain++;
 				Badges.validateMonstersSlain();
 				Statistics.qualifiedForNoKilling = false;
-				
-				int exp = Dungeon.hero.lvl <= (Dungeon.hero.hasPerk(Perk.QUICK_LEARNER) ? maxLvl + 1 : maxLvl) ? EXP : 0;
+
+				//From now on experience gain from mob would be more dynamic
+				int lvlDiff = maxLvl - (Dungeon.hero.hasPerk(Perk.QUICK_LEARNER) ? Dungeon.hero.lvl - 1 : Dungeon.hero.lvl);
+				//Every hero level lower than (maxlvl - 2) will receive 50% more exp gain, 33% less exp gain if higher
+				//e.g. Rat have max level of 5, expgain of 10, killing rat will gain the following exp:
+				//at level 1: 22; level 2: 15; level 3: 10; level 4: 6; level 5: 4
+				lvlDiff -= 2;
+				int exp = EXP;
+				//0 exp if level diff is lower than 0
+				exp = lvlDiff >= -2 ? exp : 0;
+				exp *= Math.pow(1.5f, lvlDiff);
 				exp = Dungeon.hero.hasPerk(Perk.QUICK_LEARNER) ? (int)Math.floor(exp*1.25f) : exp;
 				if (exp > 0) {
 					Dungeon.hero.sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "exp", exp));
 				}
 				Dungeon.hero.earnExp(exp, getClass());
 
-				// Hero with pacifist perk would get horror by killing foes
-//				if (!Dungeon.hero.hasPerk(Perk.PACIFIST)){
-//					if (Dungeon.hero.Horror + this.HORRORGAIN >= 100){
-//						Dungeon.hero.Horror = 100;
-//					} else {
-//						Dungeon.hero.Horror += this.HORRORGAIN;
-//					}
-//				}
+				if (Dungeon.hero.hasPerk(Perk.PACIFIST)) return;
+				if (lvlDiff > 0) {
+					Buff.affect(Dungeon.hero, FellEnemy.class, (float) Math.pow(2f, lvlDiff - 1) * 5);
+					if (lvlDiff > 3){
+						Horror.ModHorror(-(float)Math.pow(2f, lvlDiff - 3));
+						GLog.i(Messages.get(this, "horror_reduced"));
+					}
+				}
 			}
 		}
 	}

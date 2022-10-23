@@ -23,7 +23,7 @@ package com.jinkeloid.mispd.items;
 
 import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.actors.buffs.Buff;
-import com.jinkeloid.mispd.actors.buffs.Light;
+import com.jinkeloid.mispd.actors.buffs.LightOld;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.effects.particles.FlameParticle;
 import com.jinkeloid.mispd.sprites.ItemSpriteSheet;
@@ -39,7 +39,7 @@ public class Torch extends Item {
 	public static final float TIME_TO_LIGHT = 1;
 	
 	{
-		image = ItemSpriteSheet.TORCH;
+		image = ItemSpriteSheet.TORCHOLD;
 		
 		stackable = true;
 		
@@ -67,7 +67,7 @@ public class Torch extends Item {
 			
 			detach( hero.belongings.backpack );
 			
-			Buff.affect(hero, Light.class, Light.DURATION);
+			Buff.affect(hero, LightOld.class, LightOld.DURATION);
 			Sample.INSTANCE.play(Assets.Sounds.BURNING);
 			
 			Emitter emitter = hero.sprite.centerEmitter();

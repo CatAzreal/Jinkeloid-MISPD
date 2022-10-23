@@ -48,7 +48,7 @@ public class Brute extends Mob {
 		minDR = 0;
 		maxDR = 8;
 
-		EXP = 8;
+		EXP = 80;
 		maxLvl = 16;
 		
 		loot = Gold.class;

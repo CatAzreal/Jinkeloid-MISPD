@@ -51,7 +51,7 @@ public class DemonSpawner extends Mob {
 		minDR = 0;
 		maxDR = 12;
 
-		EXP = 25;
+		EXP = 250;
 		maxLvl = 29;
 
 		state = PASSIVE;

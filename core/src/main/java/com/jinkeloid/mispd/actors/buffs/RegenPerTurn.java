@@ -19,22 +19,22 @@ public class RegenPerTurn extends Buff {
     @Override
     public boolean act() {
         if (((Hero)target).isAlive()) {
-            float horrorRatio = ((Hero)target).Horror / ((Hero)target).HorrorMax;
+//            float horrorRatio = ((Hero)target).curHorror / ((Hero)target).HorrorMax;
             float healthRatio = (float)target.HP / target.HT;
-            if (((Hero)target).Horror > 0) {
+//            if (((Hero)target).curHorror > 0) {
                 //horror value decay starts from 0.02 to 0.2 per turn, depending on player's current horror level
-                double horrorDecay = 0.02f * Math.pow(10, horrorRatio);
+//                double horrorDecay = 0.02f * Math.pow(10, horrorRatio);
 //                if (healthRatio < 0.5f){
 //                    horrorDecay *= 1.5f;
 //                }
 //                if (healthRatio < 0.2f){
 //                    horrorDecay *= 3f;
 //                }
-                ((Hero)target).Horror -= horrorDecay;
-                if (((Hero)target).Horror < 0 ){
-                    ((Hero)target).Horror = 0;
-                }
-            }
+//                ((Hero)target).curHorror -= horrorDecay;
+//                if (((Hero)target).curHorror < 0 ){
+//                    ((Hero)target).curHorror = 0;
+//                }
+//            }
             Perk.onItemThrowTrigger();
             //Re-apply the free consumable use every turn
             if (((Hero) target).hasPerk(Perk.DEXTEROUS) && !Item.instantAct){

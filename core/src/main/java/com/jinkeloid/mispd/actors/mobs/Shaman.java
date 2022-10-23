@@ -49,7 +49,7 @@ public abstract class Shaman extends Mob {
 		minDR = 0;
 		maxDR = 6;
 		
-		EXP = 8;
+		EXP = 80;
 		maxLvl = 16;
 		
 		loot = Generator.Category.WAND;

@@ -46,7 +46,7 @@ public class RotHeart extends Mob {
 		minDR = 0;
 		maxDR = 5;
 
-		EXP = 4;
+		EXP = 40;
 
 		state = PASSIVE;
 

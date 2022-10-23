@@ -70,7 +70,7 @@ public class DwarfKing extends Mob {
 		spriteClass = KingSprite.class;
 
 		HP = HT = 300;
-		EXP = 40;
+		EXP = 400;
 		attackSkill = 26;
 		defenseSkill = 22;
 		minDamage = 15;

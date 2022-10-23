@@ -22,6 +22,7 @@
 package com.jinkeloid.mispd.levels.rooms.special;
 
 import com.jinkeloid.mispd.Dungeon;
+import com.jinkeloid.mispd.actors.blobs.Fire;
 import com.jinkeloid.mispd.actors.hero.Belongings;
 import com.jinkeloid.mispd.actors.mobs.Mob;
 import com.jinkeloid.mispd.actors.mobs.npcs.Shopkeeper;
@@ -45,6 +46,7 @@ import com.jinkeloid.mispd.items.bags.ScrollHolder;
 import com.jinkeloid.mispd.items.bags.VelvetPouch;
 import com.jinkeloid.mispd.items.bombs.Bomb;
 import com.jinkeloid.mispd.items.food.SmallRation;
+import com.jinkeloid.mispd.items.lightsource.FireTorch;
 import com.jinkeloid.mispd.items.potions.PotionOfHealing;
 import com.jinkeloid.mispd.items.scrolls.ScrollOfIdentify;
 import com.jinkeloid.mispd.items.scrolls.ScrollOfMagicMapping;
@@ -157,27 +159,35 @@ public class ShopRoom extends SpecialRoom {
 			w = (MeleeWeapon) Generator.random(Generator.wepTiers[1]);
 			itemsToSpawn.add( Generator.random(Generator.misTiers[1]).quantity(2).identify() );
 			itemsToSpawn.add( new LeatherArmor().identify() );
+			itemsToSpawn.add( new FireTorch() );
+			itemsToSpawn.add( new FireTorch() );
 			break;
 			
 		case 11:
 			w = (MeleeWeapon) Generator.random(Generator.wepTiers[2]);
 			itemsToSpawn.add( Generator.random(Generator.misTiers[2]).quantity(2).identify() );
 			itemsToSpawn.add( new MailArmor().identify() );
+			itemsToSpawn.add( new FireTorch() );
+			itemsToSpawn.add( new FireTorch() );
 			break;
 			
 		case 16:
 			w = (MeleeWeapon) Generator.random(Generator.wepTiers[3]);
 			itemsToSpawn.add( Generator.random(Generator.misTiers[3]).quantity(2).identify() );
 			itemsToSpawn.add( new ScaleArmor().identify() );
+			itemsToSpawn.add( new FireTorch() );
+			itemsToSpawn.add( new FireTorch() );
+			itemsToSpawn.add( new FireTorch() );
 			break;
 
 		case 20: case 21:
 			w = (MeleeWeapon) Generator.random(Generator.wepTiers[4]);
 			itemsToSpawn.add( Generator.random(Generator.misTiers[4]).quantity(2).identify() );
 			itemsToSpawn.add( new PlateArmor().identify() );
-			itemsToSpawn.add( new Torch() );
-			itemsToSpawn.add( new Torch() );
-			itemsToSpawn.add( new Torch() );
+			itemsToSpawn.add( new FireTorch() );
+			itemsToSpawn.add( new FireTorch() );
+			itemsToSpawn.add( new FireTorch() );
+			itemsToSpawn.add( new FireTorch() );
 			break;
 		}
 		w.enchant(null);

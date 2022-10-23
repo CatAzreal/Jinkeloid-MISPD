@@ -52,6 +52,7 @@ import com.watabou.utils.Random;
 public class CityLevel extends RegularLevel {
 
 	{
+		viewDistance = 4;
 		color1 = 0x4b6636;
 		color2 = 0xf2f2f2;
 	}

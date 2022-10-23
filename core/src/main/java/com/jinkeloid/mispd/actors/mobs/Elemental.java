@@ -59,7 +59,7 @@ public abstract class Elemental extends Mob {
 		minDR = 0;
 		maxDR = 5;
 
-		EXP = 10;
+		EXP = 100;
 		maxLvl = 20;
 		
 		flying = true;
@@ -217,7 +217,7 @@ public abstract class Elemental extends Mob {
 			
 			defenseSkill = 12;
 			
-			EXP = 7;
+			EXP = 70;
 			
 			properties.add(Property.MINIBOSS);
 		}

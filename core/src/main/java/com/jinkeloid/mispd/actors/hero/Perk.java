@@ -28,6 +28,7 @@ import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.ArtifactRecharge;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.CounterBuff;
+import com.jinkeloid.mispd.actors.buffs.Emptyoffhand;
 import com.jinkeloid.mispd.actors.buffs.EnhancedRings;
 import com.jinkeloid.mispd.actors.buffs.FlavourBuff;
 import com.jinkeloid.mispd.actors.buffs.Haste;
@@ -74,7 +75,7 @@ public enum Perk {
 	//viewrange + 1(if game works like before it won't exceed 8)
 	INCONSPICUOUS(0, 2, perkType.POSITIVE, PerkIndex.INCONSPICUOUS, new int[]{PerkIndex.CONSPICUOUS}),
 	//basically ring of stealth
-	QUICK_DRAW(0, 1, perkType.POSITIVE, PerkIndex.QUICK_DRAW, new int[]{PerkIndex.SLOWPOKE}),
+	QUICK_DRAW(0, 3, perkType.POSITIVE, PerkIndex.QUICK_DRAW, new int[]{PerkIndex.SLOWPOKE}),
 	//every turn's first weapon switch is instant
 	ON_DIET(0, 3, perkType.POSITIVE, PerkIndex.ON_DIET, new int[]{PerkIndex.BIG_STOMACH}, new int[]{PerkIndex.ABSTINENCE}),
 	//slower hunger build up time
@@ -86,7 +87,7 @@ public enum Perk {
 	//+backpacksize
 	LUCKY(0, 4, perkType.POSITIVE, PerkIndex.LUCKY, new int[]{PerkIndex.UNLUCKY}),
 	//ring of wealth + 2
-	QUICK_LEARNER(0, 4, perkType.POSITIVE, PerkIndex.QUICK_LEARNER, null),
+	QUICK_LEARNER(0, 5, perkType.POSITIVE, PerkIndex.QUICK_LEARNER, null),
 	//faster exp gain, increase the effective exp gain level of monsters by 1
 	STOUT(0, 6, perkType.POSITIVE, PerkIndex.STOUT, new int[]{PerkIndex.VERY_STRONG}),
 	//Every 10 level will grant you 1 strength
@@ -96,11 +97,11 @@ public enum Perk {
 //	//changing armor would cost 1/5 of usual time(armor changing turn cost would be significantly increased), grant bonus depending on armor type
 	BIOLOGIST(0, 4, perkType.POSITIVE, PerkIndex.BIOLOGIST, new int[]{PerkIndex.ILLITERATE}),
 	//show detailed info about mob, their health, dmgrange, dr and weakness(if have any)
-//	ADRENALINE(0, 4, perkType.POSITIVE, PerkIndex.ADRENALINE, null),
+	ADRENALINE(0, 7, perkType.POSITIVE, PerkIndex.ADRENALINE, null),
 //	//the horror of enemy can stimulate you, strengthening reflex, resulting less penalty on accuracy and bonus to attackspeed and movement speed
-//	BRAVE(0, 4, perkType.POSITIVE, PerkIndex.BRAVE, new int[]{PerkIndex.PACIFIST}, new int[]{PerkIndex.CONFIDENT}),
+	BRAVE(0, 5, perkType.POSITIVE, PerkIndex.BRAVE, new int[]{PerkIndex.PACIFIST}, new int[]{PerkIndex.CONFIDENT}),
 //	//slower horror increase on low health, more damage output on low health
-//	CONFIDENT(0, 4, perkType.POSITIVE, PerkIndex.CONFIDENT, new int[]{PerkIndex.PACIFIST}, new int[]{PerkIndex.BRAVE}),
+	CONFIDENT(0, 5, perkType.POSITIVE, PerkIndex.CONFIDENT, new int[]{PerkIndex.PACIFIST}, new int[]{PerkIndex.BRAVE}),
 //	//slower horror increase on near full health, more accuracy near full health
 	STURDY(0, 6, perkType.POSITIVE, PerkIndex.STURDY, new int[]{PerkIndex.FRAIL}),
 	//+3 starting health, +2 max health per level
@@ -127,11 +128,13 @@ public enum Perk {
 	UNLUCKY(0, 4, perkType.NEGATIVE, PerkIndex.UNLUCKY, new int[]{PerkIndex.LUCKY}),
 	//cursed ring of wealth
 //	ROOKIE(0, 1, perkType.NEGATIVE, PerkIndex.ROOKIE, new int[]{PerkIndex.ARMOR_PROFICIENCY}),
-//	//you better choose somewhere safe to take off your armor, and each of them will provide you unique penalties
+//	you better choose somewhere safe to take off your armor, and each of them will provide you unique penalties
 	ILLITERATE(0, 6, perkType.NEGATIVE, PerkIndex.ILLITERATE, new int[]{PerkIndex.BIOLOGIST}),
 	//no journals, reading scrolls(except SoUs) may have unexpected outcome
-//	PACIFIST(0, 1, perkType.NEGATIVE, PerkIndex.PACIFIST, new int[]{PerkIndex.BRAVE, PerkIndex.CONFIDENT}),
-//	//You can never get used to the horror of combat, killing enemies does not reduce your horror level
+	PACIFIST(0, 5, perkType.NEGATIVE, PerkIndex.PACIFIST, new int[]{PerkIndex.BRAVE, PerkIndex.CONFIDENT}),
+//	You can never get used to the horror of combat, killing enemies does not halt your natrual horror growth
+	NICTOPHOBIA(0, 7, perkType.NEGATIVE, PerkIndex.NICTOPHOBIA, new int[]{PerkIndex.BRAVE, PerkIndex.CONFIDENT}),
+	//	You can never get used to the horror of combat, killing enemies does not halt your natrual horror growth
 	NYCTALOPIA(0, 8, perkType.NEGATIVE, PerkIndex.NYCTALOPIA, new int[]{PerkIndex.CAT_EYE, PerkIndex.SHORT_SIGHTED}, new int[]{PerkIndex.SHORT_SIGHTED}),
 	//You are (almost) blind, only the one tile around you are visible, good thing is you can still (barely) read scrolls and identify things
 	AMNESIA(0, 6, perkType.NEGATIVE, PerkIndex.AMNESIA, new int[]{PerkIndex.MIND_COMPASS}),
@@ -365,7 +368,7 @@ public enum Perk {
 		}
 
 		if (perk == ARMSMASTERS_INTUITION && hero.pointsInTalent(ARMSMASTERS_INTUITION) == 2){
-			if (hero.belongings.weapon != null) hero.belongings.weapon.identify();
+			if (hero.belongings.mainhand != null) hero.belongings.mainhand.identify();
 			if (hero.belongings.armor != null)  hero.belongings.armor.identify();
 		}
 		if (perk == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 2){
@@ -564,7 +567,7 @@ public enum Perk {
 		}
 
 		if (hero.hasPerk(Perk.FOLLOWUP_STRIKE)) {
-			if (hero.belongings.weapon instanceof MissileWeapon) {
+			if (hero.belongings.mainhand instanceof MissileWeapon) {
 				Buff.affect(enemy, FollowupStrikeTracker.class);
 			} else if (enemy.buff(FollowupStrikeTracker.class) != null){
 				dmg += 1 + hero.pointsInTalent(FOLLOWUP_STRIKE);
@@ -575,7 +578,12 @@ public enum Perk {
 			}
 		}
 
-		return (int)Math.ceil(dmg*Satiation.satiationDMGBonus());
+		float totalDMGModifier = Satiation.satiationDMGBonus() +
+				(hero.buff(Emptyoffhand.class) != null ? Emptyoffhand.dmgBonus : 0);
+		if (hero.hasPerk(BRAVE) && (float)hero.HP/hero.HT < 0.25f)
+			totalDMGModifier += 0.15f;
+
+		return (int)Math.ceil(dmg*totalDMGModifier);
 	}
 
 	public static class SuckerPunchTracker extends Buff{};

@@ -52,6 +52,7 @@ import java.util.ArrayList;
 public class CavesLevel extends RegularLevel {
 
 	{
+		viewDistance = 5;
 		color1 = 0x534f3e;
 		color2 = 0xb9d661;
 	}

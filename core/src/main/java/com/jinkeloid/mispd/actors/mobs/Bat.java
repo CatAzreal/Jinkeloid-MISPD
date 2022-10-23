@@ -43,7 +43,7 @@ public class Bat extends Mob {
 		minDR = 0;
 		maxDR = 4;
 		
-		EXP = 7;
+		EXP = 70;
 		maxLvl = 15;
 		
 		flying = true;

@@ -49,7 +49,7 @@ public class Necromancer extends Mob {
 		HP = HT = 40;
 		defenseSkill = 14;
 		
-		EXP = 7;
+		EXP = 70;
 		maxLvl = 14;
 		
 		loot = new PotionOfHealing();

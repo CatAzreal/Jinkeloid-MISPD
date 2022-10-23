@@ -25,7 +25,7 @@ import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Cripple;
-import com.jinkeloid.mispd.actors.buffs.Light;
+import com.jinkeloid.mispd.actors.buffs.LightOld;
 import com.jinkeloid.mispd.items.Generator;
 import com.jinkeloid.mispd.items.Item;
 import com.jinkeloid.mispd.items.potions.Potion;
@@ -48,9 +48,9 @@ public class Scorpio extends Mob {
 		maxDamage = 40;
 		minDR = 0;
 		maxDR = 16;
-		viewDistance = Light.DISTANCE;
+		viewDistance = LightOld.DISTANCE;
 		
-		EXP = 14;
+		EXP = 140;
 		maxLvl = 27;
 		
 		loot = Generator.Category.POTION;

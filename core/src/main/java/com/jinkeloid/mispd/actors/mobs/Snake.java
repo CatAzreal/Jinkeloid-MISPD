@@ -36,11 +36,11 @@ public class Snake extends Mob {
 		
 		HP = HT = 4;
 		attackSkill = 10;
-		defenseSkill = 25;
+		defenseSkill = 18;
 		minDamage = 1;
 		maxDamage = 4;
 		
-		EXP = 2;
+		EXP = 20;
 		maxLvl = 7;
 		
 		loot = Generator.Category.SEED;

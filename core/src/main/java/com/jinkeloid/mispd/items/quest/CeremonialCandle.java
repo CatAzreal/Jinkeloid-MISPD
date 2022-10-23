@@ -46,7 +46,7 @@ public class CeremonialCandle extends Item {
 	public static int ritualPos;
 
 	{
-		image = ItemSpriteSheet.CANDLE;
+		image = ItemSpriteSheet.RITUALCANDLE;
 
 		defaultAction = AC_THROW;
 

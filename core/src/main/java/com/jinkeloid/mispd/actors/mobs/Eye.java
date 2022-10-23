@@ -24,7 +24,7 @@ package com.jinkeloid.mispd.actors.mobs;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.Actor;
 import com.jinkeloid.mispd.actors.Char;
-import com.jinkeloid.mispd.actors.buffs.Light;
+import com.jinkeloid.mispd.actors.buffs.LightOld;
 import com.jinkeloid.mispd.effects.CellEmitter;
 import com.jinkeloid.mispd.effects.particles.PurpleParticle;
 import com.jinkeloid.mispd.items.Dewdrop;
@@ -53,9 +53,9 @@ public class Eye extends Mob {
 		maxDamage = 30;
 		minDR = 0;
 		maxDR = 10;
-		viewDistance = Light.DISTANCE;
+		viewDistance = LightOld.DISTANCE;
 		
-		EXP = 13;
+		EXP = 130;
 		maxLvl = 26;
 		
 		flying = true;

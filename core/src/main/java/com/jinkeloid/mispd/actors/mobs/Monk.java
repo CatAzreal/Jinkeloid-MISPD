@@ -47,7 +47,7 @@ public class Monk extends Mob {
 		minDR = 0;
 		maxDR = 2;
 		
-		EXP = 11;
+		EXP = 110;
 		maxLvl = 21;
 		
 		loot = new Food();

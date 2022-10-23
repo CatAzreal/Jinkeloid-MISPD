@@ -32,6 +32,7 @@ import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Burning;
 import com.jinkeloid.mispd.actors.buffs.LockedFloor;
 import com.jinkeloid.mispd.actors.buffs.Paralysis;
+import com.jinkeloid.mispd.actors.buffs.RegionSecure;
 import com.jinkeloid.mispd.actors.buffs.Terror;
 import com.jinkeloid.mispd.actors.buffs.Vertigo;
 import com.jinkeloid.mispd.effects.Flare;
@@ -62,7 +63,7 @@ public class King extends Mob {
 		spriteClass = KingSprite.class;
 		
 		HP = HT = 300;
-		EXP = 40;
+		EXP = 400;
 		attackSkill = 32;
 		defenseSkill = 25;
 		minDamage = 25;
@@ -159,7 +160,8 @@ public class King extends Mob {
 		Dungeon.level.drop( new SkeletonKey( Dungeon.depth ), pos ).sprite.drop();
 		
 		super.die( cause );
-		
+		Dungeon.progress = Dungeon.BossProgress.KING;
+        Buff.affect(Dungeon.hero, RegionSecure.class);
 		Badges.validateBossSlain();
 
 		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);

@@ -54,7 +54,7 @@ public class Thief extends Mob {
 		minDR = 0;
 		maxDR = 3;
 		
-		EXP = 5;
+		EXP = 50;
 		maxLvl = 11;
 
 		loot = Random.oneOf(Generator.Category.RING, Generator.Category.ARTIFACT);

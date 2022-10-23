@@ -39,7 +39,7 @@ public class Gnoll extends Mob {
 		minDR = 0;
 		maxDR = 2;
 		
-		EXP = 2;
+		EXP = 20;
 		maxLvl = 8;
 		
 		loot = Gold.class;

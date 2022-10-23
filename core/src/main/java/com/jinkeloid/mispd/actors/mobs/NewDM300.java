@@ -35,8 +35,10 @@ import com.jinkeloid.mispd.actors.buffs.Chill;
 import com.jinkeloid.mispd.actors.buffs.Cripple;
 import com.jinkeloid.mispd.actors.buffs.FlavourBuff;
 import com.jinkeloid.mispd.actors.buffs.Frost;
+import com.jinkeloid.mispd.actors.buffs.Horror;
 import com.jinkeloid.mispd.actors.buffs.LockedFloor;
 import com.jinkeloid.mispd.actors.buffs.Paralysis;
+import com.jinkeloid.mispd.actors.buffs.RegionSecure;
 import com.jinkeloid.mispd.actors.buffs.Roots;
 import com.jinkeloid.mispd.actors.buffs.Sleep;
 import com.jinkeloid.mispd.actors.buffs.Slow;
@@ -81,7 +83,7 @@ public class NewDM300 extends Mob {
 		spriteClass = DM300Sprite.class;
 
 		HP = HT = 300;
-		EXP = 30;
+		EXP = 300;
 		attackSkill = 20;
 		defenseSkill = 15;
 		minDamage = 15;
@@ -525,7 +527,10 @@ public class NewDM300 extends Mob {
 			} while (!Dungeon.level.passable[pos + ofs]);
 			Dungeon.level.drop( new MetalShard(), pos + ofs ).sprite.drop( pos );
 		}
-
+		Dungeon.progress = Dungeon.BossProgress.DM300;
+        Buff.affect(Dungeon.hero, RegionSecure.class);
+		if (Horror.GetHorror() >= 50)
+			Horror.SetHorror(49.5f);
 		Badges.validateBossSlain();
 
 		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);

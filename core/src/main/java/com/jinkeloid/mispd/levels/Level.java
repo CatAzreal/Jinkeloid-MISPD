@@ -121,7 +121,7 @@ public abstract class Level implements Bundlable {
 	public boolean[] mapped;
 	public boolean[] discoverable;
 
-	public int viewDistance = Dungeon.isChallenged( Challenges.DARKNESS ) ? 2 : 8;
+	public int viewDistance = 6;
 	
 	public boolean[] heroFOV;
 	
@@ -575,12 +575,13 @@ public abstract class Level implements Bundlable {
 	}
 
 	public float respawnCooldown(){
+		float baseCooldown = Dungeon.depth > Dungeon.progress.val * 5 ? TIME_TO_RESPAWN : TIME_TO_RESPAWN * 3;
 		if (Statistics.amuletObtained){
-			return TIME_TO_RESPAWN/2f;
+			return baseCooldown/2f;
 		} else if (Dungeon.level.feeling == Feeling.DARK){
-			return 2*TIME_TO_RESPAWN/3f;
+			return 2*baseCooldown/3f;
 		} else {
-			return TIME_TO_RESPAWN;
+			return baseCooldown;
 		}
 	}
 	

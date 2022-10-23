@@ -47,7 +47,7 @@ public class GnollTrickster extends Gnoll {
 		attackSkill = 16;
 		defenseSkill = 5;
 
-		EXP = 5;
+		EXP = 50;
 
 		state = WANDERING;
 

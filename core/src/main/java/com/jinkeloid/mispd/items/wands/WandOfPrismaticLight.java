@@ -29,7 +29,7 @@ import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Blindness;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Cripple;
-import com.jinkeloid.mispd.actors.buffs.Light;
+import com.jinkeloid.mispd.actors.buffs.LightOld;
 import com.jinkeloid.mispd.effects.Beam;
 import com.jinkeloid.mispd.effects.CellEmitter;
 import com.jinkeloid.mispd.effects.Speck;
@@ -70,9 +70,9 @@ public class WandOfPrismaticLight extends DamageWand {
 		
 		if (Dungeon.level.viewDistance < 6 ){
 			if (Dungeon.isChallenged(Challenges.DARKNESS)){
-				Buff.prolong( curUser, Light.class, 2f + buffedLvl());
+				Buff.prolong( curUser, LightOld.class, 2f + buffedLvl());
 			} else {
-				Buff.prolong( curUser, Light.class, 10f+buffedLvl()*5);
+				Buff.prolong( curUser, LightOld.class, 10f+buffedLvl()*5);
 			}
 		}
 		

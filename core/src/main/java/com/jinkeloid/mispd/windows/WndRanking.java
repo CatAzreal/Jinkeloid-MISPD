@@ -27,7 +27,6 @@ import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.Rankings;
 import com.jinkeloid.mispd.Statistics;
 import com.jinkeloid.mispd.actors.hero.Belongings;
-import com.jinkeloid.mispd.actors.hero.HeroSubClass;
 import com.jinkeloid.mispd.items.Item;
 import com.jinkeloid.mispd.messages.Messages;
 import com.jinkeloid.mispd.scenes.PixelScene;
@@ -39,7 +38,6 @@ import com.jinkeloid.mispd.ui.ItemSlot;
 import com.jinkeloid.mispd.ui.PerksPane;
 import com.jinkeloid.mispd.ui.RedButton;
 import com.jinkeloid.mispd.ui.RenderedTextBlock;
-import com.jinkeloid.mispd.ui.TalentsPane;
 import com.jinkeloid.mispd.ui.Window;
 import com.watabou.noosa.ColorBlock;
 import com.watabou.noosa.Game;
@@ -266,8 +264,8 @@ public class WndRanking extends WndTabbed {
 			super();
 			
 			Belongings stuff = Dungeon.hero.belongings;
-			if (stuff.weapon != null) {
-				addItem( stuff.weapon );
+			if (stuff.mainhand != null) {
+				addItem( stuff.mainhand);
 			}
 			if (stuff.armor != null) {
 				addItem( stuff.armor );
