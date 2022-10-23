@@ -25,8 +25,10 @@ import com.jinkeloid.mispd.actors.Actor;
 import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Amok;
 import com.jinkeloid.mispd.actors.buffs.Awareness;
-import com.jinkeloid.mispd.actors.buffs.Light;
+import com.jinkeloid.mispd.actors.buffs.Buff;
+import com.jinkeloid.mispd.actors.buffs.LightOld;
 import com.jinkeloid.mispd.actors.buffs.MindVision;
+import com.jinkeloid.mispd.actors.buffs.RegionSecure;
 import com.jinkeloid.mispd.actors.buffs.RevealedArea;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.actors.hero.Perk;
@@ -150,6 +152,29 @@ public class Dungeon {
 
 	}
 
+	public enum Region{
+		SEWER(1),
+		PRISON(2),
+		CAVE(3),
+		CITY(4),
+		HALL(5);
+        public int val;
+        Region(int value) { val = value; }
+	}
+
+	public enum BossProgress{
+		NONE(0),
+		GOO(1),
+		TENGU(2),
+		DM300(3),
+		KING(4),
+		YOG(5);
+		public int val;
+		BossProgress(int value){
+			val = value;
+		}
+	}
+
 	public static int challenges;
 	public static int mobsToChampion;
 
@@ -160,6 +185,8 @@ public class Dungeon {
 	
 	public static int depth;
 	public static int gold;
+	public static Region region;
+	public static BossProgress progress;
 	
 	public static HashSet<Integer> chapters;
 
@@ -200,7 +227,7 @@ public class Dungeon {
 		
 		depth = 0;
 		gold = 0;
-
+        progress = BossProgress.values()[0];
 		droppedItems = new SparseArray<>();
 		portedItems = new SparseArray<>();
 
@@ -219,7 +246,7 @@ public class Dungeon {
 		
 		GamesInProgress.selectedClass.initHero( hero );
 		hero.live();
-		hero.postInit(true);
+		hero.postInit(true, null);
 		Generator.fullReset();
 	}
 
@@ -354,7 +381,7 @@ public class Dungeon {
 	public static boolean bossLevel( int depth ) {
 		return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25;
 	}
-	
+
 	public static void switchLevel( final Level level, int pos ) {
 		
 		if (pos == -2){
@@ -363,17 +390,28 @@ public class Dungeon {
 			pos = level.entrance;
 		}
 
+		updateRegion();
 		String musicString = "";
-		if (Dungeon.depth < 5)          	musicString = Assets.Music.SEWER;
-		else if (Dungeon.depth == 5)        ;
-		else if (Dungeon.depth < 10)    	musicString = Assets.Music.PRISON;
-		else if (Dungeon.depth == 10)    	;
-		else if (Dungeon.depth < 15)    	musicString = Assets.Music.CAVE;
-		else if (Dungeon.depth == 15)    	;
-		else if (Dungeon.depth < 20)    	musicString = Assets.Music.CITY;
-		else if (Dungeon.depth == 20)    	;
-		else if (Dungeon.depth < 25)    	musicString = Assets.Music.HALL;
-		else if (Dungeon.depth == 25)    	;
+		switch (Dungeon.region){
+			case SEWER:
+				musicString = Assets.Music.SEWER;
+				break;
+			case PRISON:
+				musicString = Assets.Music.PRISON;
+				break;
+			case CAVE:
+				musicString = Assets.Music.CAVE;
+				break;
+			case CITY:
+				musicString = Assets.Music.CITY;
+				break;
+			case HALL:
+				musicString = Assets.Music.HALL;
+				break;
+		}
+        if (region.val == progress.val){
+            Buff.affect(hero, RegionSecure.class);
+        }
 
 		Music.INSTANCE.play(musicString, true);
 		
@@ -398,17 +436,9 @@ public class Dungeon {
 				}
 			}
 		}
-		
-		Light light = hero.buff( Light.class );
 
-		Perk.onViewRangeTrigger();
+		updateVisionRange();
 
-		hero.viewDistance = light == null ? level.viewDistance : Math.max( Light.DISTANCE, level.viewDistance );
-		hero.viewDistance = hero.hasPerk(Perk.CATS_EYES) ? Math.max(8, hero.viewDistance + 1) : hero.viewDistance;
-		hero.viewDistance = hero.hasPerk(Perk.SHORT_SIGHTED) ? hero.viewDistance - 1 : hero.viewDistance;
-		hero.viewDistance = hero.hasPerk(Perk.NYCTALOPIA) ? (light == null ? 1 : 3 ): hero.viewDistance;
-
-		
 		hero.curAction = hero.lastAction = null;
 		
 		observe();
@@ -418,6 +448,58 @@ public class Dungeon {
 			MusicImplantSPD.reportException(e);
 			/*This only catches IO errors. Yes, this means things can go wrong, and they can go wrong catastrophically.
 			But when they do the user will get a nice 'report this issue' dialogue, and I can fix the bug.*/
+		}
+	}
+
+	public static void updateVisionRange(){
+		Perk.onViewRangeTrigger();
+		LightOld lightOld = hero.buff( LightOld.class );
+		hero.viewDistance = lightOld == null ? level.viewDistance : Math.max( LightOld.DISTANCE, level.viewDistance );
+		hero.viewDistance = hero.hasPerk(Perk.CATS_EYES) ? Math.max(8, hero.viewDistance + 1) : hero.viewDistance;
+		hero.viewDistance = hero.hasPerk(Perk.SHORT_SIGHTED) ? hero.viewDistance - 1 : hero.viewDistance;
+		hero.viewDistance = hero.hasPerk(Perk.NYCTALOPIA) ? (lightOld == null ? 1 : 3 ): hero.viewDistance;
+	}
+
+	public static void updateRegion(){
+		switch (Dungeon.depth){
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+				region = Region.SEWER;
+				break;
+			case 6:
+			case 7:
+			case 8:
+			case 9:
+			case 10:
+				region = Region.PRISON;
+				break;
+			case 11:
+			case 12:
+			case 13:
+			case 14:
+			case 15:
+				region = Region.CAVE;
+				break;
+			case 16:
+			case 17:
+			case 18:
+			case 19:
+			case 20:
+				region = Region.CITY;
+				break;
+			case 21:
+			case 22:
+			case 23:
+			case 24:
+			case 25:
+			case 26:
+				region = Region.HALL;
+				break;
+			default:
+				region = Region.SEWER;
 		}
 	}
 
@@ -478,6 +560,8 @@ public class Dungeon {
 	private static final String HERO		= "hero";
 	private static final String GOLD		= "gold";
 	private static final String DEPTH		= "depth";
+    private static final String REGION		= "region";
+    private static final String PROGRESS	= "progress";
 	private static final String DROPPED     = "dropped%d";
 	private static final String PORTED      = "ported%d";
 	private static final String LEVEL		= "level";
@@ -498,6 +582,8 @@ public class Dungeon {
 			bundle.put( HERO, hero );
 			bundle.put( GOLD, gold );
 			bundle.put( DEPTH, depth );
+            bundle.put( REGION, region );
+            bundle.put( PROGRESS, progress );
 
 			for (int d : droppedItems.keyArray()) {
 				bundle.put(Messages.format(DROPPED, d), droppedItems.get(d));
@@ -592,7 +678,7 @@ public class Dungeon {
 		Dungeon.mobsToChampion = bundle.getInt( MOBS_TO_CHAMPION );
 		
 		Dungeon.level = null;
-		Dungeon.depth = -1;
+        Dungeon.depth = -1;
 		
 		Scroll.restore( bundle );
 		Potion.restore( bundle );
@@ -640,10 +726,12 @@ public class Dungeon {
 		
 		hero = null;
 		hero = (Hero)bundle.get( HERO );
-		hero.postInit(false);
+		hero.postInit(false, bundle.getBundle( HERO ));
 		
 		gold = bundle.getInt( GOLD );
 		depth = bundle.getInt( DEPTH );
+        region = bundle.getEnum( REGION, Region.class);
+        progress = bundle.getEnum( PROGRESS, BossProgress.class);
 		
 		Statistics.restoreFromBundle( bundle );
 		Generator.restoreFromBundle( bundle );

@@ -44,9 +44,15 @@ public class Buff extends Actor {
 	
 	//whether or not the buff announces its name
 	public boolean announced = false;
-	
+
+	protected HashSet<Class> vulnerabilities = new HashSet<>();
+
 	protected HashSet<Class> resistances = new HashSet<>();
-	
+
+	public HashSet<Class> vulnerabilities(){
+		return new HashSet<>(vulnerabilities);
+	}
+
 	public HashSet<Class> resistances() {
 		return new HashSet<>(resistances);
 	}
@@ -125,6 +131,7 @@ public class Buff extends Actor {
 
 	//creates a fresh instance of the buff and attaches that, this allows duplication.
 	public static<T extends Buff> T append( Char target, Class<T> buffClass ) {
+//		T buff = Reflection.isMemberClass(buffClass) ? Reflection.newInstanceNested(buffClass) : Reflection.newInstance(buffClass);
 		T buff = Reflection.newInstance(buffClass);
 		buff.attachTo( target );
 		return buff;

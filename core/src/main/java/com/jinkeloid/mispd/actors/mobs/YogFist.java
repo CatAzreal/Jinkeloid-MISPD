@@ -32,7 +32,7 @@ import com.jinkeloid.mispd.actors.buffs.Blindness;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Burning;
 import com.jinkeloid.mispd.actors.buffs.Cripple;
-import com.jinkeloid.mispd.actors.buffs.Light;
+import com.jinkeloid.mispd.actors.buffs.LightOld;
 import com.jinkeloid.mispd.actors.buffs.Ooze;
 import com.jinkeloid.mispd.actors.buffs.Roots;
 import com.jinkeloid.mispd.effects.CellEmitter;
@@ -63,10 +63,10 @@ public abstract class YogFist extends Mob {
 		minDR = 0;
 		maxDR = 15;
 
-		viewDistance = Light.DISTANCE;
+		viewDistance = LightOld.DISTANCE;
 
 		//for doomed resistance
-		EXP = 25;
+		EXP = 250;
 		maxLvl = -2;
 
 		state = HUNTING;
@@ -523,7 +523,7 @@ public abstract class YogFist extends Mob {
 
 				enemy.damage( Random.NormalIntRange(10, 20), new DarkBolt() );
 
-				Light l = enemy.buff(Light.class);
+				LightOld l = enemy.buff(LightOld.class);
 				if (l != null){
 					l.weaken(50);
 				}
@@ -546,7 +546,7 @@ public abstract class YogFist extends Mob {
 			super.damage(dmg, src);
 			if (isAlive() && beforeHP > HT/2 && HP < HT/2){
 				HP = HT/2;
-				Light l = Dungeon.hero.buff(Light.class);
+				LightOld l = Dungeon.hero.buff(LightOld.class);
 				if (l != null){
 					l.detach();
 				}
@@ -562,7 +562,7 @@ public abstract class YogFist extends Mob {
 				GameScene.flash(0, false);
 				GLog.w( Messages.get( this, "teleport" ));
 			} else if (!isAlive()){
-				Light l = Dungeon.hero.buff(Light.class);
+				LightOld l = Dungeon.hero.buff(LightOld.class);
 				if (l != null){
 					l.detach();
 				}

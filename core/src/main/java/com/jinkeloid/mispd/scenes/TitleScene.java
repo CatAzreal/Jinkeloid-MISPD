@@ -55,8 +55,6 @@ import com.watabou.utils.DeviceCompat;
 
 import java.util.Date;
 
-import sun.security.mscapi.PRNG;
-
 public class TitleScene extends PixelScene {
 	AnimatedButton btnStart;
 	AnimatedButton btnSigil;

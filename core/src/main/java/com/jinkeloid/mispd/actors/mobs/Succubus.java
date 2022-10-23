@@ -28,7 +28,7 @@ import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Barrier;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Charm;
-import com.jinkeloid.mispd.actors.buffs.Light;
+import com.jinkeloid.mispd.actors.buffs.LightOld;
 import com.jinkeloid.mispd.effects.Speck;
 import com.jinkeloid.mispd.items.Generator;
 import com.jinkeloid.mispd.items.Item;
@@ -60,9 +60,9 @@ public class Succubus extends Mob {
 		maxDamage = 30;
 		minDR = 0;
 		maxDR = 10;
-		viewDistance = Light.DISTANCE;
+		viewDistance = LightOld.DISTANCE;
 		
-		EXP = 12;
+		EXP = 120;
 		maxLvl = 25;
 		
 		loot = Generator.Category.SCROLL;

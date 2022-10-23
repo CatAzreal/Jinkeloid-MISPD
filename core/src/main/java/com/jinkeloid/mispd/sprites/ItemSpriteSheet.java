@@ -91,6 +91,7 @@ public class ItemSpriteSheet {
 	
 	public static final int TENGU_BOMB      = UNCOLLECTIBLE+9;
 	public static final int TENGU_SHOCKER   = UNCOLLECTIBLE+10;
+	public static final int OFFHAND_HOLDER  = UNCOLLECTIBLE+15;
 	static{
 		assignItemRect(GOLD,        15, 13);
 		assignItemRect(DEWDROP,     10, 10);
@@ -103,6 +104,7 @@ public class ItemSpriteSheet {
 		
 		assignItemRect(TENGU_BOMB,      10, 10);
 		assignItemRect(TENGU_SHOCKER,   10, 10);
+		assignItemRect(OFFHAND_HOLDER,	10, 13);
 	}
 
 	private static final int CONTAINERS     =                               xy(1, 3);   //16 slots
@@ -130,7 +132,7 @@ public class ItemSpriteSheet {
 	public static final int STYLUS          = SINGLE_USE+1;
 	
 	public static final int SEAL            = SINGLE_USE+3;
-	public static final int TORCH           = SINGLE_USE+4;
+	public static final int TORCHOLD 		= SINGLE_USE+4;
 	public static final int BEACON          = SINGLE_USE+5;
 
 	public static final int HONEYPOT        = SINGLE_USE+7;
@@ -147,7 +149,7 @@ public class ItemSpriteSheet {
 		assignItemRect(STYLUS,          12, 13);
 		
 		assignItemRect(SEAL,            9,  15);
-		assignItemRect(TORCH,           12, 15);
+		assignItemRect(TORCHOLD,           12, 15);
 		assignItemRect(BEACON,          16, 15);
 		
 		assignItemRect(HONEYPOT,        14, 12);
@@ -646,7 +648,7 @@ public class ItemSpriteSheet {
 	private static final int QUEST  =                                       xy(1, 29);  //32 slots
 	public static final int SKULL   = QUEST+0;
 	public static final int DUST    = QUEST+1;
-	public static final int CANDLE  = QUEST+2;
+	public static final int RITUALCANDLE  = QUEST+2;
 	public static final int EMBER   = QUEST+3;
 	public static final int PICKAXE = QUEST+4;
 	public static final int ORE     = QUEST+5;
@@ -656,7 +658,7 @@ public class ItemSpriteSheet {
 	static{
 		assignItemRect(SKULL,   16, 11);
 		assignItemRect(DUST,    12, 11);
-		assignItemRect(CANDLE,  12, 12);
+		assignItemRect(RITUALCANDLE,  12, 12);
 		assignItemRect(EMBER,   12, 11);
 		assignItemRect(PICKAXE, 14, 14);
 		assignItemRect(ORE,     15, 15);
@@ -677,6 +679,24 @@ public class ItemSpriteSheet {
 		assignItemRect(HOLDER,      16, 16);
 		assignItemRect(BANDOLIER,   15, 16);
 		assignItemRect(HOLSTER,     15, 16);
+	}
+
+	private static final int LIGHTSOURCES       =                           xy(1, 33);  //16 slots
+	public static final int CANDLE      = LIGHTSOURCES+0;
+	public static final int CANDLELIT   = LIGHTSOURCES+1;
+	public static final int TORCH      	= LIGHTSOURCES+2;
+	public static final int TORCHLIT   	= LIGHTSOURCES+3;
+	public static final int HELMET     	= LIGHTSOURCES+4;
+	public static final int HELMETLIT  	= LIGHTSOURCES+5;
+	public static final int ORB     	= LIGHTSOURCES+6;
+	public static final int LANTERN     = LIGHTSOURCES+7;
+	public static final int LANTERNLIT  = LIGHTSOURCES+8;
+
+	static{
+		assignItemRect(TORCH,       14, 16);
+		assignItemRect(TORCHLIT,    14, 16);
+		assignItemRect(LANTERN,     11, 16);
+		assignItemRect(LANTERNLIT,  11, 16);
 	}
 
 	                                                                                    //16 free slots

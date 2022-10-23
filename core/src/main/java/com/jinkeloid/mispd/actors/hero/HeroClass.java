@@ -25,7 +25,6 @@ import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Badges;
 import com.jinkeloid.mispd.Challenges;
 import com.jinkeloid.mispd.Dungeon;
-import com.jinkeloid.mispd.items.BrokenSeal;
 import com.jinkeloid.mispd.items.Item;
 import com.jinkeloid.mispd.items.armor.ClothArmor;
 import com.jinkeloid.mispd.items.artifacts.CloakOfShadows;
@@ -37,6 +36,8 @@ import com.jinkeloid.mispd.items.food.Food;
 import com.jinkeloid.mispd.items.food.MysteryMeat;
 import com.jinkeloid.mispd.items.food.Pasty;
 import com.jinkeloid.mispd.items.food.SmallRation;
+import com.jinkeloid.mispd.items.lightsource.Candle;
+import com.jinkeloid.mispd.items.lightsource.FireTorch;
 import com.jinkeloid.mispd.items.potions.PotionOfHealing;
 import com.jinkeloid.mispd.items.potions.PotionOfInvisibility;
 import com.jinkeloid.mispd.items.potions.PotionOfLiquidFlame;
@@ -51,7 +52,6 @@ import com.jinkeloid.mispd.items.weapon.SpiritBow;
 import com.jinkeloid.mispd.items.weapon.melee.Dagger;
 import com.jinkeloid.mispd.items.weapon.melee.Gloves;
 import com.jinkeloid.mispd.items.weapon.melee.MagesStaff;
-import com.jinkeloid.mispd.items.weapon.melee.Shortsword;
 import com.jinkeloid.mispd.items.weapon.melee.Sword;
 import com.jinkeloid.mispd.items.weapon.melee.WornShortsword;
 import com.jinkeloid.mispd.items.weapon.missiles.ThrowingKnife;
@@ -113,6 +113,7 @@ public enum HeroClass {
 		if (!Challenges.isItemBlocked(i)) i.collect();
 
 		new ScrollOfIdentify().identify();
+		new Candle().identify().collect();
 		if (DeviceCompat.isDebug()) {
 			Sword sword = new Sword();
 			sword.identify().collect();
@@ -129,6 +130,9 @@ public enum HeroClass {
 			new ChargrilledMeat().quantity(10).collect();
 			new MysteryMeat().quantity(10).collect();
 			new Firebloom.Seed().quantity(10).collect();
+			new Candle().identify().collect();
+			new FireTorch().identify().collect();
+			new FireTorch().identify().collect();
 		}
 
 	}
@@ -148,7 +152,7 @@ public enum HeroClass {
 	}
 
 	private static void initWarrior( Hero hero ) {
-		(hero.belongings.weapon = new WornShortsword()).identify();
+		(hero.belongings.mainhand = new WornShortsword()).identify();
 		ThrowingStone stones = new ThrowingStone();
 		stones.quantity(10).collect();
 		Dungeon.quickslot.setSlot(0, stones);
@@ -169,8 +173,8 @@ public enum HeroClass {
 
 		staff = new MagesStaff(new WandOfMagicMissile());
 
-		(hero.belongings.weapon = staff).identify();
-		hero.belongings.weapon.activate(hero);
+		(hero.belongings.mainhand = staff).identify();
+		hero.belongings.mainhand.activate(hero);
 
 		Dungeon.quickslot.setSlot(0, staff);
 
@@ -182,7 +186,7 @@ public enum HeroClass {
 	}
 
 	private static void initRogue( Hero hero ) {
-		(hero.belongings.weapon = new Dagger()).identify();
+		(hero.belongings.mainhand = new Dagger()).identify();
 
 		CloakOfShadows cloak = new CloakOfShadows();
 		(hero.belongings.artifact = cloak).identify();
@@ -203,7 +207,7 @@ public enum HeroClass {
 
 	private static void initHuntress( Hero hero ) {
 
-		(hero.belongings.weapon = new Gloves()).identify();
+		(hero.belongings.mainhand = new Gloves()).identify();
 		SpiritBow bow = new SpiritBow();
 		bow.identify().collect();
 

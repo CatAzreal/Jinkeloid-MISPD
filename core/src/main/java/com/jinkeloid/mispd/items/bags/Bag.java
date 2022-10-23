@@ -55,8 +55,8 @@ public class Bag extends Item implements Iterable<Item> {
 
 	public int capacity(){
 		Perk.onInventoryTrigger();
-		return (Dungeon.hero.hasPerk(Perk.ORGANIZED) ? 25 :
-				Dungeon.hero.hasPerk(Perk.DISORGANIZED) ? 15 : 20) - emptySlot;
+		return (Dungeon.hero.hasPerk(Perk.ORGANIZED) ? 24 :
+				Dungeon.hero.hasPerk(Perk.DISORGANIZED) ? 14 : 19) - emptySlot;
 
 	}
 

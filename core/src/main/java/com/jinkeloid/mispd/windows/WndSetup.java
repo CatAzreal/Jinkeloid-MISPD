@@ -1,21 +1,26 @@
 package com.jinkeloid.mispd.windows;
 
 import com.jinkeloid.mispd.Chrome;
+import com.jinkeloid.mispd.MISPDSettings;
 import com.jinkeloid.mispd.MusicImplantSPD;
 import com.jinkeloid.mispd.PerkSetups;
 import com.jinkeloid.mispd.actors.hero.Perk;
+import com.jinkeloid.mispd.messages.Languages;
 import com.jinkeloid.mispd.messages.Messages;
 import com.jinkeloid.mispd.scenes.CharacterBuilderScene;
 import com.jinkeloid.mispd.scenes.PixelScene;
+import com.jinkeloid.mispd.ui.GameLog;
 import com.jinkeloid.mispd.ui.Icons;
 import com.jinkeloid.mispd.ui.LinkedCheckBox;
 import com.jinkeloid.mispd.ui.RenderedTextBlock;
 import com.jinkeloid.mispd.ui.Window;
+import com.jinkeloid.mispd.utils.GLog;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.NinePatch;
+import com.watabou.noosa.RenderedText;
 import com.watabou.noosa.ui.Button;
 import com.watabou.utils.PlatformSupport;
 
@@ -52,6 +57,7 @@ public class WndSetup extends Window {
                 setups = new setupSlots(setupInfo);
                 setups.name.text("Empty Slot");
             } else {
+                GLog.i("setup name is: "+setupInfo.setupName);
                 setups = new setupSlots(setupInfo);
                 setups.name.text(setupInfo.setupName);
             }
@@ -63,7 +69,7 @@ public class WndSetup extends Window {
         resize( WIDTH_P, (int)yPos );
     }
 
-    private static class setupSlots extends Button implements Listener {
+    private static class setupSlots extends Button {
 
         private NinePatch bg;
 
@@ -71,7 +77,7 @@ public class WndSetup extends Window {
 
         //the alignment will be the same as GIP/startscene,
         //first icon&number: difficulty with character points spent
-        //second icon&number: pane illustrating the amount of positive and negative perks
+        //second/third icon&number: pane illustrating the amount of positive and negative perks
         private Image difficulty;
         private BitmapText score;
         private Image posperkCount;
@@ -84,7 +90,7 @@ public class WndSetup extends Window {
         private String input;
 
         private int slot;
-
+        //Now this window cannot appear anywhere else than CBS
         CharacterBuilderScene currentScene = (CharacterBuilderScene) MusicImplantSPD.scene();
         private setupSlots(PerkSetups.Info setupInfo) {
             info = setupInfo;
@@ -203,11 +209,10 @@ public class WndSetup extends Window {
         @Override
         protected void onClick() {
             super.onClick();
-            //Now this window cannot appear anywhere else than CBS
             if (!setup){
                 Game.platform.promptTextInput(Messages.get(WndSetup.class, "title"),
                         Messages.get(WndSetup.class, "hinttext"), 40, false,
-                        Messages.get(WndSetup.class, "postxt"), Messages.get(WndSetup.class, "negtxt"), new example(this, this));
+                        Messages.get(WndSetup.class, "postxt"), Messages.get(WndSetup.class, "negtxt"), new SetupCallBack(this));
                 return;
             }
             //loading setups require a full reset
@@ -224,46 +229,43 @@ public class WndSetup extends Window {
             }
         }
 
-        @Override
         public void onCallback(setupSlots slots) {
             if (confirm){
-            PerkSetups.saveInfo(CharacterBuilderScene.tempPerks, slot, input);
-            //easiest way to refresh the window
-            slots.parent.destroy();
-            currentScene.add(new WndSetup(false));
-            return;
+                MusicImplantSPD.seamlessResetScene(new Game.SceneChangeCallback() {
+                    @Override
+                    public void beforeCreate() {
+                        GameLog.wipe();
+                        Game.platform.resetGenerators();
+                    }
+                    @Override
+                    public void afterCreate() {
+                        currentScene = (CharacterBuilderScene) MusicImplantSPD.scene();
+                    }
+                });
+                PerkSetups.saveInfo(CharacterBuilderScene.tempPerks, slot, input);
+                //easiest way to refresh the window
+                slots.parent.destroy();
+                currentScene.add(new WndSetup(false));
+                return;
             }
             slots.parent.destroy();
         }
 
 
-        class example extends PlatformSupport.TextCallback{
+        class SetupCallBack extends PlatformSupport.TextCallback{
             setupSlots slots;
-            public example(Listener mListener, setupSlots slots) {
-                this.mListener = mListener;
+            public SetupCallBack(setupSlots slots) {
                 this.slots = slots;
             }
-            private Listener mListener;
-            public void registerListener(Listener mListener)
-            {
-                this.mListener = mListener;
-            }
+
             @Override
             public void onSelect(boolean positive, String text) {
-                new Thread(new Runnable() {
-                    public void run()
-                    {
-                        confirm = positive;
-                        input = text;
-                        if (mListener != null) {
-                            mListener.onCallback(slots);
-                        }
-                    }
+                new Thread(() -> {
+                    confirm = positive;
+                    input = text;
+                    slots.onCallback(slots);
                 }).start();
             }
         }
-    }
-    interface Listener {
-        void onCallback(setupSlots slots);
     }
 }

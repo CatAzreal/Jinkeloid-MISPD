@@ -39,7 +39,7 @@ public class FetidRat extends Rat {
 		HP = HT = 20;
 		defenseSkill = 5;
 
-		EXP = 4;
+		EXP = 40;
 
 		state = WANDERING;
 

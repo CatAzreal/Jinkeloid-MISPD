@@ -41,7 +41,7 @@ public class Slime extends Mob {
 		minDamage = 2;
 		maxDamage = 5;
 		
-		EXP = 4;
+		EXP = 40;
 		maxLvl = 9;
 		
 		lootChance = 0.2f; //by default, see rollToDropLoot()

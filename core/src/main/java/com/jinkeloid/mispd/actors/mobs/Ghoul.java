@@ -51,7 +51,7 @@ public class Ghoul extends Mob {
 		minDR = 0;
 		maxDR = 4;
 		
-		EXP = 5;
+		EXP = 50;
 		maxLvl = 20;
 		
 		SLEEPING = new Sleeping();

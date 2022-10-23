@@ -29,6 +29,7 @@ import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.LockedFloor;
 import com.jinkeloid.mispd.actors.buffs.Ooze;
+import com.jinkeloid.mispd.actors.buffs.RegionSecure;
 import com.jinkeloid.mispd.effects.Speck;
 import com.jinkeloid.mispd.items.artifacts.DriedRose;
 import com.jinkeloid.mispd.items.keys.SkeletonKey;
@@ -49,7 +50,7 @@ public class Goo extends Mob {
 
 	{
 		HP = HT = 100;
-		EXP = 10;
+		EXP = 100;
 		minDR = 0;
 		maxDR = 2;
 		spriteClass = GooSprite.class;
@@ -242,6 +243,8 @@ public class Goo extends Mob {
 			} while (!Dungeon.level.passable[pos + ofs]);
 			Dungeon.level.drop( new GooBlob(), pos + ofs ).sprite.drop( pos );
 		}
+		Dungeon.progress = Dungeon.BossProgress.GOO;
+        Buff.affect(Dungeon.hero, RegionSecure.class);
 		
 		Badges.validateBossSlain();
 		

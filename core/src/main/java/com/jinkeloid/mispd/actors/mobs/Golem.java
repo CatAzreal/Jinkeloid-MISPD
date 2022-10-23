@@ -48,7 +48,7 @@ public class Golem extends Mob {
 		minDR = 0;
 		maxDR = 12;
 		
-		EXP = 12;
+		EXP = 120;
 		maxLvl = 22;
 
 		loot = Random.oneOf(Generator.Category.WEAPON, Generator.Category.ARMOR);

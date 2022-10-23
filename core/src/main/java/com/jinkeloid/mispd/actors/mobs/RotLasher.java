@@ -44,7 +44,7 @@ public class RotLasher extends Mob {
 		minDR = 0;
 		maxDR = 8;
 
-		EXP = 1;
+		EXP = 10;
 
 		loot = Generator.Category.SEED;
 		lootChance = 1f;

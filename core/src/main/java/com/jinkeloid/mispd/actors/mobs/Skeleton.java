@@ -47,7 +47,7 @@ public class Skeleton extends Mob {
 		minDR = 0;
 		maxDR = 5;
 		
-		EXP = 5;
+		EXP = 50;
 		maxLvl = 10;
 
 		loot = Generator.Category.WEAPON;

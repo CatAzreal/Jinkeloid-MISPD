@@ -96,6 +96,7 @@ import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 
 public abstract class Char extends Actor {
@@ -262,10 +263,13 @@ public abstract class Char extends Actor {
 		pos = bundle.getInt( POS );
 		HP = bundle.getInt( TAG_HP );
 		HT = bundle.getInt( TAG_HT );
-		
-		for (Bundlable b : bundle.getCollection( BUFFS )) {
-			if (b != null) {
-				((Buff)b).attachTo( this );
+
+		//if hero is being loaded, postpone buff loading so they may collect information on Dungeon.hero
+		if (!bundle.toString().contains("com.jinkeloid.mispd.actors.hero.Hero")){
+			for (Bundlable b : bundle.getCollection( BUFFS )) {
+				if (b != null) {
+					((Buff)b).attachTo( this );
+				}
 			}
 		}
 	}
@@ -292,7 +296,7 @@ public abstract class Char extends Actor {
 
 			if (this instanceof Hero){
 				Hero h = (Hero)this;
-				if (h.belongings.weapon instanceof MissileWeapon
+				if (h.belongings.mainhand instanceof MissileWeapon
 						&& h.subClass == HeroSubClass.SNIPER
 						&& !Dungeon.level.adjacent(h.pos, enemy.pos)){
 					dr = 0;
@@ -335,7 +339,7 @@ public abstract class Char extends Actor {
 				Hero h = (Hero)enemy;
 
 
-				if (h.belongings.weapon instanceof MissileWeapon
+				if (h.belongings.mainhand instanceof MissileWeapon
 						&& h.subClass == HeroSubClass.SNIPER
 						&& !Dungeon.level.adjacent(h.pos, enemy.pos)){
 					dr = 0;
@@ -758,8 +762,10 @@ public abstract class Char extends Actor {
 		next();
 	}
 	
-	protected final HashSet<Class> resistances = new HashSet<>();
-	
+	public final HashSet<Class> resistances = new HashSet<>();
+
+	public final HashSet<Class> vulnerabilities = new HashSet<>();
+
 	//returns percent effectiveness after resistances
 	//TODO currently resistances reduce effectiveness by a static 50%, and do not stack.
 	public float resist( Class effect ){
@@ -779,8 +785,27 @@ public abstract class Char extends Actor {
 		}
 		return result * RingOfElements.resist(this, effect);
 	}
+
+	//flat 100% increase in debuff duration
+	public float vulnerable(Class effect ){
+		HashSet<Class> vulnerable = new HashSet<>(vulnerabilities);
+		for (Property p : properties()){
+			vulnerable.addAll(p.vulnerabilities());
+		}
+		for (Buff b : buffs()){
+			vulnerable.addAll(b.vulnerabilities());
+		}
+
+		float result = 1f;
+		for (Class c : vulnerable){
+			if (c.isAssignableFrom(effect)){
+				result *= 2f;
+			}
+		}
+		return result * RingOfElements.resist(this, effect);
+	}
 	
-	protected final HashSet<Class> immunities = new HashSet<>();
+	public final HashSet<Class> immunities = new HashSet<>();
 	
 	public boolean isImmune(Class effect ){
 		HashSet<Class> immunes = new HashSet<>(immunities);
@@ -835,7 +860,8 @@ public abstract class Char extends Actor {
 				new HashSet<Class>()),
 		LARGE,
 		IMMOVABLE;
-		
+
+		private HashSet<Class> vulnerabilities;
 		private HashSet<Class> resistances;
 		private HashSet<Class> immunities;
 		
@@ -847,7 +873,11 @@ public abstract class Char extends Actor {
 			this.resistances = resistances;
 			this.immunities = immunities;
 		}
-		
+
+		public HashSet<Class> vulnerabilities(){
+			return new HashSet<>(vulnerabilities);
+		}
+
 		public HashSet<Class> resistances(){
 			return new HashSet<>(resistances);
 		}

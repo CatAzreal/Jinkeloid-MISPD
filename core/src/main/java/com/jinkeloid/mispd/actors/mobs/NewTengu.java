@@ -34,6 +34,7 @@ import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Burning;
 import com.jinkeloid.mispd.actors.buffs.Doom;
 import com.jinkeloid.mispd.actors.buffs.LockedFloor;
+import com.jinkeloid.mispd.actors.buffs.RegionSecure;
 import com.jinkeloid.mispd.actors.buffs.Terror;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.actors.hero.HeroSubClass;
@@ -83,7 +84,7 @@ public class NewTengu extends Mob {
 		spriteClass = TenguSprite.class;
 		
 		HP = HT = 200;
-		EXP = 20;
+		EXP = 200;
 		attackSkill = 20;
 		defenseSkill = 15;
 		minDamage = 6;
@@ -210,7 +211,9 @@ public class NewTengu extends Mob {
 		
 		GameScene.bossSlain();
 		super.die( cause );
-		
+
+		Dungeon.progress = Dungeon.BossProgress.TENGU;
+        Buff.affect(Dungeon.hero, RegionSecure.class);
 		Badges.validateBossSlain();
 		
 		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);

@@ -25,9 +25,6 @@ import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.Actor;
 import com.jinkeloid.mispd.actors.Char;
-import com.jinkeloid.mispd.actors.buffs.Buff;
-import com.jinkeloid.mispd.actors.buffs.ChampionEnemy;
-import com.jinkeloid.mispd.actors.buffs.Cripple;
 import com.jinkeloid.mispd.actors.hero.Hero;
 import com.jinkeloid.mispd.actors.hero.Perk;
 import com.jinkeloid.mispd.items.weapon.missiles.MissileWeapon;
@@ -60,7 +57,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 
 	@Override
 	public boolean isEquipped( Hero hero ) {
-		return hero.belongings.weapon == this || hero.belongings.stashedWeapon == this;
+		return hero.belongings.mainhand == this || hero.belongings.stashedWeapon == this;
 	}
 	
 	@Override
@@ -68,9 +65,9 @@ abstract public class KindOfWeapon extends EquipableItem {
 
 		detachAll( hero.belongings.backpack );
 		
-		if (hero.belongings.weapon == null || hero.belongings.weapon.doUnequip( hero, true )) {
+		if (hero.belongings.mainhand == null || hero.belongings.mainhand.doUnequip( hero, true )) {
 			
-			hero.belongings.weapon = this;
+			hero.belongings.mainhand = this;
 			activate( hero );
 			Perk.onItemEquipped(hero, this);
 			updateQuickslot();
@@ -89,7 +86,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 			else {
 			hero.spendAndNext(0);
 			instantSwitch = false;
-			GLog.i("instantSwitch performed");
+			GLog.i(Messages.get(KindOfWeapon.class, "instant_switch"));
 			}
 			//If hero have slowpoke, grant random debuff when the weapon is equipped
 //			if (hero.hasPerk(Perk.SLOWPOKE)){
@@ -114,7 +111,7 @@ abstract public class KindOfWeapon extends EquipableItem {
 	public boolean doUnequip( Hero hero, boolean collect, boolean single ) {
 		if (super.doUnequip( hero, collect, single )) {
 
-			hero.belongings.weapon = null;
+			hero.belongings.mainhand = null;
 			return true;
 
 		} else {

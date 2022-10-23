@@ -27,7 +27,7 @@ import com.jinkeloid.mispd.actors.Actor;
 import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Bleeding;
 import com.jinkeloid.mispd.actors.buffs.Buff;
-import com.jinkeloid.mispd.actors.buffs.Light;
+import com.jinkeloid.mispd.actors.buffs.LightOld;
 import com.jinkeloid.mispd.effects.Pushing;
 import com.jinkeloid.mispd.effects.TargetedCell;
 import com.jinkeloid.mispd.mechanics.Ballistica;
@@ -53,9 +53,9 @@ public class RipperDemon extends Mob {
 		maxDamage = 25;
 		minDR = 0;
 		maxDR = 4;
-		viewDistance = Light.DISTANCE;
+		viewDistance = LightOld.DISTANCE;
 
-		EXP = 9; //for corrupting
+		EXP = 90; //for corrupting
 		maxLvl = -2;
 
 		HUNTING = new Hunting();

@@ -24,6 +24,8 @@ package com.watabou.utils;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.watabou.noosa.Game;
 
+import java.lang.reflect.Constructor;
+
 //wrapper for libGDX reflection
 public class Reflection {
 	
@@ -43,6 +45,17 @@ public class Reflection {
 			return null;
 		}
 	}
+
+//	public static <T> T newInstanceNested( Class<T> cls ){
+//		try {
+//			Object enclosingInstance = cls.getEnclosingClass();
+//			Constructor<?> ctor = cls.getDeclaredConstructor(cls.getEnclosingClass());
+//			return (T) ctor.newInstance(enclosingInstance);
+//		} catch (Exception e) {
+//			Game.reportException(e);
+//			return null;
+//		}
+//	}
 	
 	public static <T> T newInstanceUnhandled( Class<T> cls ) throws Exception {
 		return ClassReflection.newInstance(cls);

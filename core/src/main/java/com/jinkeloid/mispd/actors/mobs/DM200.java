@@ -46,7 +46,7 @@ public class DM200 extends Mob {
 		minDR = 0;
 		maxDR = 8;
 
-		EXP = 9;
+		EXP = 90;
 		maxLvl = 17;
 
 		loot = Random.oneOf(Generator.Category.WEAPON, Generator.Category.ARMOR);

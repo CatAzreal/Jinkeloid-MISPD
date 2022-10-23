@@ -41,10 +41,13 @@ import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Burning;
 import com.jinkeloid.mispd.actors.buffs.Combo;
 import com.jinkeloid.mispd.actors.buffs.Drowsy;
+import com.jinkeloid.mispd.actors.buffs.Emptyoffhand;
 import com.jinkeloid.mispd.actors.buffs.Foresight;
 import com.jinkeloid.mispd.actors.buffs.Fury;
 import com.jinkeloid.mispd.actors.buffs.HoldFast;
+import com.jinkeloid.mispd.actors.buffs.Horror;
 import com.jinkeloid.mispd.actors.buffs.Invisibility;
+import com.jinkeloid.mispd.actors.buffs.Light;
 import com.jinkeloid.mispd.actors.buffs.MindVision;
 import com.jinkeloid.mispd.actors.buffs.Momentum;
 import com.jinkeloid.mispd.actors.buffs.Paralysis;
@@ -85,7 +88,6 @@ import com.jinkeloid.mispd.items.potions.Potion;
 import com.jinkeloid.mispd.items.potions.PotionOfExperience;
 import com.jinkeloid.mispd.items.potions.PotionOfHealing;
 import com.jinkeloid.mispd.items.potions.elixirs.ElixirOfMight;
-import com.jinkeloid.mispd.items.rings.Ring;
 import com.jinkeloid.mispd.items.rings.RingOfAccuracy;
 import com.jinkeloid.mispd.items.rings.RingOfEvasion;
 import com.jinkeloid.mispd.items.rings.RingOfForce;
@@ -93,7 +95,6 @@ import com.jinkeloid.mispd.items.rings.RingOfFuror;
 import com.jinkeloid.mispd.items.rings.RingOfHaste;
 import com.jinkeloid.mispd.items.rings.RingOfMight;
 import com.jinkeloid.mispd.items.rings.RingOfTenacity;
-import com.jinkeloid.mispd.items.rings.RingOfWealth;
 import com.jinkeloid.mispd.items.scrolls.Scroll;
 import com.jinkeloid.mispd.items.scrolls.ScrollOfMagicMapping;
 import com.jinkeloid.mispd.items.wands.WandOfLivingEarth;
@@ -127,6 +128,7 @@ import com.jinkeloid.mispd.windows.WndTradeItem;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.DeviceCompat;
@@ -177,7 +179,7 @@ public class Hero extends Char {
 	public Belongings belongings;
 
 	private Bundle postInitBundle;
-	
+
 	public int STR;
 	
 	public float awareness;
@@ -188,7 +190,7 @@ public class Hero extends Char {
 	public int SP;
 	public int ST;
 
-	public float Horror;
+	public float curHorror;
 	public int HorrorMax;
 	
 	public int HTBoost = 0;
@@ -204,7 +206,7 @@ public class Hero extends Char {
 
 		HP = HT = basicHT;
 		HorrorMax = 100;
-		Horror = 0;
+		curHorror = 0;
 		STR = STARTING_STR;
 		if (DeviceCompat.isDebug()) {
 			HT = HP += 900;
@@ -219,11 +221,18 @@ public class Hero extends Char {
 	}
 
 	//after the hero is initiated and had all the perks loaded, load all other stats that are dependent on perks or other factors inside hero to initialize
-	public void postInit(boolean firstInit) {
+	public void postInit(boolean firstInit, Bundle bundle) {
 		hpMultiplier = this.hasPerk(Perk.STURDY)? hpMultiplier + 2 :
 				this.hasPerk(Perk.FRAIL) ? hpMultiplier - 2 : hpMultiplier ;
 		basicHT = HT = this.hasPerk(Perk.STURDY) ? basicHT + 3 :
 				this.hasPerk(Perk.FRAIL) ? basicHT - 2 : basicHT ;
+		if (bundle != null){
+			for (Bundlable b : bundle.getCollection( BUFFS )) {
+				if (b != null) {
+					((Buff)b).attachTo( this );
+				}
+			}
+		}
 		if (firstInit) HP = HT;
 		else belongings.restoreFromBundle( postInitBundle );
 		updateHT(false);
@@ -298,8 +307,9 @@ public class Hero extends Char {
 	
 	@Override
 	public void restoreFromBundle( Bundle bundle ) {
-		//after the hero is initiated, postpone any other hero stats that's subjected to perk manipulation
+
 		postInitBundle = bundle;
+
 		lvl = bundle.getInt( LEVEL );
 		exp = bundle.getInt( EXPERIENCE );
 
@@ -383,8 +393,8 @@ public class Hero extends Char {
 
 	@Override
 	public void hitSound(float pitch) {
-		if ( belongings.weapon != null ){
-			belongings.weapon.hitSound(pitch);
+		if ( belongings.mainhand != null ){
+			belongings.mainhand.hitSound(pitch);
 		} else if (RingOfForce.getBuffedBonus(this, RingOfForce.Force.class) > 0) {
 			//pitch deepens by 2.5% (additive) per point of strength, down to 75%
 			super.hitSound( pitch * GameMath.gate( 0.75f, 1.25f - 0.025f*STR(), 1f) );
@@ -395,7 +405,7 @@ public class Hero extends Char {
 
 	@Override
 	public boolean blockSound(float pitch) {
-		if ( belongings.weapon != null && belongings.weapon.defenseFactor(this) >= 4 ){
+		if ( belongings.mainhand != null && belongings.mainhand.defenseFactor(this) >= 4 ){
 			Sample.INSTANCE.play( Assets.Sounds.HIT_PARRY, 1, pitch);
 			return true;
 		}
@@ -406,7 +416,9 @@ public class Hero extends Char {
 		Buff.affect( this, HealthRegen.class );
 		Buff.affect( this, RegenPerTurn.class);
 		Buff.affect( this, Satiation.class );
+		Buff.affect( this, Horror.class);
 		Satiation.resetSatiation();
+		Horror.resetHorror();
 	}
 	
 	public int tier() {
@@ -418,11 +430,11 @@ public class Hero extends Char {
 		this.enemy = enemy;
 
 		//temporarily set the hero's weapon to the missile weapon being used
-		belongings.stashedWeapon = belongings.weapon;
-		belongings.weapon = wep;
+		belongings.stashedWeapon = belongings.mainhand;
+		belongings.mainhand = wep;
 		boolean hit = attack( enemy );
 		Invisibility.dispel();
-		belongings.weapon = belongings.stashedWeapon;
+		belongings.mainhand = belongings.stashedWeapon;
 		belongings.stashedWeapon = null;
 		
 		if (hit && subClass == HeroSubClass.GLADIATOR){
@@ -434,7 +446,7 @@ public class Hero extends Char {
 	
 	@Override
 	public int attackSkill( Char target ) {
-		KindOfWeapon wep = belongings.weapon;
+		KindOfWeapon wep = belongings.mainhand;
 		
 		float accuracy = 1;
 		accuracy *= RingOfAccuracy.accuracyMultiplier( this );
@@ -447,7 +459,11 @@ public class Hero extends Char {
 				accuracy *= 1.5f;
 			}
 		}
-		
+
+		accuracy *= (1 - Horror.accPenalty()/100);
+		if (Dungeon.hero.hasPerk(Perk.NICTOPHOBIA) && Light.lightIntensity == Light.brightness.NONE)
+			accuracy *= 0.85f;
+
 		if (wep != null) {
 			return (int)(attackSkill * accuracy * wep.accuracyFactor( this ));
 		} else {
@@ -466,8 +482,12 @@ public class Hero extends Char {
 		}
 		
 		float evasion = defenseSkill;
-		
-		evasion *= RingOfEvasion.evasionMultiplier( this );
+
+		float totalEVAModifier = RingOfEvasion.evasionMultiplier( this ) +
+				(this.buff(Emptyoffhand.class) != null ? Emptyoffhand.evasionBonus : 0) +
+				Horror.evaBonus();
+
+		evasion *= totalEVAModifier;
 		
 		if (paralysed > 0) {
 			evasion /= 2;
@@ -505,10 +525,10 @@ public class Hero extends Char {
 			}
 			if (armDr > 0) dr += armDr;
 		}
-		if (belongings.weapon != null)  {
-			int wepDr = Random.NormalIntRange( 0 , belongings.weapon.defenseFactor( this ) );
-			if (STR() < ((Weapon)belongings.weapon).STRReq()){
-				wepDr -= 2*(((Weapon)belongings.weapon).STRReq() - STR());
+		if (belongings.mainhand != null)  {
+			int wepDr = Random.NormalIntRange( 0 , belongings.mainhand.defenseFactor( this ) );
+			if (STR() < ((Weapon)belongings.mainhand).STRReq()){
+				wepDr -= 2*(((Weapon)belongings.mainhand).STRReq() - STR());
 			}
 			if (wepDr > 0) dr += wepDr;
 		}
@@ -527,7 +547,7 @@ public class Hero extends Char {
 	
 	@Override
 	public int damageRoll() {
-		KindOfWeapon wep = belongings.weapon;
+		KindOfWeapon wep = belongings.mainhand;
 		int dmg;
 
 		if (wep != null) {
@@ -563,17 +583,18 @@ public class Hero extends Char {
 			((HeroSprite)sprite).sprint( 1f );
 		}
 
-		speed *= Satiation.satiationSPDBonus();
+		speed *= Satiation.satiationSPDBonus() + Horror.movBonus();
 
 		return speed;
 		
 	}
 
 	public boolean canSurpriseAttack(){
-		if (this.hasPerk(Perk.UNRESPONSIVE))										return false;
-		if (belongings.weapon == null || !(belongings.weapon instanceof Weapon))    return true;
-		if (STR() < ((Weapon)belongings.weapon).STRReq())                           return false;
-		if (belongings.weapon instanceof Flail)                                     return false;
+		if (this.hasPerk(Perk.UNRESPONSIVE))											return false;
+		if (Horror.isHorrified()||Horror.isTrembling())									return false;
+		if (belongings.mainhand == null || !(belongings.mainhand instanceof Weapon))    return true;
+		if (STR() < ((Weapon)belongings.mainhand).STRReq())                           	return false;
+		if (belongings.mainhand instanceof Flail)                                     	return false;
 
 		return true;
 	}
@@ -588,7 +609,7 @@ public class Hero extends Char {
 			return true;
 		}
 
-		KindOfWeapon wep = Dungeon.hero.belongings.weapon;
+		KindOfWeapon wep = Dungeon.hero.belongings.mainhand;
 
 		if (wep != null){
 			return wep.canReach(this, enemy.pos);
@@ -603,15 +624,15 @@ public class Hero extends Char {
 			return 0;
 		}
 
-		if (belongings.weapon != null) {
+		if (belongings.mainhand != null) {
 			
-			return belongings.weapon.speedFactor( this );
+			return belongings.mainhand.speedFactor( this );
 			
 		} else {
 			//Normally putting furor speed on unarmed attacks would be unnecessary
 			//But there's going to be that one guy who gets a furor+force ring combo
 			//This is for that one guy, you shall get your fists of fury!
-			return RingOfFuror.attackDelayMultiplier(this);
+			return RingOfFuror.attackDelayMultiplier(this) * (1 - Horror.atkspeedBonus() / 100f);
 		}
 	}
 
@@ -1131,7 +1152,7 @@ public class Hero extends Char {
 	public int attackProc( final Char enemy, int damage ) {
 		damage = super.attackProc( enemy, damage );
 		
-		KindOfWeapon wep = belongings.weapon;
+		KindOfWeapon wep = belongings.mainhand;
 
 		if (wep != null) damage = wep.proc( this, enemy, damage );
 
@@ -1557,7 +1578,7 @@ public class Hero extends Char {
 	}
 	
 	public static int maxExp( int lvl ){
-		return 5 + lvl * 5;
+		return 50 + lvl * 50;
 	}
 	
 	public boolean isStarving() {

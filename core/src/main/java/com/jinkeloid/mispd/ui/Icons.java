@@ -98,7 +98,29 @@ public enum Icons {
 	public Image get() {
 		return get( this );
 	}
-	
+
+	public static Image get( HorrorGauge.horrorIcon type ) {
+		Image icon = new Image( Assets.Interfaces.HORROR );
+		switch (type) {
+			case UNEASY:
+				icon.frame( icon.texture.uvRect( 0, 48, 16, 64 ) );
+				break;
+			case FRIGHTENED:
+				icon.frame( icon.texture.uvRect( 16, 48, 32, 64 ) );
+				break;
+			case HORRIFIED:
+				icon.frame( icon.texture.uvRect( 32, 48, 48, 64 ) );
+				break;
+			case TREMBLING:
+				icon.frame( icon.texture.uvRect( 48, 48, 64, 64 ) );
+				break;
+			default:
+				icon.frame( icon.texture.uvRect( 8, 48, 24, 64 ) );
+				break;
+		}
+		return icon;
+	}
+
 	public static Image get( Icons type ) {
 		Image icon = new Image( Assets.Interfaces.ICONS );
 		switch (type) {

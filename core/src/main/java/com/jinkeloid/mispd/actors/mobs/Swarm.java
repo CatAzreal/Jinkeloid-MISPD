@@ -50,7 +50,7 @@ public class Swarm extends Mob {
 		minDamage = 1;
 		maxDamage = 4;
 
-		EXP = 3;
+		EXP = 30;
 		maxLvl = 9;
 		
 		flying = true;

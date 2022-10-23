@@ -58,7 +58,6 @@ import com.jinkeloid.mispd.ui.ItemSlot;
 import com.jinkeloid.mispd.ui.QuickSlotButton;
 import com.jinkeloid.mispd.ui.RenderedTextBlock;
 import com.jinkeloid.mispd.ui.Toolbar;
-import com.jinkeloid.mispd.utils.GLog;
 import com.watabou.gltextures.TextureCache;
 import com.watabou.input.KeyBindings;
 import com.watabou.input.KeyEvent;
@@ -243,7 +242,8 @@ public class WndBag extends WndTabbed {
 		
 		// Equipped items
 		Belongings stuff = Dungeon.hero.belongings;
-		placeItem( stuff.weapon != null ? stuff.weapon : new Placeholder( ItemSpriteSheet.WEAPON_HOLDER ) );
+		placeItem( stuff.mainhand != null ? stuff.mainhand : new Placeholder( ItemSpriteSheet.WEAPON_HOLDER ) );
+		placeItem( stuff.offhand != null ? stuff.offhand : new Placeholder( ItemSpriteSheet.OFFHAND_HOLDER ) );
 		placeItem( stuff.armor != null ? stuff.armor : new Placeholder( ItemSpriteSheet.ARMOR_HOLDER ) );
 		placeItem( stuff.artifact != null ? stuff.artifact : new Placeholder( ItemSpriteSheet.ARTIFACT_HOLDER ) );
 		placeItem( stuff.misc != null ? stuff.misc : new Placeholder( ItemSpriteSheet.SOMETHING ) );
@@ -265,7 +265,7 @@ public class WndBag extends WndTabbed {
 		}
 		
 		// Free Space
-		while ((count - 5) < container.capacity()) {
+		while ((count - 6) < container.capacity()) {
 			placeItem( null );
 		}
 	}

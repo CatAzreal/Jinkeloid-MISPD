@@ -49,7 +49,7 @@ public class DM100 extends Mob implements Callback {
 		minDR = 0;
 		maxDR = 4;
 		
-		EXP = 6;
+		EXP = 60;
 		maxLvl = 13;
 		
 		loot = Generator.Category.SCROLL;

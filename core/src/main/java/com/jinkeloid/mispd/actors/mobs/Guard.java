@@ -55,7 +55,7 @@ public class Guard extends Mob {
 		minDR = 0;
 		maxDR = 7;
 
-		EXP = 7;
+		EXP = 70;
 		maxLvl = 14;
 
 		loot = Generator.Category.ARMOR;

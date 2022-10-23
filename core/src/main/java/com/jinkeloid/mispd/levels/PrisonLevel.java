@@ -53,6 +53,7 @@ import java.util.ArrayList;
 public class PrisonLevel extends RegularLevel {
 
 	{
+		viewDistance = 5;
 		color1 = 0x6a723d;
 		color2 = 0x88924c;
 	}
