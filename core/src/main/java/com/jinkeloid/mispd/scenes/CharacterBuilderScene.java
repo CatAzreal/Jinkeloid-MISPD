@@ -197,7 +197,7 @@ public class CharacterBuilderScene extends PixelScene {
 						if (icon != null) {
 							icon.x = x + (width - icon.width() / 2f) / 2f;
 							icon.y = y + (height - icon.height() / 2f) / 2f;
-							icon.scale.set(0.5f);
+							icon.scale.set(0.67f);
 							PixelScene.align(icon);
 						}
 					}
@@ -206,7 +206,7 @@ public class CharacterBuilderScene extends PixelScene {
 				buttonLinkRef.put(perk.id(), cb);
 				cb.setRect(0, pos, w / 2 - 10, 16);
 				posContent.add(cb);
-				info.setRect(cb.right() - 14, pos + 4, 6, 6);
+				info.setRect(cb.right() - 16, pos + 2, 8, 8);
 				posContent.add(info);
 				pos = cb.bottom();
 				pos += 2;

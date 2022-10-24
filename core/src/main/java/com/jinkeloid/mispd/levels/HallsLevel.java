@@ -24,6 +24,7 @@ package com.jinkeloid.mispd.levels;
 import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.items.Torch;
+import com.jinkeloid.mispd.items.lightsource.FireTorch;
 import com.jinkeloid.mispd.levels.painters.HallsPainter;
 import com.jinkeloid.mispd.levels.painters.Painter;
 import com.jinkeloid.mispd.levels.rooms.Room;
@@ -104,8 +105,8 @@ public class HallsLevel extends RegularLevel {
 	
 	@Override
 	public void create() {
-		addItemToSpawn( new Torch() );
-		addItemToSpawn( new Torch() );
+		addItemToSpawn( new FireTorch() );
+		addItemToSpawn( new FireTorch() );
 		super.create();
 	}
 	

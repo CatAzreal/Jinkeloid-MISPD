@@ -1578,7 +1578,7 @@ public class Hero extends Char {
 	}
 	
 	public static int maxExp( int lvl ){
-		return 50 + lvl * 50;
+		return 100 + lvl * 100;
 	}
 	
 	public boolean isStarving() {

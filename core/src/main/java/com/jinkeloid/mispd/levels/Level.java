@@ -58,6 +58,7 @@ import com.jinkeloid.mispd.items.Stylus;
 import com.jinkeloid.mispd.items.Torch;
 import com.jinkeloid.mispd.items.artifacts.TalismanOfForesight;
 import com.jinkeloid.mispd.items.artifacts.TimekeepersHourglass;
+import com.jinkeloid.mispd.items.lightsource.FireTorch;
 import com.jinkeloid.mispd.items.potions.PotionOfStrength;
 import com.jinkeloid.mispd.items.scrolls.ScrollOfUpgrade;
 import com.jinkeloid.mispd.items.stones.StoneOfEnchantment;
@@ -186,7 +187,7 @@ public abstract class Level implements Bundlable {
 			addItemToSpawn(Generator.random(Generator.Category.FOOD));
 
 			if (Dungeon.isChallenged(Challenges.DARKNESS)){
-				addItemToSpawn( new Torch() );
+				addItemToSpawn( new FireTorch() );
 			}
 
 			if (Dungeon.posNeeded()) {
@@ -227,7 +228,7 @@ public abstract class Level implements Bundlable {
 						break;
 					case 3:
 						feeling = Feeling.DARK;
-						addItemToSpawn(new Torch());
+						addItemToSpawn(new FireTorch());
 						viewDistance = Math.round(viewDistance/2f);
 						break;
 					case 4:
