@@ -30,6 +30,7 @@ import com.jinkeloid.mispd.actors.buffs.Amok;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Charm;
 import com.jinkeloid.mispd.actors.buffs.Frost;
+import com.jinkeloid.mispd.actors.buffs.Horror;
 import com.jinkeloid.mispd.actors.buffs.LightOld;
 import com.jinkeloid.mispd.actors.buffs.LockedFloor;
 import com.jinkeloid.mispd.actors.buffs.Paralysis;
@@ -403,6 +404,8 @@ public class YogDzewa extends Mob {
 		}
 		Dungeon.progress = Dungeon.BossProgress.YOG;
         Buff.affect(Dungeon.hero, RegionSecure.class);
+		if (Horror.GetHorror() >= 50)
+			Horror.SetHorror(49.5f);
 		updateVisibility(Dungeon.level);
 
 		GameScene.bossSlain();

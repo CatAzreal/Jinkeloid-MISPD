@@ -27,6 +27,7 @@ import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.actors.Actor;
 import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Buff;
+import com.jinkeloid.mispd.actors.buffs.Horror;
 import com.jinkeloid.mispd.actors.buffs.LockedFloor;
 import com.jinkeloid.mispd.actors.buffs.Ooze;
 import com.jinkeloid.mispd.actors.buffs.RegionSecure;
@@ -245,6 +246,8 @@ public class Goo extends Mob {
 		}
 		Dungeon.progress = Dungeon.BossProgress.GOO;
         Buff.affect(Dungeon.hero, RegionSecure.class);
+		if (Horror.GetHorror() >= 50)
+			Horror.SetHorror(49.5f);
 		
 		Badges.validateBossSlain();
 		

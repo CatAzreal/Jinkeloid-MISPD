@@ -33,6 +33,7 @@ import com.jinkeloid.mispd.actors.buffs.Blindness;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Burning;
 import com.jinkeloid.mispd.actors.buffs.Doom;
+import com.jinkeloid.mispd.actors.buffs.Horror;
 import com.jinkeloid.mispd.actors.buffs.LockedFloor;
 import com.jinkeloid.mispd.actors.buffs.RegionSecure;
 import com.jinkeloid.mispd.actors.buffs.Terror;
@@ -214,6 +215,8 @@ public class NewTengu extends Mob {
 
 		Dungeon.progress = Dungeon.BossProgress.TENGU;
         Buff.affect(Dungeon.hero, RegionSecure.class);
+		if (Horror.GetHorror() >= 50)
+			Horror.SetHorror(49.5f);
 		Badges.validateBossSlain();
 		
 		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);
