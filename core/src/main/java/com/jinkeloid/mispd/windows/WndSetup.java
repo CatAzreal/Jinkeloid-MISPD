@@ -51,7 +51,7 @@ public class WndSetup extends Window {
         for (PerkSetups.Info setupInfo : info) {
             //if info doesn't exist while the window is in setup mode, don't show them
             if (!setupInfo.exist && setup)
-                break;
+                continue;
             setupSlots setups;
             if (!setupInfo.exist){
                 setups = new setupSlots(setupInfo);

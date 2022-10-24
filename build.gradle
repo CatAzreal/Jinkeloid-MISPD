@@ -15,7 +15,7 @@ allprojects {
         appPackageName = 'com.jinkeloid.mispd'
 
         appVersionCode = 20014
-        appVersionName = '0.2.0(Peacock)b18fix5'
+        appVersionName = '0.2.0(Peacock)b18fix6'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 

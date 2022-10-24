@@ -99,9 +99,9 @@ public enum Perk {
 	//show detailed info about mob, their health, dmgrange, dr and weakness(if have any)
 	ADRENALINE(0, 7, perkType.POSITIVE, PerkIndex.ADRENALINE, null),
 //	//the horror of enemy can stimulate you, strengthening reflex, resulting less penalty on accuracy and bonus to attackspeed and movement speed
-	BRAVE(0, 5, perkType.POSITIVE, PerkIndex.BRAVE, new int[]{PerkIndex.PACIFIST}, new int[]{PerkIndex.CONFIDENT}),
+	BRAVE(0, 5, perkType.POSITIVE, PerkIndex.BRAVE, new int[]{PerkIndex.PACIFIST, PerkIndex.NICTOPHOBIA}, new int[]{PerkIndex.CONFIDENT}),
 //	//slower horror increase on low health, more damage output on low health
-	CONFIDENT(0, 5, perkType.POSITIVE, PerkIndex.CONFIDENT, new int[]{PerkIndex.PACIFIST}, new int[]{PerkIndex.BRAVE}),
+	CONFIDENT(0, 5, perkType.POSITIVE, PerkIndex.CONFIDENT, new int[]{PerkIndex.PACIFIST, PerkIndex.NICTOPHOBIA}, new int[]{PerkIndex.BRAVE}),
 //	//slower horror increase on near full health, more accuracy near full health
 	STURDY(0, 6, perkType.POSITIVE, PerkIndex.STURDY, new int[]{PerkIndex.FRAIL}),
 	//+3 starting health, +2 max health per level

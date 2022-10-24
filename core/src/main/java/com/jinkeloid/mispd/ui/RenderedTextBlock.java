@@ -66,7 +66,7 @@ public class RenderedTextBlock extends Component {
 	public void text(String text){
 		this.text = text;
 
-		if (text != null && !text.equals("")  && !text.equals("0")) {
+		if (text != null && !text.equals("")) {
 			
 			tokens = Game.platform.splitforTextBlock(text, multiline);
 			

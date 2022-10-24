@@ -106,7 +106,7 @@ public abstract class Mob extends Char {
 	public int defenseSkill = 0;
 	
 	public int EXP = 10;
-	public int maxLvl = Dungeon.hero.lvl + 2;
+	public int maxLvl = Dungeon.depth + 4;
 
 	//Had to label these stats out for mob info display
 	public int minDamage = 1;
@@ -688,10 +688,10 @@ public abstract class Mob extends Char {
 				//Every hero level lower than (maxlvl - 2) will receive 50% more exp gain, 33% less exp gain if higher
 				//e.g. Rat have max level of 5, expgain of 10, killing rat will gain the following exp:
 				//at level 1: 22; level 2: 15; level 3: 10; level 4: 6; level 5: 4
-				lvlDiff -= 2;
+				lvlDiff -= 3;
 				int exp = EXP;
 				//0 exp if level diff is lower than 0
-				exp = lvlDiff >= -2 ? exp : 0;
+				exp = lvlDiff >= -3 ? exp : 0;
 				exp *= Math.pow(1.5f, lvlDiff);
 				exp = Dungeon.hero.hasPerk(Perk.QUICK_LEARNER) ? (int)Math.floor(exp*1.25f) : exp;
 				if (exp > 0) {
