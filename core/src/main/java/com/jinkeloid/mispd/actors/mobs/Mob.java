@@ -702,8 +702,8 @@ public abstract class Mob extends Char {
 				if (Dungeon.hero.hasPerk(Perk.PACIFIST)) return;
 				if (lvlDiff > 0) {
 					Buff.affect(Dungeon.hero, FellEnemy.class, (float) Math.pow(2f, lvlDiff - 1) * 5);
-					if (lvlDiff > 3){
-						Horror.ModHorror(-(float)Math.pow(2f, lvlDiff - 3));
+					if (lvlDiff > 2){
+						Horror.ModHorror(-(float)Math.pow(1.5f, lvlDiff - 2));
 						GLog.i(Messages.get(this, "horror_reduced"));
 					}
 				}

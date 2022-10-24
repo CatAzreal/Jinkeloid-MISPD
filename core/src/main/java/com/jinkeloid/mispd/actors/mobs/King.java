@@ -30,6 +30,7 @@ import com.jinkeloid.mispd.actors.blobs.ToxicGas;
 import com.jinkeloid.mispd.actors.buffs.Blindness;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Burning;
+import com.jinkeloid.mispd.actors.buffs.Horror;
 import com.jinkeloid.mispd.actors.buffs.LockedFloor;
 import com.jinkeloid.mispd.actors.buffs.Paralysis;
 import com.jinkeloid.mispd.actors.buffs.RegionSecure;
@@ -162,6 +163,8 @@ public class King extends Mob {
 		super.die( cause );
 		Dungeon.progress = Dungeon.BossProgress.KING;
         Buff.affect(Dungeon.hero, RegionSecure.class);
+		if (Horror.GetHorror() >= 50)
+			Horror.SetHorror(49.5f);
 		Badges.validateBossSlain();
 
 		LloydsBeacon beacon = Dungeon.hero.belongings.getItem(LloydsBeacon.class);

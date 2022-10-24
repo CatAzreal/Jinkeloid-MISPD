@@ -226,6 +226,8 @@ public class Hero extends Char {
 				this.hasPerk(Perk.FRAIL) ? hpMultiplier - 2 : hpMultiplier ;
 		basicHT = HT = this.hasPerk(Perk.STURDY) ? basicHT + 3 :
 				this.hasPerk(Perk.FRAIL) ? basicHT - 2 : basicHT ;
+		if (firstInit) HP = HT;
+		else belongings.restoreFromBundle( postInitBundle );
 		if (bundle != null){
 			for (Bundlable b : bundle.getCollection( BUFFS )) {
 				if (b != null) {
@@ -233,8 +235,6 @@ public class Hero extends Char {
 				}
 			}
 		}
-		if (firstInit) HP = HT;
-		else belongings.restoreFromBundle( postInitBundle );
 		updateHT(false);
 		if (this.hasPerk(Perk.QUICK_DRAW) && firstInit) KindOfWeapon.instantSwitch = true;
 	}
@@ -485,7 +485,7 @@ public class Hero extends Char {
 
 		float totalEVAModifier = RingOfEvasion.evasionMultiplier( this ) +
 				(this.buff(Emptyoffhand.class) != null ? Emptyoffhand.evasionBonus : 0) +
-				Horror.evaBonus();
+				Horror.evaBonus()/100f;
 
 		evasion *= totalEVAModifier;
 		
@@ -583,7 +583,7 @@ public class Hero extends Char {
 			((HeroSprite)sprite).sprint( 1f );
 		}
 
-		speed *= Satiation.satiationSPDBonus() + Horror.movBonus();
+		speed *= Satiation.satiationSPDBonus() + Horror.movBonus()/100f;
 
 		return speed;
 		
