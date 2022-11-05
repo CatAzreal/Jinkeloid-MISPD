@@ -234,21 +234,18 @@ public class WndSetup extends Window {
                 MusicImplantSPD.seamlessResetScene(new Game.SceneChangeCallback() {
                     @Override
                     public void beforeCreate() {
-                        GameLog.wipe();
                         Game.platform.resetGenerators();
                     }
                     @Override
                     public void afterCreate() {
+                        MusicImplantSPD.resetScene();
                         currentScene = (CharacterBuilderScene) MusicImplantSPD.scene();
                     }
                 });
                 PerkSetups.saveInfo(CharacterBuilderScene.tempPerks, slot, input);
-                //easiest way to refresh the window
+            }else {
                 slots.parent.destroy();
-                currentScene.add(new WndSetup(false));
-                return;
             }
-            slots.parent.destroy();
         }
 
 

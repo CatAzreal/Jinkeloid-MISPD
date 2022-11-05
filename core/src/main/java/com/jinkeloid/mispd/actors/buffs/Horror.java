@@ -34,12 +34,14 @@ public class Horror extends Buff {
 
     public static void SetHorror(float horror){
         level = horror;
+        if (level < 0) level = Math.max(0.05f,level);
+        if (level > 100) level = Math.min(99.5f, level);
     }
 
     public static void ModHorror(float horror){
         level += horror;
-        if (level < 0) level = Math.min(0.05f,level);
-        if (level > 100) level = Math.max(99.5f, level);
+        if (level < 0) level = Math.max(0.05f,level);
+        if (level > 100) level = Math.min(99.5f, level);
     }
 
     @Override
@@ -124,9 +126,16 @@ public class Horror extends Buff {
                     }
         }
         //if a foe is slain by hero recently, horror growth would be halted
-        if (dynamicStep > 0 && hero.buff(FellEnemy.class) != null) dynamicStep = Math.min(dynamicStep, 0);
+        if (dynamicStep > 0 && hero.buff(FellEnemy.class) != null)
+            dynamicStep = Math.min(dynamicStep, 0);
         //if the region is secured and hero horror level is near or above horrified threshold, halt horror growth
-        if (Dungeon.depth <= Dungeon.progress.val * 5 && Horror.GetHorror() > HORRIFIED - 0.5f) dynamicStep = Math.min(dynamicStep, 0);
+        if (Dungeon.depth <= Dungeon.progress.val * 5 && Horror.GetHorror() > HORRIFIED - 0.5f)
+            dynamicStep = Math.min(dynamicStep, 0);
+        //if player is satiated, halt horror growth, if player is full, reduce horror(stack with lightintensity)
+        if (Satiation.isSatiated())
+            dynamicStep = Math.min(dynamicStep, 0);
+        if (Satiation.isFull())
+            dynamicStep = Math.min(dynamicStep, 0) - 0.05f;
         //Perk calculation
         if (dynamicStep > 0){
             if (hero.hasPerk(Perk.NICTOPHOBIA))
@@ -135,12 +144,14 @@ public class Horror extends Buff {
                 dynamicStep *= 0.5;
             else if (hero.hasPerk(Perk.BRAVE) && (float)hero.HP/hero.HT < 0.25f)
                 dynamicStep *= 0;
+            if (Satiation.isSatisfied())
+                dynamicStep *= 0.5;
         }
 
         float newLevel = level + dynamicStep;
-        int diff = (int)(newLevel / 25) - (int)(level / 25);
         //making sure horror value doesn't exceed the default range
         level = Math.max(Math.min(newLevel, MAX), 0);
+        int diff = (int)(newLevel / 25) - (int)(level / 25);
         spend(STEP);
         HorrorGauge.updateGauge(diff);
         if (diff == 0)return true;

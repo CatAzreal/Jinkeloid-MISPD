@@ -56,16 +56,20 @@ public class PerkSetups {
                 info = new PerkSetups.Info();
                 info.slot = slot;
                 info.exist = false;
+                info.isNew = false;
                 slotStates.put( slot, info );
                 return info;
             }
-            return slotStates.get( slot );
+            //
+            if (!info.isNew)
+                return slotStates.get( slot );
         } else if (!setupExists( slot )) {
             GLog.i("setup doesn't exist in slot " + slot);
             //If a setup doesn't exist, we have to autofill it with an empty setup.
             info = new PerkSetups.Info();
             info.slot = slot;
             info.exist = false;
+            info.isNew = false;
 //            info.Perks = new ArrayList<Perk>(Arrays.asList(
 //                    Perk.CATS_EYES,
 //                    Perk.INCONSPICUOUS,
@@ -75,34 +79,34 @@ public class PerkSetups {
 //                    Perk.DISORGANIZED));
             slotStates.put( slot, info );
             return info;
-        } else {
-            info = new PerkSetups.Info();
-            try {
-                GLog.i("trying to fetch setups from slot " + slot);
-                Bundle bundle = FileUtils.bundleFromFile(setupFile(slot));
-                info.slot = slot;
-                int[] perkListInt = bundle.getIntArray( PERKS );
-                info.Perks = new ArrayList<>();
-                for (int i : perkListInt) {
-                    info.Perks.add(Perk.getPerkByID(i));
-                }
-                info.posCount = bundle.getInt( POSCOUNT );
-                info.negCount = bundle.getInt( NEGCOUNT );
-                info.score = bundle.getInt( SCORE );
-                info.setupName = bundle.getString( NAME );
-                info.exist = true;
-            } catch (IOException e) {
-                info.setupName = "LOAD ERROR";
-                info.exist = false;
-            } catch (Exception e){
-                MusicImplantSPD.reportException( e );
-                info.setupName = "LOAD ERROR";
-                info.exist = false;
-            }
-
-            slotStates.put( slot, info );
-            return info;
         }
+        info = new PerkSetups.Info();
+        try {
+            GLog.i("trying to fetch setups from slot " + slot);
+            Bundle bundle = FileUtils.bundleFromFile(setupFile(slot));
+            info.slot = slot;
+            int[] perkListInt = bundle.getIntArray( PERKS );
+            info.Perks = new ArrayList<>();
+            for (int i : perkListInt) {
+                info.Perks.add(Perk.getPerkByID(i));
+            }
+            info.posCount = bundle.getInt( POSCOUNT );
+            info.negCount = bundle.getInt( NEGCOUNT );
+            info.score = bundle.getInt( SCORE );
+            info.setupName = bundle.getString( NAME );
+            info.exist = true;
+            info.isNew = false;
+        } catch (IOException e) {
+            info.setupName = "LOAD ERROR";
+            info.exist = false;
+        } catch (Exception e){
+            MusicImplantSPD.reportException( e );
+            info.setupName = "LOAD ERROR";
+            info.exist = false;
+        }
+
+        slotStates.put( slot, info );
+        return info;
     }
 
     public static void saveInfo( ArrayList<Perk> perkList, int slot, String setupName) {
@@ -123,8 +127,8 @@ public class PerkSetups {
         bundle.put( SCORE, score);
         bundle.put( NAME, setupName);
         try {
-            FileUtils.bundleToFile(setupFile(slot), bundle);
             slotStates.put( slot, new Info(slot, posCount, negCount, score, setupName, perkList));
+            FileUtils.bundleToFile(setupFile(slot), bundle);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -140,6 +144,7 @@ public class PerkSetups {
         public String setupName;
         public boolean exist = true;
         public ArrayList<Perk> Perks;
+        public boolean isNew = true;
 
         public Info(){}
         public Info(int slot, int posCount, int negCount, int score, String setupName, ArrayList<Perk> perks) {
@@ -148,7 +153,7 @@ public class PerkSetups {
             this.negCount = negCount;
             this.score = score;
             this.setupName = setupName;
-            Perks = perks;
+            this.Perks = perks;
         }
     }
 
