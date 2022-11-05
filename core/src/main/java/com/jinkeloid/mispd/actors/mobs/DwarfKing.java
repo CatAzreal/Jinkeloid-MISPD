@@ -30,8 +30,10 @@ import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Barrier;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.buffs.Doom;
+import com.jinkeloid.mispd.actors.buffs.Horror;
 import com.jinkeloid.mispd.actors.buffs.LifeLink;
 import com.jinkeloid.mispd.actors.buffs.LockedFloor;
+import com.jinkeloid.mispd.actors.buffs.RegionSecure;
 import com.jinkeloid.mispd.effects.Beam;
 import com.jinkeloid.mispd.effects.CellEmitter;
 import com.jinkeloid.mispd.effects.Pushing;
@@ -441,6 +443,11 @@ public class DwarfKing extends Mob {
 		} else {
 			Dungeon.level.drop(new ArmorKit(), pos).sprite.drop();
 		}
+		Dungeon.progress = Dungeon.BossProgress.KING;
+		Buff.affect(Dungeon.hero, RegionSecure.class);
+		if (Horror.GetHorror() >= 50)
+			Horror.SetHorror(49.5f);
+		Badges.validateBossSlain();
 
 		Badges.validateBossSlain();
 

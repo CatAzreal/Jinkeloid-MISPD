@@ -35,6 +35,7 @@ public class WndHorror extends Window {
         String appendKey;
         float horrorVal = Buff.affect(Dungeon.hero, Horror.class).horror();
         int horrorState = (int) (horrorVal / 25f);
+        if (horrorVal == 100) horrorState = 3;
         switch (horrorState){
             case 0:
                 appendKey = "uneasy";
@@ -59,6 +60,8 @@ public class WndHorror extends Window {
         }
         title = Messages.get(this, "title_"+appendKey);
         desc = Messages.get(this, "desc_"+appendKey);
+        if (appendKey.equals("error"))
+            desc = Messages.get(this, "desc_"+appendKey, (int)Horror.GetHorror());
 
         if (Dungeon.hero.hasPerk(Perk.ADRENALINE))
             desc += "\n" + Messages.get(this, "desc_"+appendKey+"_positive", (int)Horror.movBonus(), (int)Horror.evaBonus(), (int)Horror.atkspeedBonus());
