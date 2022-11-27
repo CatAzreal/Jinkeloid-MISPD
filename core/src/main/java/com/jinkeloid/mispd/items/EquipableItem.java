@@ -100,17 +100,17 @@ public abstract class EquipableItem extends Item {
 
 	public abstract boolean doEquip( Hero hero );
 
-	public boolean doUnequip( Hero hero, boolean collect, boolean single ) {
-
+	public boolean doUnequip( Hero hero, boolean collect, boolean single, boolean instantSwitch) {
 		if (cursed && hero.buff(MagicImmune.class) == null) {
 			GLog.w(Messages.get(EquipableItem.class, "unequip_cursed"));
 			return false;
 		}
 
-		if (single) {
-			hero.spendAndNext( time2equip( hero ) );
-		} else {
-			hero.spend( time2equip( hero ) );
+		if (!instantSwitch){
+			if (single)
+				hero.spendAndNext( time2equip( hero ) );
+			 else
+				hero.spend( time2equip( hero ) );
 		}
 
 		if (!collect || !collect( hero.belongings.backpack , false)) {
@@ -121,6 +121,10 @@ public abstract class EquipableItem extends Item {
 		}
 
 		return true;
+	}
+
+	public boolean doUnequip( Hero hero, boolean collect, boolean single) {
+		return doUnequip( hero, collect, single, false );
 	}
 
 	final public boolean doUnequip( Hero hero, boolean collect ) {

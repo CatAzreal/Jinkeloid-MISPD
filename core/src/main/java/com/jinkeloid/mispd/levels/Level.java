@@ -1136,6 +1136,10 @@ public abstract class Level implements Bundlable {
 			}
 
 			Dungeon.hero.mindVisionEnemies.clear();
+			if (Dungeon.hero.hasPerk(Perk.MIND_COMPASS)){
+				heroMindFov[Dungeon.level.exit] = true;
+			}
+
 			if (c.buff( MindVision.class ) != null) {
 				for (Mob mob : mobs) {
 					for (int i : PathFinder.NEIGHBOURS9) {

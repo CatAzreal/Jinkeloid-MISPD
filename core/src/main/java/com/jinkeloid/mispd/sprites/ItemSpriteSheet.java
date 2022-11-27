@@ -691,6 +691,7 @@ public class ItemSpriteSheet {
 	public static final int ORB     	= LIGHTSOURCES+6;
 	public static final int LANTERN     = LIGHTSOURCES+7;
 	public static final int LANTERNLIT  = LIGHTSOURCES+8;
+	public static final int WAX_N_STRING= LIGHTSOURCES+9;
 
 	static{
 		assignItemRect(TORCH,       14, 16);

@@ -25,6 +25,7 @@ import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.items.Item;
 import com.jinkeloid.mispd.items.armor.Armor;
+import com.jinkeloid.mispd.items.lightsource.Lightsource;
 import com.jinkeloid.mispd.items.rings.Ring;
 import com.jinkeloid.mispd.items.weapon.Weapon;
 import com.jinkeloid.mispd.messages.Messages;
@@ -214,6 +215,11 @@ public class ItemSlot extends Button {
 				extra.text( Messages.format( TXT_TYPICAL_STR, str ) );
 				extra.hardlight( WARNING );
 			}
+			extra.measure();
+
+		} else if (item instanceof Lightsource) {
+			int percentage = (int)(Math.ceil(100 * (float)((Lightsource) item).charge) / ((Lightsource) item).maxCharge);
+			extra.text(percentage + "%");
 			extra.measure();
 
 		} else {

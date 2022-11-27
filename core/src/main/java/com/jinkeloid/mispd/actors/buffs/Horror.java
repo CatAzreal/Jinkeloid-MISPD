@@ -17,7 +17,7 @@ public class Horror extends Buff {
     public static final float FRIGHTENED	= 25f;
     public static final float HORRIFIED	    = 50f;
     public static final float TREMBLING	    = 75f;
-    public static final float MAX	        = 100f;
+    public static final float MAX	        = 99.99f;
     private static final float UNEASY_growth        = 0.1f;
     private static final float FRIGHTENED_growth    = 0.07f;
     private static final float HORRIFIED_growth     = 0.05f;
@@ -35,13 +35,13 @@ public class Horror extends Buff {
     public static void SetHorror(float horror){
         level = horror;
         if (level < 0) level = Math.max(0.05f,level);
-        if (level > 100) level = Math.min(99.5f, level);
+        if (level > 100) level = Math.min(99.95f, level);
     }
 
     public static void ModHorror(float horror){
         level += horror;
         if (level < 0) level = Math.max(0.05f,level);
-        if (level > 100) level = Math.min(99.5f, level);
+        if (level > 100) level = Math.min(99.95f, level);
     }
 
     @Override

@@ -34,6 +34,7 @@ import com.jinkeloid.mispd.items.Item;
 import com.jinkeloid.mispd.items.MerchantsBeacon;
 import com.jinkeloid.mispd.items.Stylus;
 import com.jinkeloid.mispd.items.Torch;
+import com.jinkeloid.mispd.items.WaxNWick;
 import com.jinkeloid.mispd.items.armor.LeatherArmor;
 import com.jinkeloid.mispd.items.armor.MailArmor;
 import com.jinkeloid.mispd.items.armor.PlateArmor;
@@ -160,7 +161,7 @@ public class ShopRoom extends SpecialRoom {
 			itemsToSpawn.add( Generator.random(Generator.misTiers[1]).quantity(2).identify() );
 			itemsToSpawn.add( new LeatherArmor().identify() );
 			itemsToSpawn.add( new FireTorch() );
-			itemsToSpawn.add( new FireTorch() );
+			itemsToSpawn.add( new WaxNWick().quantity(Random.NormalIntRange(2, 4)));
 			break;
 			
 		case 11:
@@ -169,6 +170,7 @@ public class ShopRoom extends SpecialRoom {
 			itemsToSpawn.add( new MailArmor().identify() );
 			itemsToSpawn.add( new FireTorch() );
 			itemsToSpawn.add( new FireTorch() );
+			itemsToSpawn.add( new WaxNWick().quantity(Random.NormalIntRange(2, 4)));
 			break;
 			
 		case 16:
@@ -177,7 +179,7 @@ public class ShopRoom extends SpecialRoom {
 			itemsToSpawn.add( new ScaleArmor().identify() );
 			itemsToSpawn.add( new FireTorch() );
 			itemsToSpawn.add( new FireTorch() );
-			itemsToSpawn.add( new FireTorch() );
+			itemsToSpawn.add( new WaxNWick().quantity(Random.NormalIntRange(2, 4)));
 			break;
 
 		case 20: case 21:
@@ -187,7 +189,7 @@ public class ShopRoom extends SpecialRoom {
 			itemsToSpawn.add( new FireTorch() );
 			itemsToSpawn.add( new FireTorch() );
 			itemsToSpawn.add( new FireTorch() );
-			itemsToSpawn.add( new FireTorch() );
+			itemsToSpawn.add( new WaxNWick().quantity(Random.NormalIntRange(2, 4)));
 			break;
 		}
 		w.enchant(null);
