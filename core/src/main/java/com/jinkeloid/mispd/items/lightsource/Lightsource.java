@@ -106,6 +106,11 @@ public class Lightsource extends EquipableItem {
         updateQuickslot();
     }
 
+    public void addCharge(int addCharge) {
+        charge += addCharge;
+        updateQuickslot();
+    }
+
     //used for overriding only
     public void activate( Hero hero, boolean voluntary ) {}
     public void deactivate( Hero hero, boolean voluntary ) {}

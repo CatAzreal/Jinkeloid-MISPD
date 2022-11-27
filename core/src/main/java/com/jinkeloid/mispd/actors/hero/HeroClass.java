@@ -26,6 +26,7 @@ import com.jinkeloid.mispd.Badges;
 import com.jinkeloid.mispd.Challenges;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.items.Item;
+import com.jinkeloid.mispd.items.WaxNWick;
 import com.jinkeloid.mispd.items.armor.ClothArmor;
 import com.jinkeloid.mispd.items.artifacts.CloakOfShadows;
 import com.jinkeloid.mispd.items.bags.PotionBandolier;
@@ -114,6 +115,7 @@ public enum HeroClass {
 
 		new ScrollOfIdentify().identify();
 		new Candle().identify().collect();
+		new WaxNWick().identify().quantity(2).collect();
 		if (DeviceCompat.isDebug()) {
 			Sword sword = new Sword();
 			sword.identify().collect();
@@ -133,6 +135,7 @@ public enum HeroClass {
 			new Candle().identify().collect();
 			new FireTorch().identify().collect();
 			new FireTorch().identify().collect();
+			new WaxNWick().identify().quantity(5).collect();
 		}
 
 	}

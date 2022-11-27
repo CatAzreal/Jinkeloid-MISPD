@@ -64,14 +64,16 @@ abstract public class KindOfWeapon extends EquipableItem {
 	public boolean doEquip( Hero hero ) {
 
 		detachAll( hero.belongings.backpack );
+
+		boolean equip = instantSwitch ? hero.belongings.mainhand.doUnequip( hero, true, true, true) : hero.belongings.mainhand.doUnequip( hero, true);
 		
-		if (hero.belongings.mainhand == null || hero.belongings.mainhand.doUnequip( hero, true )) {
+		if (hero.belongings.mainhand == null || equip) {
 			
 			hero.belongings.mainhand = this;
 			activate( hero );
 			Perk.onItemEquipped(hero, this);
 			updateQuickslot();
-			
+
 			cursedKnown = true;
 			if (cursed) {
 				equipCursed( hero );
@@ -84,7 +86,6 @@ abstract public class KindOfWeapon extends EquipableItem {
 			//If hero have weapon switch perk then let them switch weapon instantly
 			else if (!instantSwitch)hero.spendAndNext( TIME_TO_EQUIP );
 			else {
-			hero.spendAndNext(0);
 			instantSwitch = false;
 			GLog.i(Messages.get(KindOfWeapon.class, "instant_switch"));
 			}
