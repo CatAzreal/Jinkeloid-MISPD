@@ -231,6 +231,7 @@ public class TitleScene extends PixelScene {
 		spriteCredit.play(spriteCredit.unpressed);
 
 
+
 		PixelScene.align(titleBg);
 		add(titleBg);
 		add(title);
@@ -240,27 +241,6 @@ public class TitleScene extends PixelScene {
 		add(btnGameLog);
 		add(btnConfig);
 		add(btnCredit);
-//		placeTorch(title.x + 22, title.y + 46);
-//		placeTorch(title.x + title.width - 22, title.y + 46);
-
-//		Image signs = new Image( BannerSprites.get( BannerSprites.Type.PIXEL_DUNGEON_SIGNS ) ) {
-//			private float time = 0;
-//			@Override
-//			public void update() {
-//				super.update();
-//				am = Math.max(0f, (float)Math.sin( time += Game.elapsed ));
-//				if (time >= 1.5f*Math.PI) time = 0;
-//			}
-//			@Override
-//			public void draw() {
-//				Blending.setLightMode();
-//				super.draw();
-//				Blending.setNormalMode();
-//			}
-//		};
-//		signs.x = title.x + (title.width() - signs.width())/2f;
-//		signs.y = title.y;
-//		add( signs );
 
 		if (Game.startTrigger){
 			aniTitle.alpha(0);
@@ -321,6 +301,25 @@ public class TitleScene extends PixelScene {
 		};
 		add(btnDiscord);
 
+		//add two smaller buttons on the left-down side of the screen, for testing logger export
+		StyledButton btnCopy = new StyledButton(Chrome.Type.GREY_BUTTON_TR, "Copy"){
+			@Override
+			protected void onClick() {
+				super.onClick();
+				MusicImplantSPD.actorLogger.exportLog("actor_log", "clipboard");
+			}
+		};
+		add(btnCopy);
+
+		StyledButton btnShare = new StyledButton(Chrome.Type.GREY_BUTTON_TR, "Share"){
+			@Override
+			protected void onClick() {
+				super.onClick();
+				MusicImplantSPD.actorLogger.exportLog("actor_log", "share");
+			}
+		};
+		add(btnShare);
+
 		if (landscape()) {
 //			btnPlay.setRect(title.left()-50, topRegion+GAP, ((title.width()+100)/2)-1, BTN_HEIGHT);
 //			align(btnPlay);
@@ -338,12 +337,10 @@ public class TitleScene extends PixelScene {
 			btnCredit.setRect(w / 2f, btnConfig.top(), spriteCredit.spriteWidth(btnCredit.scale), spriteCredit.spriteHeight(btnCredit.scale));
 			btnDiscord.setRect(2, camera().height - 16, 16, 16 );
 			btnTencentQQ.setRect(btnDiscord.right(), camera().height - 16, 16, 16 );
-//			btnRankings.setRect(btnStart.left(), btnConfig.bottom()+ GAP, (btnStart.width()/2)-1, BTN_HEIGHT);
-//			btnBadges.setRect(btnRankings.right()+2, btnRankings.top(), btnRankings.width(), BTN_HEIGHT);
-//			btnNews.setRect(btnRankings.left(), btnRankings.bottom()+ GAP, btnRankings.width(), BTN_HEIGHT);
-//			btnChanges.setRect(btnNews.right()+2, btnNews.top(), btnNews.width(), BTN_HEIGHT);
-//			btnSettings.setRect(btnRankings.left(), btnRankings.bottom()+GAP, btnRankings.width(), BTN_HEIGHT);
-//			btnAbout.setRect(btnRankings.right()+2, btnRankings.top(), btnRankings.width(), BTN_HEIGHT);
+
+			//align copy and share button to the leftdown side of the screen, with a 16px lower padding so it does not block version numbers
+			btnCopy.setRect(2, camera().height - 50, 40, 20);
+			btnShare.setRect(42, camera().height - 50, 40, 20);
 		}
 
 		BitmapText version = new BitmapText( "v" + Game.version, pixelFont);

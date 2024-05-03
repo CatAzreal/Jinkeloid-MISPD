@@ -24,6 +24,8 @@ package com.jinkeloid.mispd.android;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -35,9 +37,13 @@ import android.os.Build;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.core.content.FileProvider;
+
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidGraphics;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.PixmapPacker;
@@ -46,10 +52,13 @@ import com.jinkeloid.mispd.MISPDSettings;
 import com.jinkeloid.mispd.android.windows.WndAndroidTextInput;
 import com.jinkeloid.mispd.messages.Languages;
 import com.jinkeloid.mispd.scenes.PixelScene;
+import com.jinkeloid.mispd.utils.GLog;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Callback;
+import com.watabou.utils.FileUtils;
 import com.watabou.utils.PlatformSupport;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -470,5 +479,38 @@ public class AndroidPlatformSupport extends PlatformSupport {
 			return regularsplitter.split(text);
 		}
 	}
+
+	@Override
+	public void copyToClipboard(String fileName) {
+		Context context = ((AndroidApplication)Gdx.app).getContext();
+		FileHandle fileHandle = FileUtils.getFileHandle(fileName + ".txt");
+		if (!fileHandle.exists()) {
+			GLog.w("File does not exist");
+			return;
+		}
+		File file = fileHandle.file();
+		ClipboardManager clipboard = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
+		ClipData clip = ClipData.newPlainText("label", file.toString());
+		clipboard.setPrimaryClip(clip);
+	}
+
+	@Override
+	public void shareText(String fileName) {
+		Context context = ((AndroidApplication)Gdx.app).getContext();
+		FileHandle fileHandle = FileUtils.getFileHandle(fileName + ".txt");
+		if (!fileHandle.exists()) {
+			GLog.w("File does not exist");
+			return;
+		}
+		File file = fileHandle.file();
+		Uri contentUri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", file);
+
+		Intent shareIntent = new Intent(Intent.ACTION_SEND);
+		shareIntent.setType("text/plain");
+		shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+		shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+		context.startActivity(Intent.createChooser(shareIntent, "Share File"));
+	}
+
 	
 }

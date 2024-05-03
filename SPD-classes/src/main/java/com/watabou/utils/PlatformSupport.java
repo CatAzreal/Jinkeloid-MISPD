@@ -56,4 +56,8 @@ public abstract class PlatformSupport {
 	
 	public abstract String[] splitforTextBlock( String text, boolean multiline );
 
+	public abstract void copyToClipboard(String text);
+
+	public abstract void shareText(String text);
+
 }

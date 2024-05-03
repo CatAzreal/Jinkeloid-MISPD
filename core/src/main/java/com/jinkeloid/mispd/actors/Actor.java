@@ -22,6 +22,7 @@
 package com.jinkeloid.mispd.actors;
 
 import com.jinkeloid.mispd.Dungeon;
+import com.jinkeloid.mispd.MusicImplantSPD;
 import com.jinkeloid.mispd.Statistics;
 import com.jinkeloid.mispd.actors.blobs.Blob;
 import com.jinkeloid.mispd.actors.buffs.Buff;
@@ -62,6 +63,7 @@ public abstract class Actor implements Bundlable {
 		if (ex < .001f){
 			this.time = Math.round(this.time);
 		}
+		MusicImplantSPD.actorLogger.addEntry( this.getClass().getSimpleName() + " spent " + time + " time");
 	}
 
 	public void spendToWhole(){

@@ -251,5 +251,15 @@ public class DesktopPlatformSupport extends PlatformSupport {
 			return regularsplitter.split(text);
 		}
 	}
-	
+
+	@Override
+	public void copyToClipboard(String text) {
+
+	}
+
+	@Override
+	public void shareText(String text) {
+
+	}
+
 }

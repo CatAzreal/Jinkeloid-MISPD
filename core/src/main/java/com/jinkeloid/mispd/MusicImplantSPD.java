@@ -25,6 +25,7 @@ import com.jinkeloid.mispd.scenes.GameScene;
 import com.jinkeloid.mispd.scenes.PixelScene;
 import com.jinkeloid.mispd.scenes.TitleScene;
 import com.jinkeloid.mispd.scenes.WelcomeScene;
+import com.jinkeloid.mispd.utils.Logger;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Tilemap;
 import com.watabou.noosa.audio.Music;
@@ -37,6 +38,8 @@ public class MusicImplantSPD extends Game {
 	//versions older than v0.7.5e are no longer supported, and data from them is ignored
 	public static final int abandoned = 10000;
 	public static final int peacock0_2_0   = 20000;
+
+	public static Logger actorLogger;
 	
 	public MusicImplantSPD(PlatformSupport platform ) {
 		super( sceneClass == null ? TitleScene.class : sceneClass, platform );
@@ -75,14 +78,15 @@ public class MusicImplantSPD extends Game {
 
 		updateSystemUI();
 		MISPDAction.loadBindings();
-		
+
+		actorLogger = new Logger(500, "actor_log.txt");
+
 		Music.INSTANCE.enable( MISPDSettings.music() );
 		Music.INSTANCE.volume( MISPDSettings.musicVol()* MISPDSettings.musicVol()/100f );
 		Sample.INSTANCE.enable( MISPDSettings.soundFx() );
 		Sample.INSTANCE.volume( MISPDSettings.SFXVol()* MISPDSettings.SFXVol()/100f );
 
 		Sample.INSTANCE.load( Assets.Sounds.all );
-		
 	}
 
 	public static void switchNoFade(Class<? extends PixelScene> c){

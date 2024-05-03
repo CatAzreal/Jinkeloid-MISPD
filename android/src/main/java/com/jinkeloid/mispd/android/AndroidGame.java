@@ -130,7 +130,6 @@ public class AndroidGame extends AndroidApplication {
 		support.updateSystemUI();
 		
 		initialize(new MusicImplantSPD(support), config);
-		
 	}
 
 	@Override

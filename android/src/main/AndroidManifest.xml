@@ -11,6 +11,7 @@
 	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 	<!-- Note that the game doesn't truly support small screen resolutions,
 		it instead forces downscaling to work on these displays.-->
@@ -27,10 +28,12 @@
 		android:resizeableActivity="true"
 		android:allowBackup="true"
 		android:fullBackupOnly="true"
-		android:backupAgent="com.jinkeloid.mispd.android.AndroidBackupHandler">
+		android:backupAgent="com.jinkeloid.mispd.android.AndroidBackupHandler"
+		android:requestLegacyExternalStorage="true">
 		<activity
 			android:label="${appName}"
-			android:name="com.jinkeloid.mispd.android.AndroidLauncher">
+			android:name="com.jinkeloid.mispd.android.AndroidLauncher"
+			android:exported="true">
 			<intent-filter >
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -43,6 +46,15 @@
 			android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize">
 		</activity>
 
+		<provider
+			android:name="androidx.core.content.FileProvider"
+			android:authorities="${applicationId}.provider"
+			android:exported="false"
+			android:grantUriPermissions="true">
+			<meta-data
+				android:name="android.support.FILE_PROVIDER_PATHS"
+				android:resource="@xml/provider_paths" />
+		</provider>
 	</application>
 
 </manifest>
