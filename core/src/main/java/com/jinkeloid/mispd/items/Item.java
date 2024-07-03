@@ -24,6 +24,7 @@ package com.jinkeloid.mispd.items;
 import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Badges;
 import com.jinkeloid.mispd.Dungeon;
+import com.jinkeloid.mispd.MusicImplantSPD;
 import com.jinkeloid.mispd.actors.Actor;
 import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Blindness;
@@ -121,6 +122,7 @@ public class Item implements Bundlable {
 	}
 	
 	public void doDrop( Hero hero ) {
+		MusicImplantSPD.itemLogger.logItemEntry(this.getClass(), "doDrop");
 		hero.spendAndNext(TIME_TO_DROP);
 		int pos = hero.pos;
 		Dungeon.level.drop(detachAll(hero.belongings.backpack), pos).sprite.drop(pos);

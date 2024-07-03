@@ -21,6 +21,7 @@
 
 package com.jinkeloid.mispd.actors.buffs;
 
+import com.jinkeloid.mispd.MusicImplantSPD;
 import com.jinkeloid.mispd.actors.Actor;
 import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.ui.BuffIndicator;
@@ -64,7 +65,7 @@ public class Buff extends Actor {
 	}
 	
 	public boolean attachTo( Char target ) {
-
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"attachTo" + target.getClass().getSimpleName());
 		if (target.isImmune( getClass() )) {
 			return false;
 		}
@@ -82,12 +83,14 @@ public class Buff extends Actor {
 	}
 	
 	public void detach() {
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"detach" + target.getClass().getSimpleName());
 		if (target.sprite != null) fx( false );
 		target.remove( this );
 	}
 	
 	@Override
 	public boolean act() {
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"act");
 		diactivate();
 		return true;
 	}

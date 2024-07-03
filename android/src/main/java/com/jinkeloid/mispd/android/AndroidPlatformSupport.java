@@ -55,15 +55,24 @@ import com.jinkeloid.mispd.scenes.PixelScene;
 import com.jinkeloid.mispd.utils.GLog;
 import com.watabou.noosa.Game;
 import com.watabou.utils.Callback;
+import com.watabou.utils.DeviceCompat;
 import com.watabou.utils.FileUtils;
 import com.watabou.utils.PlatformSupport;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class AndroidPlatformSupport extends PlatformSupport {
-	
+
+	private static final String TAG = "AndroidPlatformSupport";
+
 	public void updateDisplaySize(){
 		if (MISPDSettings.landscape() != null) {
 			AndroidGame.instance.setRequestedOrientation( MISPDSettings.landscape() ?
@@ -481,23 +490,24 @@ public class AndroidPlatformSupport extends PlatformSupport {
 	}
 
 	@Override
-	public void copyToClipboard(String fileName) {
+	public void clearText(String fileName) {
 		Context context = ((AndroidApplication)Gdx.app).getContext();
-		FileHandle fileHandle = FileUtils.getFileHandle(fileName + ".txt");
+		FileHandle fileHandle = FileUtils.getFileHandle(fileName + ".csv");
 		if (!fileHandle.exists()) {
 			GLog.w("File does not exist");
 			return;
 		}
 		File file = fileHandle.file();
-		ClipboardManager clipboard = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
-		ClipData clip = ClipData.newPlainText("label", file.toString());
-		clipboard.setPrimaryClip(clip);
+		file.delete();
+//		ClipboardManager clipboard = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
+//		ClipData clip = ClipData.newPlainText("label", file.toString());
+//		clipboard.setPrimaryClip(clip);
 	}
 
 	@Override
 	public void shareText(String fileName) {
 		Context context = ((AndroidApplication)Gdx.app).getContext();
-		FileHandle fileHandle = FileUtils.getFileHandle(fileName + ".txt");
+		FileHandle fileHandle = FileUtils.getFileHandle(fileName);
 		if (!fileHandle.exists()) {
 			GLog.w("File does not exist");
 			return;
@@ -506,11 +516,51 @@ public class AndroidPlatformSupport extends PlatformSupport {
 		Uri contentUri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", file);
 
 		Intent shareIntent = new Intent(Intent.ACTION_SEND);
-		shareIntent.setType("text/plain");
+		shareIntent.setType("*/*");
 		shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
 		shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 		context.startActivity(Intent.createChooser(shareIntent, "Share File"));
 	}
 
-	
+	public void shareZipFiles(List<String> fileNames, String outputFileName) {
+		FileHandle outputHandle = FileUtils.getFileHandle(outputFileName);
+		if (outputHandle.exists() && !outputHandle.delete()) {
+			DeviceCompat.log(TAG, "Failed to delete existing file");
+			return;
+		}
+		File outputFile = outputHandle.file();
+		byte[] buffer = new byte[1024]; // Buffer for file content
+		try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(outputFile))) {
+			for (String fileName : fileNames) {
+				FileHandle fileHandle = FileUtils.getFileHandle(fileName);
+				DeviceCompat.log(TAG, "Adding file: " + fileHandle);
+				if (!fileHandle.exists()) {
+					DeviceCompat.log(TAG, "File does not exist");
+					return;
+				}
+				File file = fileHandle.file();
+				FileInputStream fis = new FileInputStream(file);
+				ZipEntry zipEntry = new ZipEntry(file.getName());
+				zos.putNextEntry(zipEntry);
+
+				int length;
+				while ((length = fis.read(buffer)) > 0) {
+					zos.write(buffer, 0, length);
+				}
+				fis.close();
+				zos.closeEntry();
+			}
+			zos.close();
+
+			Context context = ((AndroidApplication)Gdx.app).getContext();
+			Uri contentUri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", outputFile);
+			Intent shareIntent = new Intent(Intent.ACTION_SEND);
+			shareIntent.setType("*/*");
+			shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+			shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+			context.startActivity(Intent.createChooser(shareIntent, "Share Files"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

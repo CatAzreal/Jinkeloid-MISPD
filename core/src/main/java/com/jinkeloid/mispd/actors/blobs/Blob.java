@@ -22,6 +22,7 @@
 package com.jinkeloid.mispd.actors.blobs;
 
 import com.jinkeloid.mispd.Dungeon;
+import com.jinkeloid.mispd.MusicImplantSPD;
 import com.jinkeloid.mispd.actors.Actor;
 import com.jinkeloid.mispd.effects.BlobEmitter;
 import com.jinkeloid.mispd.levels.Level;
@@ -105,7 +106,7 @@ public class Blob extends Actor {
 	
 	@Override
 	public boolean act() {
-		
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"act");
 		spend( TICK );
 		
 		if (volume > 0) {
@@ -132,6 +133,7 @@ public class Blob extends Actor {
 	}
 
 	public void setupArea(){
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"setArea");
 		for (int cell=0; cell < cur.length; cell++) {
 			if (cur[cell] != 0){
 				area.union(cell%Dungeon.level.width(), cell/Dungeon.level.width());
@@ -144,7 +146,7 @@ public class Blob extends Actor {
 	}
 	
 	protected void evolve() {
-		
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(), "evolve");
 		boolean[] blocking = Dungeon.level.solid;
 		int cell;
 		for (int i=area.top-1; i <= area.bottom; i++) {
@@ -197,6 +199,7 @@ public class Blob extends Actor {
 	}
 
 	public void seed( Level level, int cell, int amount ) {
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"seed");
 		if (cur == null) cur = new int[level.length()];
 		if (off == null) off = new int[cur.length];
 
@@ -207,12 +210,14 @@ public class Blob extends Actor {
 	}
 	
 	public void clear( int cell ) {
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"clear");
 		if (volume == 0) return;
 		volume -= cur[cell];
 		cur[cell] = 0;
 	}
 
 	public void fullyClear(){
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"fullyClear");
 		volume = 0;
 		area.setEmpty();
 		cur = new int[Dungeon.level.length()];

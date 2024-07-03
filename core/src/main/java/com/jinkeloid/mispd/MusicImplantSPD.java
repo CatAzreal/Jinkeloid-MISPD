@@ -25,12 +25,17 @@ import com.jinkeloid.mispd.scenes.GameScene;
 import com.jinkeloid.mispd.scenes.PixelScene;
 import com.jinkeloid.mispd.scenes.TitleScene;
 import com.jinkeloid.mispd.scenes.WelcomeScene;
+import com.jinkeloid.mispd.utils.ActorLogger;
+import com.jinkeloid.mispd.utils.ItemLogger;
 import com.jinkeloid.mispd.utils.Logger;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Tilemap;
 import com.watabou.noosa.audio.Music;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.utils.DeviceCompat;
 import com.watabou.utils.PlatformSupport;
+
+import java.util.List;
 
 public class MusicImplantSPD extends Game {
 
@@ -39,7 +44,9 @@ public class MusicImplantSPD extends Game {
 	public static final int abandoned = 10000;
 	public static final int peacock0_2_0   = 20000;
 
-	public static Logger actorLogger;
+	public static ActorLogger actorLogger;
+	public static ItemLogger itemLogger;
+	public static List<String> logList = new java.util.ArrayList<>();
 	
 	public MusicImplantSPD(PlatformSupport platform ) {
 		super( sceneClass == null ? TitleScene.class : sceneClass, platform );
@@ -78,15 +85,23 @@ public class MusicImplantSPD extends Game {
 
 		updateSystemUI();
 		MISPDAction.loadBindings();
-
-		actorLogger = new Logger(500, "actor_log.txt");
-
 		Music.INSTANCE.enable( MISPDSettings.music() );
 		Music.INSTANCE.volume( MISPDSettings.musicVol()* MISPDSettings.musicVol()/100f );
 		Sample.INSTANCE.enable( MISPDSettings.soundFx() );
 		Sample.INSTANCE.volume( MISPDSettings.SFXVol()* MISPDSettings.SFXVol()/100f );
 
 		Sample.INSTANCE.load( Assets.Sounds.all );
+	}
+
+	public static void initializeLoggers(int slot) {
+		String actorLogFileName = "slot" + slot + "_actor_log.csv";
+		String itemLogFileName = "slot" + slot + "_item_log.csv";
+
+		DeviceCompat.log("","Initializing loggers: " + actorLogFileName);
+		actorLogger = new ActorLogger(500, actorLogFileName);
+		if (!logList.contains(actorLogFileName)) logList.add(actorLogFileName);
+		itemLogger = new ItemLogger(500, itemLogFileName);
+		if (!logList.contains(itemLogFileName)) logList.add(itemLogFileName);
 	}
 
 	public static void switchNoFade(Class<? extends PixelScene> c){

@@ -92,6 +92,8 @@ public class InterlevelScene extends PixelScene {
 	
 	@Override
 	public void create() {
+		//Checking logger slot everytime interLevelScene is loaded is a bit redundant but somehow necessary
+		MusicImplantSPD.initializeLoggers(GamesInProgress.curSlot);
 		super.create();
 		
 		String loadingAsset;

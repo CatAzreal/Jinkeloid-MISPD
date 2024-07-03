@@ -440,7 +440,7 @@ public class Hero extends Char {
 		if (hit && subClass == HeroSubClass.GLADIATOR){
 			Buff.affect( this, Combo.class ).hit( enemy );
 		}
-
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"shoot" , "target: " + enemy.getClass().getSimpleName(), "weapon:" + wep.getClass().getSimpleName());
 		return hit;
 	}
 	
@@ -744,7 +744,7 @@ public class Hero extends Char {
 //			Buff.affect(this, Barkskin.class).set( lvl, pointsInTalent(Perk.BARKSKIN) );
 			Buff.affect(this, Barkskin.class).set( lvl, lvl );
 		}
-
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"act" + ((curAction == null) ? "null" : curAction.getClass().getSimpleName()));
 		return actResult;
 	}
 	
@@ -1181,7 +1181,7 @@ public class Hero extends Char {
 			break;
 		default:
 		}
-		
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"attack", "target: " + enemy.getClass().getSimpleName(), "weapon: " + (wep != null ? wep.getClass().getSimpleName() : "null"));
 		return damage;
 	}
 	
@@ -1206,7 +1206,7 @@ public class Hero extends Char {
 		if (rockArmor != null) {
 			damage = rockArmor.absorb(damage);
 		}
-
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"defense", enemy.getClass().getSimpleName());
 		return damage;
 	}
 	

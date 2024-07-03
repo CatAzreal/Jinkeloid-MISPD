@@ -22,6 +22,7 @@
 package com.jinkeloid.mispd.actors.buffs;
 
 import com.jinkeloid.mispd.Dungeon;
+import com.jinkeloid.mispd.MusicImplantSPD;
 import com.jinkeloid.mispd.messages.Messages;
 import com.jinkeloid.mispd.ui.BuffIndicator;
 import com.watabou.utils.Bundle;
@@ -33,6 +34,7 @@ public class LockedFloor extends Buff {
 
 	@Override
 	public boolean act() {
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"act", "start");
 		spend(TICK);
 
 		if (!Dungeon.level.locked)
@@ -40,7 +42,7 @@ public class LockedFloor extends Buff {
 
 		if (left >= 1)
 			left --;
-
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"act", "end");
 		return true;
 	}
 

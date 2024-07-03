@@ -23,6 +23,8 @@ package com.watabou.utils;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
+import java.util.List;
+
 public abstract class PlatformSupport {
 	
 	public abstract void updateDisplaySize();
@@ -56,8 +58,7 @@ public abstract class PlatformSupport {
 	
 	public abstract String[] splitforTextBlock( String text, boolean multiline );
 
-	public abstract void copyToClipboard(String text);
-
+	public abstract void clearText(String text);
 	public abstract void shareText(String text);
-
+	public abstract void shareZipFiles(List<String> files, String outputFile);
 }

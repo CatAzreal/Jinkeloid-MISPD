@@ -21,6 +21,9 @@
 
 package com.jinkeloid.mispd.windows;
 
+import static com.jinkeloid.mispd.MusicImplantSPD.logList;
+
+import com.badlogic.gdx.files.FileHandle;
 import com.jinkeloid.mispd.Dungeon;
 import com.jinkeloid.mispd.GamesInProgress;
 import com.jinkeloid.mispd.MusicImplantSPD;
@@ -39,9 +42,13 @@ import com.jinkeloid.mispd.ui.Window;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.ui.Button;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.DeviceCompat;
 import com.watabou.utils.FileUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 public class WndGameInProgress extends Window {
@@ -53,6 +60,8 @@ public class WndGameInProgress extends Window {
 	private float pos;
 	
 	public WndGameInProgress(final int slot){
+		//logger info must be initialized for share/clear function to access
+		MusicImplantSPD.initializeLoggers(slot);
 		
 		final GamesInProgress.Info info = GamesInProgress.check(slot);
 		
@@ -87,6 +96,26 @@ public class WndGameInProgress extends Window {
 		};
 		debug.setRect(0, 0, title.imIcon.width(), title.imIcon.height);
 		add(debug);
+
+		RedButton shareLogsButton = new RedButton("Share Logs") {
+			@Override
+			protected void onClick() {
+				shareSlotLogs(info.slot);
+			}
+		};
+		shareLogsButton.setRect(0, pos, WIDTH, 18);
+		add(shareLogsButton);
+		pos += shareLogsButton.height() + GAP;
+
+		RedButton deleteLogsButton = new RedButton("Delete Logs") {
+			@Override
+			protected void onClick() {
+				deleteSlotLogs(info.slot);
+			}
+		};
+		deleteLogsButton.setRect(0, pos, WIDTH, 18);
+		add(deleteLogsButton);
+		pos += deleteLogsButton.height() + GAP;
 		
 		if (info.challenges > 0) GAP -= 2;
 		
@@ -183,5 +212,33 @@ public class WndGameInProgress extends Window {
 	
 	private void statSlot( String label, int value ) {
 		statSlot( label, Integer.toString( value ) );
+	}
+
+	private void shareSlotLogs(int slot) {
+		List<String> slotLogs = new ArrayList<>();
+		for (String log : logList) {
+			if (log.startsWith("slot" + slot)) {
+				DeviceCompat.log("","Adding log: " + log);
+				slotLogs.add(log);
+			}
+		}
+		String outputFileName = "slot" + slot + "_logs.zip";
+
+		Game.platform.shareZipFiles(slotLogs, outputFileName);
+	}
+
+	public void deleteSlotLogs(int slot) {
+		Iterator<String> it = logList.iterator();
+		while (it.hasNext()) {
+			String log = it.next();
+			if (log.startsWith("slot" + slot)) {
+				DeviceCompat.log("","Deleting log: " + log);
+				FileHandle logFileHandle = FileUtils.getFileHandle(log);
+				if (logFileHandle.exists()) {
+					logFileHandle.delete();
+				}
+				it.remove();
+			}
+		}
 	}
 }

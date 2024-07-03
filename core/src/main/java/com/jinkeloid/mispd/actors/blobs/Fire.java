@@ -22,6 +22,7 @@
 package com.jinkeloid.mispd.actors.blobs;
 
 import com.jinkeloid.mispd.Dungeon;
+import com.jinkeloid.mispd.MusicImplantSPD;
 import com.jinkeloid.mispd.actors.Actor;
 import com.jinkeloid.mispd.actors.Char;
 import com.jinkeloid.mispd.actors.buffs.Buff;
@@ -37,7 +38,7 @@ public class Fire extends Blob {
 
 	@Override
 	protected void evolve() {
-
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"evolve start");
 		boolean[] flamable = Dungeon.level.flamable;
 		int cell;
 		int fire;
@@ -94,9 +95,11 @@ public class Fire extends Blob {
 		if (observe) {
 			Dungeon.observe();
 		}
+		MusicImplantSPD.actorLogger.logActorEntry(this.getClass(),"evolve end");
 	}
 	
 	public static void burn( int pos ) {
+		MusicImplantSPD.actorLogger.logActorEntry(Fire.class, "burn", "start");
 		Char ch = Actor.findChar( pos );
 		if (ch != null && !ch.isImmune(Fire.class)) {
 			Buff.affect( ch, Burning.class ).reignite( ch );
@@ -111,6 +114,7 @@ public class Fire extends Blob {
 		if (plant != null){
 			plant.wither();
 		}
+		MusicImplantSPD.actorLogger.logActorEntry(Fire.class, "burn", "end");
 	}
 	
 	@Override

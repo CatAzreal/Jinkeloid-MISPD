@@ -27,6 +27,7 @@ import com.jinkeloid.mispd.Statistics;
 import com.jinkeloid.mispd.actors.blobs.Blob;
 import com.jinkeloid.mispd.actors.buffs.Buff;
 import com.jinkeloid.mispd.actors.mobs.Mob;
+import com.jinkeloid.mispd.utils.GLog;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.SparseArray;
@@ -63,7 +64,6 @@ public abstract class Actor implements Bundlable {
 		if (ex < .001f){
 			this.time = Math.round(this.time);
 		}
-		MusicImplantSPD.actorLogger.addEntry( this.getClass().getSimpleName() + " spent " + time + " time");
 	}
 
 	public void spendToWhole(){

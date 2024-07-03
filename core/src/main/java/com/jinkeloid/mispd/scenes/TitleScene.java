@@ -21,6 +21,8 @@
 
 package com.jinkeloid.mispd.scenes;
 
+import static com.jinkeloid.mispd.MusicImplantSPD.logList;
+
 import com.jinkeloid.mispd.Assets;
 import com.jinkeloid.mispd.Chrome;
 import com.jinkeloid.mispd.GamesInProgress;
@@ -315,7 +317,7 @@ public class TitleScene extends PixelScene {
 			@Override
 			protected void onClick() {
 				super.onClick();
-				MusicImplantSPD.actorLogger.exportLog("actor_log", "share");
+				Game.platform.shareZipFiles(logList, "all_logs.zip");
 			}
 		};
 		add(btnShare);
